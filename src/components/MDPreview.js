@@ -5,24 +5,28 @@ class MDPreview extends React.Component {
   constructor() {
     super() 
     this.state = {
-      markdown: ''
+      markdown: ""
     }
   }
 
   componentWillMount() {
     const files = require('../files.json')
     console.log(files)
-    const readmePath = require("../../backend/markdown/" + files[0]);
 
-    fetch(readmePath)
+    for (let i=0; i < files.length; i++) {
+      let path = require("../../backend/markdown/" + files[i] + ".md");
+      fetch(path)
       .then(response => {
         return response.text()
       })
       .then(text => {
-        this.setState({
-          markdown: marked(text)
-        })
+        this.setState((prevState) => ({
+          markdown: prevState.markdown + marked(text)
+        }));
       })
+    }
+
+
   }
   render() {
     const { markdown } = this.state;

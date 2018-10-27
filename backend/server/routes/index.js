@@ -1,5 +1,6 @@
 const fs = require('fs');
 const Path = require('path');
+const files = require('../../../src/files.json')
 
 module.exports.home = {
   method: 'GET',
@@ -27,6 +28,12 @@ module.exports.notes = {
       if (err) {return console.log(err)};
       console.log("The file was saved!");
     }); 
+    console.log('files', files)
+    const newFiles = [...files, request.payload.newNote.title]
+    fs.writeFile('./src/files.json', JSON.stringify(newFiles), function(err) { 
+      if (err) {return console.log(err)};
+      console.log("The file was added to the directory!");
+    });
     return request.payload;
   }
 }
