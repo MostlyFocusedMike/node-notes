@@ -1,4 +1,5 @@
 import React from 'react'
+import {NotesAdapter} from '../adapters'
 
 
 class MDInputForm extends React.Component {
@@ -24,7 +25,8 @@ class MDInputForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    // this.props.createUser(this.state)
+    NotesAdapter.create(this.state)
+    this.handleClear(e)
   }
 
   handleClear = (e) => {
