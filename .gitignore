@@ -15,6 +15,9 @@
 .env.development.local
 .env.test.local
 .env.production.local
+/backend/markdown
+.sass-cache/
+src/app.css.map
 
 npm-debug.log*
 yarn-debug.log*
