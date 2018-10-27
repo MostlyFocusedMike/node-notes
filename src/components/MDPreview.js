@@ -1,0 +1,40 @@
+import React from 'react'
+import marked from 'marked'
+
+class MDPreview extends React.Component {
+  constructor() {
+    super() 
+    this.state = {
+      markdown: ''
+    }
+  }
+
+  componentWillMount() {
+    const files = require('../files.json')
+    console.log(files)
+    const readmePath = require("../../backend/markdown/" + files[0]);
+
+    fetch(readmePath)
+      .then(response => {
+        return response.text()
+      })
+      .then(text => {
+        this.setState({
+          markdown: marked(text)
+        })
+      })
+  }
+  render() {
+    const { markdown } = this.state;
+    return (
+      <div>
+        <h1>Preview</h1>
+        <section>
+          <article dangerouslySetInnerHTML={{__html: markdown}}></article>
+        </section>
+      </div>
+    )
+  }
+}
+
+export default MDPreview
