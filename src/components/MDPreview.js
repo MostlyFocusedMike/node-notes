@@ -30,6 +30,7 @@ class MDPreview extends React.Component {
   }
   render() {
     const { markdown } = this.state;
+    console.log('location', window.location.href)
     return (
       <div>
         <h1>Preview</h1>

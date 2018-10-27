@@ -17,6 +17,7 @@
 .env.production.local
 /backend/markdown
 .sass-cache/
+src/files.json
 src/app.css.map
 
 npm-debug.log*
