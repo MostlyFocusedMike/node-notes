@@ -9,9 +9,6 @@ module.exports.home = {
     cors: true
   },
   handler: (request, h) => {
-      console.log('path', Path.parse(__filename))
-      console.log('dir', Path.parse(__dirname))
-      console.log('joined',  Path.join(__dirname))
       return h.file('./index.html');
   }
 }
@@ -29,11 +26,13 @@ module.exports.notes = {
       console.log("The file was saved!");
     }); 
     console.log('files', files)
-    const newFiles = [...files, request.payload.title]
-    fs.writeFile('./src/files.json', JSON.stringify(newFiles), function(err) { 
-      if (err) {return console.log(err)};
-      console.log("The file was added to the directory!");
-    });
+    if (!files.includes(request.payload.title)) {
+      const newFiles = [...files, request.payload.title]
+      fs.writeFile('./src/files.json', JSON.stringify(newFiles), function(err) { 
+        if (err) {return console.log(err)};
+        console.log("The file was added to the directory!");
+      });
+    } 
     return request.payload;
   }
 }
