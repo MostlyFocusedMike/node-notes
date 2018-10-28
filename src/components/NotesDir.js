@@ -1,42 +1,28 @@
 import React from 'react'
-import marked from 'marked'
 
 class NotesDir extends React.Component {
   constructor() {
     super() 
     this.state = {
-      markdown: ""
+      files: []
     }
   }
 
   componentWillMount() {
     const files = require('../files.json')
     console.log(files)
-
-    for (let i=0; i < files.length; i++) {
-      let path = require("../../backend/markdown/" + files[i] + ".md");
-      fetch(path)
-      .then(response => {
-        return response.text()
-      })
-      .then(text => {
-        this.setState((prevState) => ({
-          markdown: prevState.markdown + marked(text)
-        }));
-      })
-    }
-
-
+    this.setState({files})
   }
+
   render() {
-    const { markdown } = this.state;
-    console.log('location', window.location.href)
     return (
       <div id="notes-dir">
-        <h1>Preview</h1>
-        <section>
-          <article dangerouslySetInnerHTML={{__html: markdown}}></article>
-        </section>
+        <h1>Files</h1>
+        {
+          this.state.files.map((file) => {
+            return <a href="#"> {file}</a>
+          })
+        }
       </div>
     )
   }

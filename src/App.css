@@ -35,6 +35,9 @@ code {
   .App #notes-dir {
     width: 12%;
     min-width: 100px; }
+    .App #notes-dir a {
+      display: block;
+      margin: .5rem; }
   .App form {
     min-width: 300px;
     width: 40%; }
