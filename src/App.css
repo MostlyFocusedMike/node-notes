@@ -29,18 +29,25 @@ code {
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%; }
-  .App #md-preview {
-    width: 40%;
-    min-width: 300px; }
+  .App .note {
+    width: 87%;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly; }
+    .App .note form {
+      min-width: 300px;
+      width: 40%; }
+    .App .note #md-preview {
+      width: 40%;
+      min-width: 300px; }
   .App #notes-dir {
     width: 12%;
+    margin: 0;
     min-width: 100px; }
     .App #notes-dir a {
       display: block;
       margin: .5rem; }
-  .App form {
-    min-width: 300px;
-    width: 40%; }
 
 div {
   border: 1px solid #000; }
