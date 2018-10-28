@@ -9,34 +9,14 @@ class MDPreview extends React.Component {
     }
   }
 
-  componentWillMount() {
-    const files = require('../files.json')
-    console.log(files)
-
-    for (let i=0; i < files.length; i++) {
-      let path = require("../../backend/markdown/" + files[i] + ".md");
-      fetch(path)
-      .then(response => {
-        return response.text()
-      })
-      .then(text => {
-        this.setState((prevState) => ({
-          markdown: prevState.markdown + marked(text)
-        }));
-      })
-    }
-
-
-  }
   render() {
-    const { markdown } = this.state;
-    console.log('location', window.location.href)
+    const { title, text } = this.props.note;
+    const markdown = marked(text)
+    console.log('title', title)
     return (
-      <div>
-        <h1>Preview</h1>
-        <section>
-          <article dangerouslySetInnerHTML={{__html: markdown}}></article>
-        </section>
+      <div id="md-preview">
+        <h1>Preview of: {title}</h1>
+        <div dangerouslySetInnerHTML={{__html: markdown}}></div>
       </div>
     )
   }

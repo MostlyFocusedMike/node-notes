@@ -24,12 +24,12 @@ module.exports.notes = {
   },
   handler: (request, h) => {
     console.log(request.payload)
-    fs.writeFile(`./backend/markdown/${request.payload.newNote.title}.md`, request.payload.newNote.text, function(err) { 
+    fs.writeFile(`./backend/markdown/${request.payload.title}.md`, request.payload.text, function(err) { 
       if (err) {return console.log(err)};
       console.log("The file was saved!");
     }); 
     console.log('files', files)
-    const newFiles = [...files, request.payload.newNote.title]
+    const newFiles = [...files, request.payload.title]
     fs.writeFile('./src/files.json', JSON.stringify(newFiles), function(err) { 
       if (err) {return console.log(err)};
       console.log("The file was added to the directory!");

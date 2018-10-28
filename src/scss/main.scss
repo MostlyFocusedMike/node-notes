@@ -1,11 +1,12 @@
 input, label {
   display: block;
 }
-// p {
-//   white-space: pre-line;
-// }
+
+h1 {
+  color: #492;
+}
 textarea {
-  width: 50%;
+  width: 90%;
   height: 60vh;
   white-space: pre-line;
   margin: 1rem auto;
@@ -13,4 +14,39 @@ textarea {
 button {
   display: block;
   margin: 2rem;
+}
+
+code {
+  white-space: pre-wrap;
+  color: blue;
+  background: #000;
+  color: lightgreen;
+  display: inline-block;
+  width: 100%;
+  blue {
+    color: #008;
+  }
+}
+.App {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  #md-preview {
+    width: 40%;
+    min-width: 300px;
+  }
+  #notes-dir {
+    width: 12%;
+    min-width: 100px;
+
+  }
+  form {
+    min-width: 300px;
+    width: 40%;
+  }
+}
+
+div {
+  border: 1px solid #000;
 }
