@@ -27,6 +27,7 @@ class Note extends React.Component {
   }
 
   render() {
+    console.log(this.props.match.params.fileName)
     return (
       <div className="note">
         <MDInputForm 

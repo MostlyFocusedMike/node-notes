@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 
 class NotesDir extends React.Component {
   constructor() {
@@ -20,7 +21,7 @@ class NotesDir extends React.Component {
         <h1>Files</h1>
         {
           this.state.files.map((file) => {
-            return <a href="#"> {file}</a>
+            return <Link to={`/notes/${file}`}>{file}</Link>
           })
         }
       </div>

@@ -12,7 +12,6 @@ class MDPreview extends React.Component {
   render() {
     const { title, text } = this.props.note;
     const markdown = marked(text)
-    console.log('title', title)
     return (
       <div id="md-preview">
         <h1>Preview of: {title}</h1>
