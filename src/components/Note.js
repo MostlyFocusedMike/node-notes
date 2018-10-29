@@ -34,17 +34,21 @@ class Note extends React.Component {
   }
 
   loadFile(title) {
-    let path = require('../../backend/markdown/' + title + ".md")
-    fetch(path)
-    .then(response => {
-      return response.text()
-    })
-    .then(text => {   
-      this.setState((prevState) => ({
-        title,
-        text
-      }));
-    })
+    if (title) {
+      let path = require('../../backend/markdown/' + title + ".md")
+      fetch(path)
+      .then(response => {
+        return response.text()
+      })
+      .then(text => {   
+        this.setState((prevState) => ({
+          title,
+          text
+        }));
+      })
+    } else {
+      this.setState(this.initState)
+    }
   }
 
   // handles initial load of the page 

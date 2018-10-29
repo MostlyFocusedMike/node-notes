@@ -19,6 +19,7 @@ class NotesDir extends React.Component {
     return (
       <div id="notes-dir">
         <h1>Files</h1>
+        <Link to={`/`}>New File</Link>
         {
           this.state.files.map((file) => {
             return <Link to={`/notes/${file}`}>{file}</Link>
