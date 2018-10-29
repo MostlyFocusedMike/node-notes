@@ -3,6 +3,25 @@ import MDInputForm from './MDInputForm'
 import MDPreview from './MDPreview'
 import ModeBar from './ModeBar'
 import {NotesAdapter} from '../adapters'
+import { Route, Redirect } from 'react-router'
+
+// state = {
+//   redirect: false
+// }
+
+// handleSubmit () {
+//   axios.post(/**/)
+//     .then(() => this.setState({ redirect: true }));
+// }
+
+// render () {
+//   const { redirect } = this.state;
+
+//    if (redirect) {
+//      return <Redirect to='/somewhere'/>;
+//    }
+
+
 
 class Note extends React.Component {
 
@@ -11,6 +30,7 @@ class Note extends React.Component {
     this.initState = {
       title: "",
       text: "",
+      redirect: false
     }
     this.state = this.initState
   }
@@ -24,6 +44,7 @@ class Note extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
     NotesAdapter.create(this.state)
+      .then(() => this.setState({ redirect: true }))
   }
 
   loadFile(title) {
@@ -55,6 +76,9 @@ class Note extends React.Component {
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={`/notes/${this.state.title}`}/>;
+    }
     return (
       <div className="note">
         {
