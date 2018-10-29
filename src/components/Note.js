@@ -1,5 +1,4 @@
 import React from 'react';
-import marked from 'marked'
 import MDInputForm from './MDInputForm'
 import MDPreview from './MDPreview'
 import {NotesAdapter} from '../adapters'
@@ -26,24 +25,31 @@ class Note extends React.Component {
     NotesAdapter.create(this.state)
   }
 
+  loadFile(title) {
+    let path = require('../../backend/markdown/' + title + ".md")
+    fetch(path)
+    .then(response => {
+      return response.text()
+    })
+    .then(text => {   
+      this.setState((prevState) => ({
+        title,
+        text
+      }));
+    })
+  }
+
+  // handles initial load of the page 
+  componentDidMount() {
+    if (this.props.match.params.fileName) { this.loadFile(this.props.match.params.fileName) }
+  }
+
+  // handles every time we switch notes
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.match.params.fileName !== prevProps.match.params.fileName) {
-      let path = require('../../backend/markdown/' + this.props.match.params.fileName + ".md")
-      fetch(path)
-      .then(response => {
-        return response.text()
-      })
-      .then(text => {   
-        this.setState((prevState) => ({
-          title: this.props.match.params.fileName,
-          text
-        }));
-      })
-    }
+    if (this.props.match.params.fileName !== prevProps.match.params.fileName) { this.loadFile(this.props.match.params.fileName); }
   }
 
   render() {
-    console.log(this.props.match.params.fileName)
     return (
       <div className="note">
         <MDInputForm 
