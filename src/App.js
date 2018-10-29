@@ -19,11 +19,12 @@ class App extends React.Component {
     }));
   }
 
-
   render() {
     return (
       <div className="App">
-        <NotesDir />
+        <NotesDir 
+          viewInfo={this.state}
+        />
         <Routes 
           viewInfo = {this.state} 
           toggleEdit = {this.toggleEdit}

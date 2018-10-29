@@ -15,10 +15,14 @@ class NotesDir extends React.Component {
   }
 
   render() {
+    console.log('props', this.props)
     return (
       <div id="notes-dir">
         <h1>Files</h1>
-        <Link to={`/`}>New File</Link>
+        {
+          this.props.viewInfo.editing ? 
+          <Link to={`/`}>New File</Link> : ""
+        }
         {
           this.state.files.map((file, idx) => {
             return <Link to={`/notes/${file}`} key={idx}>{file}</Link>

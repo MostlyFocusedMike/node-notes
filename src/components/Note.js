@@ -11,15 +11,8 @@ class Note extends React.Component {
     this.initState = {
       title: "",
       text: "",
-      editing: true 
     }
     this.state = this.initState
-  }
-
-  toggleMode = () => {
-    this.setState((prevState) => ({
-      editing: !prevState.editing
-    }));
   }
 
   handleChange = (e) => {
@@ -65,11 +58,13 @@ class Note extends React.Component {
     return (
       <div className="note">
         {
-          this.state.editing ? 
+          this.props.viewInfo.editing ? 
             <MDInputForm 
             handleChange = {this.handleChange}
             handleSubmit = {this.handleSubmit}
             newNote = {this.state}
+            viewInfo={this.props.viewInfo}
+            toggleEdit={this.props.toggleEdit}
           /> : ""
           
         }
