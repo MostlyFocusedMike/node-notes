@@ -43,7 +43,9 @@ code {
       height: 90vh;
       overflow: auto; }
     .App .note #mode-bar {
-      width: 100%; }
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap; }
   .App #notes-dir {
     width: 12%;
     margin: 0;
