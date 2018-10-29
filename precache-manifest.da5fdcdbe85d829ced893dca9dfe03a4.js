@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/node-notes/static/media/ok neato.d812c3d4.md"
   },
   {
-    "revision": "4653067d1bf18f51050d",
+    "revision": "10b4a5cd9d970d6f0a74",
     "url": "/node-notes/static/css/main.e8c95cbd.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = [
     "url": "/node-notes/static/media/new-file.7367aa21.md"
   },
   {
-    "revision": "4653067d1bf18f51050d",
-    "url": "/node-notes/static/js/main.4653067d.chunk.js"
+    "revision": "10b4a5cd9d970d6f0a74",
+    "url": "/node-notes/static/js/main.10b4a5cd.chunk.js"
   },
   {
     "revision": "994ac91aad3fbaa8b4c24e5966ab3260",
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/node-notes/static/media/why-refresh.6af8fae8.md"
   },
   {
-    "revision": "60f4006d0d9f8e94ae95abfc3929896c",
+    "revision": "30937507b8e36ad386dac3d7713582ce",
     "url": "/node-notes/index.html"
   }
 ];
