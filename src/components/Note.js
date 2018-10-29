@@ -6,18 +6,18 @@ import {NotesAdapter} from '../adapters'
 import { Route, Redirect } from 'react-router'
 
 // state = {
-//   redirect: false
+//   redirectNewFile: false
 // }
 
 // handleSubmit () {
 //   axios.post(/**/)
-//     .then(() => this.setState({ redirect: true }));
+//     .then(() => this.setState({ redirectNewFile: true }));
 // }
 
 // render () {
-//   const { redirect } = this.state;
+//   const { redirectNewFile } = this.state;
 
-//    if (redirect) {
+//    if (redirectNewFile) {
 //      return <Redirect to='/somewhere'/>;
 //    }
 
@@ -30,7 +30,8 @@ class Note extends React.Component {
     this.initState = {
       title: "",
       text: "",
-      redirect: false
+      redirectNewFile: false,
+      redirectMissingFile: false,
     }
     this.state = this.initState
   }
@@ -44,22 +45,28 @@ class Note extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
     NotesAdapter.create(this.state)
-      .then(() => this.setState({ redirect: true }))
+      .then(() => this.setState({ redirectNewFile: true }))
   }
 
   loadFile(title) {
     if (title) {
-      let path = require('../../backend/markdown/' + title + ".md")
-      fetch(path)
-      .then(response => {
-        return response.text()
-      })
-      .then(text => {   
-        this.setState((prevState) => ({
-          title,
-          text
-        }));
-      })
+      try {
+        let path = require('../../backend/markdown/' + title + ".md")
+        fetch(path)
+          .then(response => {
+            return response.text()
+          })
+          .then(text => {   
+            this.setState((prevState) => ({
+              title,
+              text
+            }));
+          })
+      } catch(err) {
+        this.setState({
+          redirectMissingFile: true
+        })
+      }
     } else {
       this.setState(this.initState)
     }
@@ -76,8 +83,13 @@ class Note extends React.Component {
   }
 
   render() {
-    if (this.state.redirect) {
+    if (this.state.redirectNewFile) {
+      // whole page hard reloads on file creation, so we need to immediately redirect to the new file
       return <Redirect to={`/notes/${this.state.title}`}/>;
+    }
+    if (this.state.redirectMissingFile) {
+      // whole page hard reloads on file creation, so we need to immediately redirect to the new file
+      return <Redirect to="/"/>;
     }
     return (
       <div className="note">
