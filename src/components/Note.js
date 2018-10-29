@@ -1,6 +1,7 @@
 import React from 'react';
 import MDInputForm from './MDInputForm'
 import MDPreview from './MDPreview'
+import ModeBar from './ModeBar'
 import {NotesAdapter} from '../adapters'
 
 class Note extends React.Component {
@@ -60,6 +61,7 @@ class Note extends React.Component {
         <MDPreview 
           note = {this.state}
         />
+        <ModeBar />
       </div>
     );
   }
