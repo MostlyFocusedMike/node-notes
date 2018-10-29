@@ -73,10 +73,14 @@ class Note extends React.Component {
           note = {this.state}
           viewInfo={this.props.viewInfo}
         />
-        <ModeBar 
-          viewInfo={this.props.viewInfo}
-          toggleEdit={this.props.toggleEdit}
-        />
+        {
+          this.props.viewInfo.local ?
+          <ModeBar 
+            viewInfo={this.props.viewInfo}
+            toggleEdit={this.props.toggleEdit}
+          /> : ""
+        }
+
       </div>
     );
   }

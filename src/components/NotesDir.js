@@ -20,7 +20,7 @@ class NotesDir extends React.Component {
       <div id="notes-dir">
         <h1>Files</h1>
         {
-          this.props.viewInfo.editing ? 
+          this.props.viewInfo.editing && this.props.viewInfo.local ? 
           <Link to={`/`}>New File</Link> : ""
         }
         {

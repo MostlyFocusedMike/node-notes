@@ -7,8 +7,8 @@ class App extends React.Component {
   constructor() {
     super()
     this.initState = {
-      editing: true,
-      github: false 
+      editing: false,
+      local: false 
     }
     this.state = this.initState
   }
@@ -17,6 +17,16 @@ class App extends React.Component {
     this.setState((prevState) => ({
       editing: !prevState.editing
     }));
+  }
+
+  componentDidMount() {
+    if (window.location.href.match("//localhost:")) {
+      console.log('hello', window.location.href)
+      this.setState({
+        local: true,
+        editing: true
+      })
+    }
   }
 
   render() {
