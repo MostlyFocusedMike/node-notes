@@ -9,9 +9,14 @@ class MDPreview extends React.Component {
     }
   }
 
+  renderWelcome() {
+    return "# hello there \n ## start adding markdown to get started"
+  }
+
   render() {
     const { title, text } = this.props.note;
-    const markdown = marked(text)
+    const md = text || this.renderWelcome();
+    const markdown = marked(md)
     return (
       <div id="md-preview">
         <h1>Preview of: {title}</h1>

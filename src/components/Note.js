@@ -71,6 +71,7 @@ class Note extends React.Component {
 
         <MDPreview 
           note = {this.state}
+          viewInfo={this.props.viewInfo}
         />
         <ModeBar 
           viewInfo={this.props.viewInfo}
