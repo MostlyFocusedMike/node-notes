@@ -78,8 +78,8 @@ class Note extends React.Component {
           note = {this.state}
         />
         <ModeBar 
-          editing={this.state.editing}
-          toggleMode={this.toggleMode}
+          viewInfo={this.props.viewInfo}
+          toggleEdit={this.props.toggleEdit}
         />
       </div>
     );

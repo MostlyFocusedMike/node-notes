@@ -11,7 +11,6 @@ class NotesDir extends React.Component {
 
   componentWillMount() {
     const files = require('../files.json')
-    console.log(files)
     this.setState({files})
   }
 
@@ -21,8 +20,8 @@ class NotesDir extends React.Component {
         <h1>Files</h1>
         <Link to={`/`}>New File</Link>
         {
-          this.state.files.map((file) => {
-            return <Link to={`/notes/${file}`}>{file}</Link>
+          this.state.files.map((file, idx) => {
+            return <Link to={`/notes/${file}`} key={idx}>{file}</Link>
           })
         }
       </div>
