@@ -51,6 +51,11 @@ code {
       display: flex;
       flex-wrap: wrap;
     }
+    #table-of-contents {
+      a {
+        display: block;
+      }
+    }
   }
   #notes-dir {
     width: 12%;

@@ -46,6 +46,8 @@ code {
       width: 100%;
       display: flex;
       flex-wrap: wrap; }
+    .App .note #table-of-contents a {
+      display: block; }
   .App #notes-dir {
     width: 12%;
     margin: 0;
