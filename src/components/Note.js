@@ -2,6 +2,7 @@ import React from 'react';
 import MDInputForm from './MDInputForm'
 import MDPreview from './MDPreview'
 import ModeBar from './ModeBar'
+import TableOfContents from './TableOfContents'
 import {NotesAdapter} from '../adapters'
 import { Route, Redirect } from 'react-router'
 
@@ -104,11 +105,14 @@ class Note extends React.Component {
           /> : ""
           
         }
-
         <MDPreview 
           note = {this.state}
           viewInfo={this.props.viewInfo}
         />
+        {
+          !this.props.viewInfo.editing ? 
+          <TableOfContents text={this.state.text} /> : ""
+        }
         {
           this.props.viewInfo.local ?
           <ModeBar 
@@ -116,7 +120,6 @@ class Note extends React.Component {
             toggleEdit={this.props.toggleEdit}
           /> : ""
         }
-
       </div>
     );
   }
