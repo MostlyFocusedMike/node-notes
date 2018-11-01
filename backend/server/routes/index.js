@@ -21,7 +21,7 @@ module.exports.notes = {
   },
   handler: (request, h) => {
     console.log(request.payload)
-    fs.writeFile(`./backend/markdown/${request.payload.title}.md`, request.payload.text, function(err) { 
+    fs.writeFile(`./markdown/${request.payload.title}.md`, request.payload.text, function(err) { 
       if (err) {return console.log(err)};
       console.log("The file was saved!");
     }); 

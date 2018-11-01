@@ -52,7 +52,7 @@ class Note extends React.Component {
   loadFile(title) {
     if (title) {
       try {
-        let path = require('../../backend/markdown/' + title + ".md")
+        let path = require('../../markdown/' + title + ".md")
         fetch(path)
           .then(response => {
             return response.text()
