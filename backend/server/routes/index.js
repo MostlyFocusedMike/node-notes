@@ -45,11 +45,14 @@ module.exports.notes = {
   },
   handler: (request, h) => {
     const testFolder = './markdown/';
-    
+    const reloadedFiles = []
     fs.readdir(testFolder, (err, files) => {
       files.forEach(file => {
-        file = file.replace(".md", "")
-        console.log(file);
+        reloadedFiles.push(file.replace(".md", ""))
+      });
+      fs.writeFile('./src/files.json', JSON.stringify(reloadedFiles), function(err) { 
+        if (err) {return console.log(err)};
+        console.log("Files.json was updated");
       });
     })
     return "hi"
