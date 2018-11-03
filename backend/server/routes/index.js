@@ -21,18 +21,37 @@ module.exports.notes = {
   },
   handler: (request, h) => {
     console.log(request.payload)
-    fs.writeFile(`./markdown/${request.payload.title}.md`, request.payload.text, function(err) { 
+    fs.writeFile(`./markdown/${request.payload.file}`, request.payload.text, function(err) { 
       if (err) {return console.log(err)};
       console.log("The file was saved!");
     }); 
     console.log('files', files)
-    if (!files.includes(request.payload.title)) {
-      const newFiles = [...files, request.payload.title]
+    if (!files.includes(request.payload.file)) {
+      const newFiles = [...files, request.payload.file]
       fs.writeFile('./src/files.json', JSON.stringify(newFiles), function(err) { 
         if (err) {return console.log(err)};
         console.log("The file was added to the directory!");
       });
     } 
     return request.payload;
+  }
+}
+
+module.exports.notes = {
+  method: 'GET',
+  path: '/reload',
+  config: {
+    cors: true
+  },
+  handler: (request, h) => {
+    const testFolder = './markdown/';
+    
+    fs.readdir(testFolder, (err, files) => {
+      files.forEach(file => {
+        file = file.replace(".md", "")
+        console.log(file);
+      });
+    })
+    return "hi"
   }
 }
