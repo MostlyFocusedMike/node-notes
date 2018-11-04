@@ -39,7 +39,7 @@ module.exports.notes = {
 }
 
 module.exports.reload = {
-  method: 'GET',
+  method: 'PUT',
   path: '/reload',
   config: {
     cors: true
@@ -52,17 +52,13 @@ module.exports.reload = {
       files.forEach(file => {
         newFiles.push(file.replace(".md", ""))
       });
-      console.log('existing files:', existingFiles)
-      console.log('new files:', newFiles)
       if (JSON.stringify(newFiles) !== JSON.stringify(existingFiles)) {
         fs.writeFile('./src/files.json', JSON.stringify(newFiles), function(err) { 
           if (err) {return console.log(err)};
           console.log("Files.json was updated");
         });
-      } else {
-        console.log('No difference ')
       }
     })
-    return h.response("files new").code(201)
+    return h.response("Success").code(201)
   }
 }

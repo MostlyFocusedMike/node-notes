@@ -4,7 +4,7 @@ class NotesAdapter {
   static getOne(route) {
     return fetch(`${notesUrl}/notes/${route}`).then(r=>r.json())
   }
-  
+
   static create(note) {
     let options = {
       method: 'POST',
@@ -18,7 +18,11 @@ class NotesAdapter {
   }
 
   static reload(route) {
-    return fetch(`${notesUrl}/reload`).then(r=>r.text())
+    let options = {
+      method: 'PUT',
+    }
+    return fetch(`${notesUrl}/reload`, options)
+      .then(r=>r.text())
   }
 }
 
