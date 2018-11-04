@@ -3,26 +3,8 @@ import MDInputForm from './MDInputForm'
 import MDPreview from './MDPreview'
 import ModeBar from './ModeBar'
 import TableOfContents from './TableOfContents'
-import {NotesAdapter} from '../adapters'
+import NotesAdapter from '../adapters'
 import { Route, Redirect } from 'react-router'
-
-// state = {
-//   redirectNewFile: false
-// }
-
-// handleSubmit () {
-//   axios.post(/**/)
-//     .then(() => this.setState({ redirectNewFile: true }));
-// }
-
-// render () {
-//   const { redirectNewFile } = this.state;
-
-//    if (redirectNewFile) {
-//      return <Redirect to='/somewhere'/>;
-//    }
-
-
 
 class Note extends React.Component {
 
@@ -86,9 +68,11 @@ class Note extends React.Component {
   render() {
     if (this.state.redirectNewFile) {
       // whole page hard reloads on file creation, so we need to immediately redirect to the new file
+      console.log('redirected new file')
       return <Redirect to={`/notes/${this.state.title}`}/>;
     }
     if (this.state.redirectMissingFile) {
+      console.log('redirected missing file')
       // whole page hard reloads on file creation, so we need to immediately redirect to the new file
       return <Redirect to="/"/>;
     }

@@ -1,6 +1,5 @@
 const fs = require('fs');
 const Path = require('path');
-const files = require('../../../src/files.json')
 
 module.exports.home = {
   method: 'GET',
@@ -21,13 +20,15 @@ module.exports.notes = {
   },
   handler: (request, h) => {
     console.log(request.payload)
-    fs.writeFile(`./markdown/${request.payload.file}`, request.payload.text, function(err) { 
+    const files = require('../../../src/files.json')
+
+    fs.writeFile(`./markdown/${request.payload.title}.md`, request.payload.text, function(err) { 
       if (err) {return console.log(err)};
       console.log("The file was saved!");
     }); 
     console.log('files', files)
-    if (!files.includes(request.payload.file)) {
-      const newFiles = [...files, request.payload.file]
+    if (!files.includes(request.payload.title)) {
+      const newFiles = [...files, request.payload.title]
       fs.writeFile('./src/files.json', JSON.stringify(newFiles), function(err) { 
         if (err) {return console.log(err)};
         console.log("The file was added to the directory!");
@@ -37,7 +38,7 @@ module.exports.notes = {
   }
 }
 
-module.exports.notes = {
+module.exports.reload = {
   method: 'GET',
   path: '/reload',
   config: {
@@ -45,16 +46,23 @@ module.exports.notes = {
   },
   handler: (request, h) => {
     const testFolder = './markdown/';
-    const reloadedFiles = []
+    const newFiles = []
+    const existingFiles = require('../../../src/files.json')
     fs.readdir(testFolder, (err, files) => {
       files.forEach(file => {
-        reloadedFiles.push(file.replace(".md", ""))
+        newFiles.push(file.replace(".md", ""))
       });
-      fs.writeFile('./src/files.json', JSON.stringify(reloadedFiles), function(err) { 
-        if (err) {return console.log(err)};
-        console.log("Files.json was updated");
-      });
+      console.log('existing files:', existingFiles)
+      console.log('new files:', newFiles)
+      if (JSON.stringify(newFiles) !== JSON.stringify(existingFiles)) {
+        fs.writeFile('./src/files.json', JSON.stringify(newFiles), function(err) { 
+          if (err) {return console.log(err)};
+          console.log("Files.json was updated");
+        });
+      } else {
+        console.log('No difference ')
+      }
     })
-    return "hi"
+    return h.response("files new").code(201)
   }
 }

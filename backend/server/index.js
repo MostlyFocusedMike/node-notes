@@ -18,6 +18,7 @@ const init = async () => {
 
   server.route(Routes.home);
   server.route(Routes.notes);  
+  server.route(Routes.reload);  
 };
 
 module.exports = {

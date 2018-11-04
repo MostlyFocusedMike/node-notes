@@ -1,4 +1,5 @@
 import React from 'react'
+import NotesAdapter from '../adapters'
 import { Link } from "react-router-dom";
 
 class NotesDir extends React.Component {
@@ -12,6 +13,10 @@ class NotesDir extends React.Component {
   componentWillMount() {
     const files = require('../files.json')
     this.setState({files})
+  }
+
+  reload() {
+    NotesAdapter.reload()
   }
 
   render() {
@@ -28,6 +33,7 @@ class NotesDir extends React.Component {
             return <Link to={`/notes/${file}`} key={idx}>{file}</Link>
           })
         }
+      <button onClick={this.reload}>Reload</button>
       </div>
     )
   }
