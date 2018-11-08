@@ -65,6 +65,14 @@ code {
       display: block;
       margin: .5rem;
     }
+    #new-file-modal {
+      position: fixed;
+      left: 25%;
+      width: 50%;
+      z-index: 10;
+      color: #000;
+      background: white;
+    }
   }
 
 }

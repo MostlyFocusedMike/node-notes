@@ -28,7 +28,9 @@ class Note extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
     NotesAdapter.create(this.state)
-      .then(() => this.setState({ redirectNewFile: true }))
+      .then(() => {
+        if (!this.props.match.params.fileName) this.setState({ redirectNewFile: true })
+      })
   }
 
   loadFile(title) {
@@ -62,7 +64,7 @@ class Note extends React.Component {
 
   // handles every time we switch notes
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.match.params.fileName !== prevProps.match.params.fileName) { this.loadFile(this.props.match.params.fileName); }
+    if (this.props.match.params.fileName !== prevProps.match.params.fileName) this.loadFile(this.props.match.params.fileName)
   }
 
   render() {

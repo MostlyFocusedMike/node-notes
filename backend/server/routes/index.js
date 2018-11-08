@@ -4,7 +4,7 @@ const Path = require('path');
 module.exports.home = {
   method: 'GET',
   path: '/',
-  config: {
+  options: {
     cors: true
   },
   handler: (request, h) => {
@@ -15,7 +15,35 @@ module.exports.home = {
 module.exports.notes = {
   method: 'POST',
   path: '/notes',
-  config: {
+  options: {
+    cors: true
+  },
+  handler: (request, h) => {
+    console.log(request.payload)
+    const files = require('../../../src/files.json')
+
+    fs.writeFile(`./markdown/${request.payload.title}.md`, "", function(err) { 
+      if (err) {return console.log(err)};
+      console.log("The file was created! ");
+    }); 
+    console.log('files', files)
+    if (!files.includes(request.payload.title)) {
+      const newFiles = [...files, request.payload.title].sort()
+      fs.writeFile('./src/files.json', JSON.stringify(newFiles), function(err) { 
+        if (err) {return console.log(err)};
+        console.log("The file was added to the directory!");
+      });
+    } else {
+      return "You already created that file"
+    }
+    return request.payload;
+  }
+}
+
+module.exports.notes = {
+  method: 'PATCH',
+  path: '/notes/{note-name}',
+  options: {
     cors: true
   },
   handler: (request, h) => {
@@ -41,7 +69,7 @@ module.exports.notes = {
 module.exports.reload = {
   method: 'PUT',
   path: '/reload',
-  config: {
+  options: {
     cors: true
   },
   handler: (request, h) => {

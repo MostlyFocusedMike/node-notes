@@ -17,6 +17,19 @@ class NotesAdapter {
       .then(r => r.json())
   }
 
+  static update(note) {
+    let options = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(note)
+    }
+    return fetch(`${notesUrl}/notes`, options)
+      .then(r => r.json())
+  }
+
+
   static reload(route) {
     let options = {
       method: 'PUT',
