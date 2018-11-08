@@ -5,16 +5,17 @@ class NotesAdapter {
     return fetch(`${notesUrl}/notes/${route}`).then(r=>r.json())
   }
 
-  static create(note) {
+  static create(title) {
     let options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(note)
+      body: JSON.stringify(title)
     }
     return fetch(`${notesUrl}/notes`, options)
       .then(r => r.json())
+      .catch(console.log)
   }
 
   static update(note) {

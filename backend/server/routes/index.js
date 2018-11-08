@@ -8,17 +8,19 @@ module.exports.home = {
     cors: true
   },
   handler: (request, h) => {
+    console.log('i am indeed running')
       return h.file('./index.html');
   }
 }
 
-module.exports.notes = {
+module.exports.createNote = {
   method: 'POST',
   path: '/notes',
   options: {
     cors: true
   },
   handler: (request, h) => {
+    console.log('HIT')
     console.log(request.payload)
     const files = require('../../../src/files.json')
 
@@ -40,9 +42,9 @@ module.exports.notes = {
   }
 }
 
-module.exports.notes = {
+module.exports.updateNote = {
   method: 'PATCH',
-  path: '/notes/{note-name}',
+  path: '/notes/{noteName}',
   options: {
     cors: true
   },

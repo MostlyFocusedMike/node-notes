@@ -7,7 +7,8 @@ class NotesDir extends React.Component {
     super() 
     this.state = {
       files: [],
-      isNewFileModalVisibile: true,
+      isNewFileModalVisibile: false,
+      title: "",
     }
   }
 
@@ -31,6 +32,19 @@ class NotesDir extends React.Component {
     }));
   }
 
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    NotesAdapter.create({title: this.state.title})
+    this.toggleNewFileModal();
+    console.log('file submitted')
+  }
+
   render() {
     console.log('props', this.props)
     console.log('state', this.state)
@@ -45,9 +59,9 @@ class NotesDir extends React.Component {
           this.state.isNewFileModalVisibile ?
           <div id="new-file-modal">
             <h1>I am the new file modal</h1>
-            <form>
+            <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
               <label>File Name</label>
-              <input type="text" />
+              <input type="text" name="title"/>
               <p>Warning: creating a new file will destroy any unsaved changes. Be sure to save your current file</p>
               <button onClick={this.toggleNewFileModal}>Cancel</button>
               <button>Create</button>
