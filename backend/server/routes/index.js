@@ -25,19 +25,20 @@ module.exports.createNote = {
     const files = require('../../../src/files.json')
 
     fs.writeFile(`./markdown/${request.payload.title}.md`, "", function(err) { 
-      if (err) {return console.log(err)};
-      console.log("The file was created! ");
-    }); 
-    console.log('files', files)
-    if (!files.includes(request.payload.title)) {
-      const newFiles = [...files, request.payload.title].sort()
-      fs.writeFile('./src/files.json', JSON.stringify(newFiles), function(err) { 
-        if (err) {return console.log(err)};
-        console.log("The file was added to the directory!");
-      });
-    } else {
-      return "You already created that file"
-    }
+      if (err) return console.log(err);
+      console.log("The file was created!");
+
+      if (!files.includes(request.payload.title)) {
+        const newFiles = [...files, request.payload.title].sort()
+        fs.writeFile('./src/files.json', JSON.stringify(newFiles), function(err) { 
+          if (err) {return console.log(err)};
+          console.log("The file was added to the directory!");
+        });
+      } else {
+        return "You already created that file"
+      }
+    });  
+    
     return request.payload;
   }
 }

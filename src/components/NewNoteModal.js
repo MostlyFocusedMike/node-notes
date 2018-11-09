@@ -1,12 +1,13 @@
 import React from 'react'
 import NotesAdapter from '../adapters'
-import { Link } from "react-router-dom";
+import { Redirect } from 'react-router'
 
 class NewNoteModal extends React.Component {
   constructor() {
     super() 
     this.state = {
       title: "",
+      redirectNewFile: false,
     }
   }
   handleChange = (e) => {
@@ -18,11 +19,21 @@ class NewNoteModal extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     NotesAdapter.create(this.state)
-    this.props.toggleNewFileModal();
+      .then(() => {
+        this.setState({
+          redirectNewFile: true,
+        })
+      })
     console.log('file submitted')
   }
 
   render() {
+    if (this.state.redirectNewFile) {
+      // whole page hard reloads on file creation, so we need to immediately redirect to the new file
+      console.log('redirected new file')
+      console.log('title:', this.state.title)
+      return <Redirect to={`/notes/${this.state.title}`}/>;
+    }
     return (
       <div id="new-file-modal">
         <h1>I am the new file modal</h1>

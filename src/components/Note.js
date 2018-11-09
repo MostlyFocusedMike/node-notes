@@ -16,7 +16,7 @@ class Note extends React.Component {
       redirectNewFile: false,
       redirectMissingFile: false,
     }
-    this.state = this.initState
+    this.state = this.initState;
   }
 
   handleChange = (e) => {
@@ -34,24 +34,19 @@ class Note extends React.Component {
   }
 
   loadFile(title) {
+    const files = require('../files.json')
     if (title) {
-      try {
-        let path = require('../../markdown/' + title + ".md")
-        fetch(path)
-          .then(response => {
-            return response.text()
-          })
-          .then(text => {   
-            this.setState((prevState) => ({
-              title,
-              text
-            }));
-          })
-      } catch(err) {
-        this.setState({
-          redirectMissingFile: true
+      let path = require('../../markdown/' + title + ".md")
+      fetch(path)
+        .then(response => {
+          return response.text()
         })
-      }
+        .then(text => {   
+          this.setState((prevState) => ({
+            title,
+            text
+          }));
+        })
     } else {
       this.setState(this.initState)
     }
@@ -59,19 +54,28 @@ class Note extends React.Component {
 
   // handles initial load of the page 
   componentDidMount() {
-    if (this.props.match.params.fileName) { this.loadFile(this.props.match.params.fileName) }
+    try {
+      if (this.props.match.params.fileName) { 
+        this.loadFile(this.props.match.params.fileName) 
+      }
+    } catch (err) {
+      this.setState({ redirectMissingFile: true })
+    }
   }
 
   // handles every time we switch notes
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.match.params.fileName !== prevProps.match.params.fileName) this.loadFile(this.props.match.params.fileName)
+    try {
+      if (this.props.match.params.fileName !== prevProps.match.params.fileName) this.loadFile(this.props.match.params.fileName)
+    } catch (err) {
+      alert(`Update: ${err}`)
+    }
   }
 
   render() {
     if (this.state.redirectNewFile) {
       // whole page hard reloads on file creation, so we need to immediately redirect to the new file
       console.log('redirected new file')
-      return <Redirect to={`/notes/${this.state.title}`}/>;
     }
     if (this.state.redirectMissingFile) {
       console.log('redirected missing file')
