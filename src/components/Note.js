@@ -34,7 +34,6 @@ class Note extends React.Component {
   }
 
   loadFile(title) {
-    const files = require('../files.json')
     if (title) {
       let path = require('../../markdown/' + title + ".md")
       fetch(path)
@@ -66,10 +65,10 @@ class Note extends React.Component {
   // handles every time we switch notes
   componentDidUpdate(prevProps, prevState, snapshot) {
     try {
-      if (this.props.match.params.fileName !== prevProps.match.params.fileName) this.loadFile(this.props.match.params.fileName)
-    } catch (err) {
-      alert(`Update: ${err}`)
-    }
+      if (this.props.match.params.fileName !== prevProps.match.params.fileName) {
+        this.loadFile(this.props.match.params.fileName)
+      }
+    } catch (err) {} // react updates faster than node can create the file 
   }
 
   render() {

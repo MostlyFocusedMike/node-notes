@@ -20,27 +20,22 @@ module.exports.createNote = {
     cors: true
   },
   handler: (request, h) => {
-    console.log('HIT')
-    console.log(request.payload)
     const files = require('../../../src/files.json')
-
-    fs.writeFile(`./markdown/${request.payload.title}.md`, "", function(err) { 
-      if (err) return console.log(err);
-      console.log("The file was created!");
-
-      if (!files.includes(request.payload.title)) {
-        const newFiles = [...files, request.payload.title].sort()
-        fs.writeFile('./src/files.json', JSON.stringify(newFiles), function(err) { 
-          if (err) {return console.log(err)};
-          console.log("The file was added to the directory!");
-        });
-      } else {
-        return "You already created that file"
-      }
-    });  
-    
-    return request.payload;
-  }
+    try {
+      fs.writeFile(`./markdown/${request.payload.title}.md`, "", () => {
+        if (!files.includes(request.payload.title)) {
+          const newFiles = [...files, request.payload.title].sort()
+          fs.writeFileSync('./src/files.json', JSON.stringify(newFiles), () => {
+            return request.payload;
+          })
+        } else {
+          return "You already created that file"
+        }
+      })
+    } catch (err) {
+      console.log(err);
+    }
+  }  
 }
 
 module.exports.updateNote = {
