@@ -18,6 +18,7 @@ const init = async () => {
 
   server.route(Routes.home);
   server.route(Routes.createNote);  
+  server.route(Routes.updateNote);  
   server.route(Routes.reload);  
 };
 

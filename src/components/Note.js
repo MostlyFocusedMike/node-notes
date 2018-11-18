@@ -4,7 +4,7 @@ import MDPreview from './MDPreview'
 import ModeBar from './ModeBar'
 import TableOfContents from './TableOfContents'
 import NotesAdapter from '../adapters'
-import { Route, Redirect } from 'react-router'
+import { Redirect } from 'react-router'
 
 class Note extends React.Component {
 
@@ -27,7 +27,8 @@ class Note extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    NotesAdapter.create(this.state)
+    console.log('update it', )
+    NotesAdapter.update(this.state)
       .then(() => {
         if (!this.props.match.params.fileName) this.setState({ redirectNewFile: true })
       })
@@ -75,6 +76,7 @@ class Note extends React.Component {
     if (this.state.redirectNewFile) {
       // whole page hard reloads on file creation, so we need to immediately redirect to the new file
       console.log('redirected new file')
+      return <Redirect to={`/notes/${this.state.title}`}/>;
     }
     if (this.state.redirectMissingFile) {
       console.log('redirected missing file')

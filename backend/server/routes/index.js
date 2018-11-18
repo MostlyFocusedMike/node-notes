@@ -45,7 +45,7 @@ module.exports.updateNote = {
     cors: true
   },
   handler: (request, h) => {
-    console.log(request.payload)
+    console.log('I was hit on patch')
     const files = require('../../../src/files.json')
 
     fs.writeFile(`./markdown/${request.payload.title}.md`, request.payload.text, function(err) { 
