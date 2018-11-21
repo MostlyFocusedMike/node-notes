@@ -35,41 +35,44 @@ class Note extends React.Component {
   }
 
   loadFile(title) {
-    if (title) {
-      let path = require('../../markdown/' + title + ".md")
-      fetch(path)
-        .then(response => {
-          return response.text()
-        })
-        .then(text => {   
-          this.setState((prevState) => ({
-            title,
-            text
-          }));
-        })
-    } else {
-      this.setState(this.initState)
-    }
+    let path = require('../../markdown/' + title + ".md")
+    fetch(path)
+      .then(response => {
+        return response.text()
+      })
+      .then(text => {   
+        this.setState((prevState) => ({
+          title,
+          text,
+        }));
+      })
   }
 
   // handles initial load of the page 
   componentDidMount() {
+    console.log('mount')
     try {
       if (this.props.match.params.fileName) { 
         this.loadFile(this.props.match.params.fileName) 
       }
     } catch (err) {
+      console.log('couldnt find the file')
       this.setState({ redirectMissingFile: true })
     }
   }
 
   // handles every time we switch notes
   componentDidUpdate(prevProps, prevState, snapshot) {
-    try {
       if (this.props.match.params.fileName !== prevProps.match.params.fileName) {
-        this.loadFile(this.props.match.params.fileName)
+        if (this.props.match.params.fileName) {
+          this.loadFile(this.props.match.params.fileName)
+        } else {
+          this.setState(this.initState)
+        }
       }
-    } catch (err) {} // react updates faster than node can create the file 
+      if (this.state.redirectMissingFile) {
+        this.setState(this.initState)
+      }
   }
 
   render() {
