@@ -5,10 +5,11 @@ import { Redirect } from 'react-router'
 class NewNoteModal extends React.Component {
   constructor() {
     super() 
-    this.state = {
+    this.initState = {
       title: "",
       redirectNewFile: false,
     }
+    this.state = this.initState
   }
   handleChange = (e) => {
     this.setState({
@@ -16,6 +17,10 @@ class NewNoteModal extends React.Component {
     })
   }
 
+  sleep = (time) => {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+  
   handleSubmit = (e) => {
     e.preventDefault();
     NotesAdapter.create(this.state)
@@ -23,7 +28,9 @@ class NewNoteModal extends React.Component {
         if (res.msg) {
           alert(res.msg)
         } else {
-          this.setState({redirectNewFile: true})
+          this.sleep(100).then(() => { // I give up trying to solve the race condition for now.
+            this.setState({redirectNewFile: true})
+          })
         }
       })
   }
@@ -44,9 +51,9 @@ class NewNoteModal extends React.Component {
     return (
       <div id="new-file-modal">
         <h1>I am the new file modal</h1>
-        <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
+        <form onSubmit={this.handleSubmit}>
           <label>File Name</label>
-          <input type="text" name="title"/>
+          <input type="text" name="title" onChange={this.handleChange} />
           <p>Warning: creating a new file will destroy any unsaved changes. Be sure to save your current file</p>
           <button onClick={this.props.toggleNewFileModal}>Cancel</button>
           <button>Create</button>

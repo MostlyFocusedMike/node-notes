@@ -17,10 +17,12 @@ button {
 code {
   white-space: pre-wrap;
   color: blue;
-  background: #000;
-  color: lightgreen;
+  background: #d8d8d8;
+  color: #151515;
   display: inline-block;
-  width: 100%; }
+  font-weight: bold;
+  width: 100%;
+  padding: 0rem 1rem 1rem; }
 
 .App {
   display: flex;
