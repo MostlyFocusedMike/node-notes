@@ -19,21 +19,26 @@ class NewNoteModal extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     NotesAdapter.create(this.state)
-      .then(() => {
-        this.setState({
-          redirectNewFile: true,
-        })
+      .then((res) => {
+        if (res.msg) {
+          alert(res.msg)
+        } else {
+          this.setState({redirectNewFile: true})
+        }
       })
-      alert("submitted")
-    console.log('file submitted')
+  }
+
+  componentDidUpdate =() => {
+    if (this.state.redirectNewFile) {
+      this.setState({
+        redirectNewFile: false
+      })
+    }
   }
 
   render() {
     if (this.state.redirectNewFile) {
       // whole page hard reloads on file creation, so we need to immediately redirect to the new file
-      this.setState({
-        redirectNewFile: false
-      })
       return <Redirect to={`/notes/${this.state.title}`}/>;
     }
     return (
