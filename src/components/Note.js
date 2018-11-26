@@ -28,7 +28,7 @@ class Note extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
     console.log('update it', )
-    NotesAdapter.update(this.state)
+    NotesAdapter.update({...this.state, oldTitle: this.props.match.params.fileName})
       .then(() => {
         if (!this.props.match.params.fileName) this.setState({ redirectNewFile: true })
       })

@@ -43,19 +43,35 @@ module.exports.updateNote = {
     cors: true
   },
   handler: (request, h) => {
-    console.log('I was hit on patch')
-    const files = require('../../../src/files.json')
+    const {title, text, oldTitle } = request.payload;
+    console.log('I was hit on patch');
+    console.log("request payload", request.payload);
+    const files = require('../../../src/files.json');
     try {
-      fs.writeFileSync(`./markdown/${request.payload.title}.md`, request.payload.text)
+      console.log("title: ", title)
+      console.log("text: ", text)
+      fs.writeFileSync(`./markdown/${title}.md`, text);
       console.log("The file was saved!");
     } catch (err) {return console.log(err)};
-    if (!files.includes(request.payload.title)) {
-      const newFiles = [...files, request.payload.title].sort()
+
+    if (title !== oldTitle) { // if a user updates the file's name
+      fs.unlinkSync(`./markdown/${oldTitle}.md`); 
+      const oldTitleIdx = files.indexOf(oldTitle);
+      files.splice(oldTitleIdx, 1);
+      const newFiles = [...files, title].sort()
       try {
         fs.writeFileSync('./src/files.json', JSON.stringify(newFiles))
         console.log("The file was added to the directory!");
       } catch (err) {return console.log(err)};
     }
+
+    // if (!files.includes(request.payload.title)) {
+    //   const newFiles = [...files, request.payload.title].sort()
+    //   try {
+    //     fs.writeFileSync('./src/files.json', JSON.stringify(newFiles))
+    //     console.log("The file was added to the directory!");
+    //   } catch (err) {return console.log(err)};
+    // }
     return request.payload;
   }
 }
