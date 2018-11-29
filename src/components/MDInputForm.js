@@ -20,7 +20,7 @@ class MDInputForm extends React.Component {
           name="text"
           value={this.props.newNote.text}
         />
-        <button>Submit</button>
+        <button>Save</button>
       </form>
     )
   }
