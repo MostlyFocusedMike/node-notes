@@ -55,6 +55,8 @@ code p {
       height: 90vh;
       overflow: auto;
       background: #FAFAFA; }
+      .App .note #md-preview h2 {
+        color: #363; }
     .App .note #mode-bar {
       width: 100%;
       display: flex;
