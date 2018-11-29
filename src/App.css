@@ -47,14 +47,14 @@ code p {
     flex-wrap: wrap;
     justify-content: space-evenly; }
     .App .note form {
-      min-width: 500px;
-      width: 40%; }
+      min-width: 650px;
+      width: 47%; }
     .App .note #md-preview {
-      width: 40%;
-      min-width: 500px;
+      width: 47%;
+      min-width: 600px;
       height: 90vh;
       overflow: auto;
-      background: #EEE; }
+      background: #FAFAFA; }
     .App .note #mode-bar {
       width: 100%;
       display: flex;
@@ -79,5 +79,11 @@ code p {
       z-index: 10;
       color: #000;
       background: white; }
+
+hr {
+  color: green;
+  background-color: green;
+  height: .2rem;
+  border: none; }
 
 /*# sourceMappingURL=app.css.map */

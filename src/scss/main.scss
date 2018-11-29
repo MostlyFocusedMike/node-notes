@@ -50,15 +50,15 @@ code p {
     flex-wrap: wrap;
     justify-content: space-evenly;
     form {
-      min-width: 500px;
-      width: 40%;
+      min-width: 650px;
+      width: 47%;
     }
     #md-preview {
-      width: 40%;
-      min-width: 500px;
+      width: 47%;
+      min-width: 600px;
       height: 90vh;
       overflow: auto;
-      background: #EEE;
+      background: #FAFAFA;
     }
     #mode-bar {
       width: 100%;
@@ -93,3 +93,10 @@ code p {
     }
   }
 } 
+
+hr {
+  color: green;
+  background-color: green;
+  height: .2rem;
+  border: none;
+}
