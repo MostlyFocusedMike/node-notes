@@ -1,19 +1,20 @@
 # Hapi
 ### What is Hapi?
  - Hapi is is a JS framework that handles routing, and has a great plugin system that lets you make a modular application
-
- - It uses other frameworks like Joi, for validation, and Boom for error handling, and there are many more
-
+ - It uses other frameworks and plugins like Joi, for validation, and Boom for error handling, and there are many more
 - it has built in blackbox testing with server.inject
+- Hapi core is so small and lightweight, since it uses other plugins that are only added when needed
 
-- Hapi core is so small and lightweight, since it just has other plugins that are only added when needed
-
-
+--------------------------------------------------------------------------------------------------------------
 # SECTION 1: THE BASICS
 - [My github for this section](https://github.com/MostlyFocusedMike/hapi-notes-1)
 - primary sources: 
     - [Future Studio's article](https://futurestud.io/tutorials/hapi-route-handling-and-drive-traffic-to-your-server)
     - [hapi docs](https://hapijs.com/api)
+
+
+
+
 --------------------------------------------------------------------------------------------------------------
 # Installation
 - just use npm like any other project
@@ -117,21 +118,21 @@ server.route({
 ```
 ### here are the properties of the **route configuration object**, largely from the docs: 
 
-- method [required]
+- method (required)
     - the HTTP method, so 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', or 'OPTIONS' (use caps)
     - Any HTTP method is allowed, except for 'HEAD'. 
     - Use '*' to match against any HTTP method (only when an exact match was not found, and any match with a specific method will be given a higher priority over a wildcard match). 
     - Can be assigned an array of methods which has the same result as adding the same route with different methods manually.
 
-- path [required]
+- path (required)
     - the absolute path used to match incoming requests (must begin with '/').
     - Incoming requests are compared to the configured paths based on the server's router configuration. 
     - Use named parameters enclosed with {}, ie '/people/{id}' 
 
-- handler [required if handler property is not set in options]  
+- handler (required if handler property is not set in options)
     - the route handler function called to generate the response after successful authentication and validation.
 
-- options [optional] 
+- options (optional) 
     - The options value is usually an object 
     - it can instead be a function that returns an object
         - the function's signature must be **function(server)**, 
@@ -139,9 +140,14 @@ server.route({
     - the options object is where you can define authentication, validations, tags, notes, descriptions, and even the handler
     - the handler goes in either **options** or the main *route config object**, not both
 
-vhost - [optional]
-     - see docs for more info
+vhost (optional)
+  - see docs for info
 
+
+
+
+
+------------------------------------------------------------------------------------------------------------
 # Add your routes to your server.js file
 - add your routes before the server starts like so: 
 
@@ -191,14 +197,19 @@ start();
 
 
 
+
 -----------------------------------------------------------------------------------------------------------
 # SECTION 2: ROUTE HANDLING
 - [My github for this section](https://github.com/MostlyFocusedMike/hapi-notes-2)
 - primary sources: 
     - [Future Studio's main article](https://futurestud.io/tutorials/hapi-route-handling-and-drive-traffic-to-your-server)
     - [Route handler section from this Future Studio article](https://futurestud.io/tutorials/hapi-v17-upgrade-guide-your-move-to-async-await)
-    - [routing section in the hapi docs tutorial](https://hapijs.com/tutorials/routing)
+    - [Routing section in the hapi docs tutorial](https://hapijs.com/tutorials/routing)
+    - [Route options](https://hapijs.com/api#route-options)
+    - [Response Toolkit](https://hapijs.com/api#response-toolkits)
+    - [Request object](https://hapijs.com/api#request)
     - [hapi docs](https://hapijs.com/api)
+
 
 
 
@@ -296,6 +307,8 @@ server.route({
 });
 ```
 - other times, you'll want more than one parameter in a segment
+- the two parameters (or more) must have valid url charaters between them, you can't just do: 
+    - /{param1} {param2}
 
 ```
 server.route({
@@ -313,6 +326,7 @@ server.route({
 ## Multi-segment parameters 
 - A single parameter can span multiple segments, you just have to say how many with '*'
 - you just have to split the param with **split('/')**
+
 ```
 server.route({
     method: 'GET',
@@ -334,8 +348,176 @@ pizza and ice-cream are the best!
 ```
 
 
+
+
 ------------------------------------------------------------------------------------------------------------
-# Route handlers 
+# Route handler
+- the route handler is a function that can accept 2 parameters: the request object and the response toolkit
+    - here's the signature:  **function (request, h)**
+    - that 'h' is the response toolkit, which is an object that has several useful methods
+
+## The Request Object 
+- this contains all the info for request from the end user
+- it has things like the payload, parameters, path, headers and much more 
+- check out the [docs for the request](https://hapijs.com/api#request) for all its properties
+
+## Response toolkit
+- first off, it's called 'h' for Hapi, that's took me too long to figure out 
+- Unlike Hapi 16, which needed a **reply()** callback to send anything back to the user, Hapi 17's handlers can send back simple data on their own 
+- However, there are still cases where we need some extra methods, like for redirecting or rendering views
+- for more info look at the [docs for the response toolkit](https://hapijs.com/api#response-toolkit)
+- here are some common ones below, note that some of these methods require plugins, which we will cover in the next section: 
+
+```
+server.route({
+    method: 'GET',
+    path: '/response-toolkit',
+    handler: function (request, h) {
+        /* no need for h when returning a string */
+        // return '<h1>html is just a string</h1>';
+
+        /* no need for h when returning json */
+        //return { hello: 'there' };
+
+        /* redirects DO need to use h */
+        // return h.redirect('/404');
+
+        /* rendering views takes a plugin and h */
+        // return h.view('index', { name: 'vision' });
+
+        /* use h to create a custom response */
+        return h
+            .response('<h1>Hello hello</h1>')
+            .type('text/html')
+            .header('key-name', 'value')
+            .code(201);
+    }
+});
+```
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+# Route options
+- the route options object is where you configure things like auth, caches, and validation
+- it's also where tags, notes, and documentation go. These are used for things like automated logging and documentation, and are quite helpful, so I recommend adding them.
+- in hapi 16 this was called 'config', which is still backwards compatible in hapi 17, but you should really call it options moving forward 
+- check the [docs for more on options](https://hapijs.com/api#route-options)
+
+```
+server.route({  
+    method: 'GET',
+    path: '/my-options',
+    // handler: (request, h) => 'duplicate',
+    options: {
+        description: 'Just a page that shows all the options',
+        notes: 'This page is really just for my notes',
+        tags: ['api', 'tutorial'],
+        // auth: auth strategies go here 
+        // validation: validation checks go here
+        handler: (request, h) => {
+            return 'Check the code for all the options'
+        }
+    }
+});
+```
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+# Basic file organization
+- Route handlers can get rather large, so it is not advisable to define them in your server file 
+- Let's talk about one way (there are MANY) to organize your files for a project 
+
+## File configuration
+**let's layout our project like so:**
+- package.json
+- README.md
+- node_modules/
+- server.js
+- lib/ 
+    - routes/ 
+        - home.js
+        - options.js
+        - toolkit.js
+        - ...etc.
+
+- each of those routes files is just the **route configuration object** as the export: 
+
+```
+// FILE: home.js
+ 
+module.exports = {
+    method: 'GET',
+    path: '/',
+    handler: (request, h) => {
+        return 'It is I, the homepage'
+    }
+};
+```
+
+- to load them into our server, just place them into our **start()** function: 
+
+```
+// FILE: server.js 
+
+async function start () {
+
+    // load our routes 
+    server.route(require('./lib/routes/home'));
+    server.route(require('./lib/routes/options'));
+    server.route(require('./lib/routes/toolkit'));
+    // etc
+
+    try {
+        await server.start(); // the builtin server.start method is async
+    } catch (err) {
+        console.error(err);
+        process.exit(1);
+    };
+
+    console.log('Server running at: ', server.info.uri);
+}
+
+```
+
+- this is much better, now our handlers don't all get smushed into a single file, but all those requires aren't super dry
+- This is where Hapi's [Haute Couture](https://github.com/hapipal/haute-couture) plugin comes in. We'll talk about it very briefly in the next mini section.
+- Haute implements a system, much like rails, where if you configure your project in a certain way, Haute will do a lot of the grunt work for you. 
+- In this case, if your routes are in **/lib/routes** and match that export shape I listed above, it will automatically load them all into you server for you, no requires() required. 
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+# MINI SECTION A: USING HAUTE COUTURE
+
+## COMING SOON
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+# SECTION 3: Using Plugins 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
