@@ -728,7 +728,7 @@ module.exports = {
 ```
 - so thanks to the prefix, any plugin routes will now have to be prefixed with /plugins, but our home route does not. 
     - FYI, any prefix string must start with '/'
-
+- the other property on the options.routes object is **vhost**, which sets each plugin's virtual host. 
 
 
 

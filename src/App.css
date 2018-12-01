@@ -4,12 +4,6 @@ input, label {
 * {
   box-sizing: border-box; }
 
-textarea {
-  width: 90%;
-  height: 60vh;
-  white-space: pre-line;
-  margin: 1rem auto; }
-
 button {
   display: block;
   margin: 2rem; }
@@ -42,24 +36,30 @@ code p {
   flex-wrap: no-wrap;
   justify-content: space-between;
   width: 100%;
-  height: 99vh; }
+  height: 99vh;
+  background: #676767; }
   .App .note {
-    width: 90%;
+    flex: 1;
     margin: 0;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly; }
+    justify-content: space-evenly;
+    position: relative;
+    height: 100vh;
+    overflow: hidden; }
     .App .note form {
       width: 47%;
-      background: red;
+      color: #FFF;
       min-width: 500px;
-      max-width: 650px;
       flex-basis: auto;
       /* default value */
       flex: 1;
       margin: 0; }
       .App .note form textarea {
-        width: 97%;
+        height: 75vh;
+        margin: 1rem auto;
+        width: 100%;
+        overflow-x: hidden;
         display: block;
         margin: 1rem auto;
         font-size: 1rem;
@@ -67,23 +67,40 @@ code p {
         font-family: Arial, Helvetica, sans-serif;
         font-weight: 400; }
     .App .note #md-preview {
+      overflow-x: hidden;
+      background: #FFF;
       flex: 1;
-      height: 90vh;
+      height: 95vh;
       max-width: 50rem;
-      min-width: 24rem;
-      overflow: auto;
-      background: lightblue;
+      min-width: 22rem;
       margin: 0;
-      padding: .5rem; }
+      padding: 1rem;
+      padding-bottom: 8rem;
+      font-size: 1.1rem; }
       .App .note #md-preview h2 {
         color: #363;
         line-height: 2.5rem; }
     .App .note #mode-bar {
       width: 100%;
+      background: #000;
+      color: white;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      margin: 0;
+      height: 3rem;
       display: flex;
-      flex-wrap: wrap; }
-    .App .note #table-of-contents a {
-      display: block; }
+      flex-wrap: no-wrap;
+      justify-content: center;
+      align-items: center; }
+      .App .note #mode-bar button {
+        display: block;
+        margin: 1rem; }
+    .App .note #table-of-contents {
+      background: #FFF; }
+      .App .note #table-of-contents a {
+        display: block;
+        margin: 1rem; }
   .App #notes-dir {
     width: 9%;
     margin: 0;
