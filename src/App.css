@@ -1,6 +1,9 @@
 input, label {
   display: block; }
 
+* {
+  box-sizing: border-box; }
+
 textarea {
   width: 90%;
   height: 60vh;
@@ -15,12 +18,12 @@ code {
   white-space: pre-wrap;
   background: #d8d8d8;
   color: #151515;
-  display: inline-block;
+  display: block;
   font-weight: bold;
   width: 90%;
   line-height: 1rem;
   padding: 1rem;
-  margin: 0; }
+  margin: 0 auto; }
 
 code + p {
   margin: 0;
@@ -35,7 +38,6 @@ code p {
   margin: 0; }
 
 .App {
-  line-height: 1.5rem;
   display: flex;
   flex-wrap: no-wrap;
   justify-content: space-between;
@@ -48,16 +50,34 @@ code p {
     flex-wrap: wrap;
     justify-content: space-evenly; }
     .App .note form {
-      min-width: 650px;
-      width: 47%; }
-    .App .note #md-preview {
       width: 47%;
-      min-width: 600px;
+      background: red;
+      min-width: 500px;
+      max-width: 650px;
+      flex-basis: auto;
+      /* default value */
+      flex: 1;
+      margin: 0; }
+      .App .note form textarea {
+        width: 97%;
+        display: block;
+        margin: 1rem auto;
+        font-size: 1rem;
+        padding: 5px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 400; }
+    .App .note #md-preview {
+      flex: 1;
       height: 90vh;
+      max-width: 50rem;
+      min-width: 24rem;
       overflow: auto;
-      background: #FAFAFA; }
+      background: lightblue;
+      margin: 0;
+      padding: .5rem; }
       .App .note #md-preview h2 {
-        color: #363; }
+        color: #363;
+        line-height: 2.5rem; }
     .App .note #mode-bar {
       width: 100%;
       display: flex;
@@ -88,5 +108,8 @@ hr {
   background-color: green;
   height: .2rem;
   border: none; }
+
+textarea, input, p {
+  line-height: 1.5rem; }
 
 /*# sourceMappingURL=app.css.map */
