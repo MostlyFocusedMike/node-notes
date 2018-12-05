@@ -1015,10 +1015,14 @@ FILE: lib/public/index.html
 
 ---------------------------------------------------------------------------------------------------------------------
 # SECTION 5: VIEWS
+- [my github for this section](https://github.com/MostlyFocusedMike/hapi-notes-5)
+- primary sources
+    - https://hapijs.com/tutorials/serving-files?lang=en_US
+    - https://futurestud.io/tutorials/hapi-how-to-serve-static-files-images-js-etc
+    - https://github.com/hapijs/inert
 
-
-
-
+---------------------------------------------------------------------------------------------------------------------
+# Using views with the Vision plugin
 
 
 

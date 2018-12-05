@@ -3,7 +3,7 @@ import marked from "marked"
 
 class TableOfContents extends React.Component {
   constructor() {
-    super() 
+    super()
     this.initState = {
       sections: []
     }
@@ -34,13 +34,14 @@ class TableOfContents extends React.Component {
   }
   render() {
     return (
-      <div id="table-of-contents"> 
-        <p>Table of contents</p>
-        {
-          this.state.sections.map(section => <a href={`#${section.link}`}>{section.text}</a>)
-        }
+      <div id="table-of-contents">
+        <h3>Table of contents</h3>
+        <div id="sections">
+          {
+            this.state.sections.map(section => <a href={`#${section.link}`}>{section.text}</a>)
+          }
+        </div>
       </div>
-
     )
   }
 }

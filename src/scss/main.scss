@@ -140,7 +140,7 @@ code p {
       background: white;
     }
   }
-} 
+}
 
 hr {
   color: green;
@@ -152,3 +152,9 @@ hr {
 textarea, input, p {
   line-height: 1.5rem;
 };
+
+#sections {
+  border: 1px solid #000;
+  height: 80%;
+  overflow: auto;
+}
