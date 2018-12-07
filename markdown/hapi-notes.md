@@ -1,9 +1,9 @@
-# Hapi
-### What is Hapi?
- - Hapi is is a JS framework that handles routing, and has a great plugin system that lets you make a modular application
- - It uses other frameworks and plugins like Joi, for validation, and Boom for error handling, and there are many more
-- it has built in blackbox testing with server.inject
-- Hapi core is so small and lightweight, since it uses other plugins that are only added when needed
+# Videos
+--------------------------------------------------------------------------------------------------------------------
+### Section 6 vids:
+- [hapi Tutorial — Basic Authentication With Username and Password](https://www.youtube.com/watch?v=wclRFgj3Bl4)
+---------------------------------------------------------------------------------------------------------------------
+
 
 --------------------------------------------------------------------------------------------------------------
 # SECTION 1: THE BASICS
@@ -16,6 +16,11 @@
 
 
 --------------------------------------------------------------------------------------------------------------
+# What is Hapi?
+ - Hapi is is a JS framework that handles routing, and has a great plugin system that lets you make a modular application
+ - It uses other frameworks and plugins like Joi, for validation, and Boom for error handling, and there are many more
+- it has built in blackbox testing with server.inject
+- Hapi core is so small and lightweight, since it uses other plugins that are only added when needed
 # Installation
 - just use npm like any other project
 - you no longer have to specify to get hapi v 17
@@ -1185,7 +1190,7 @@ layout: 'custom-layout-name.html'
 
 
 ----------------------------------------------------------------------------------------------------------------------------------
-# Rendering views with 'h'
+# Rendering views with h.view()
 - Again, like we had with static assets, Vision also decorates the response toolkit with a method, this time it's **.view(file, context, options)**
 
 ```
@@ -1193,7 +1198,11 @@ layout: 'custom-layout-name.html'
         method: 'GET',
         path: '/',
         handler: function (request, h) {
-            return h.view('index.html', {topic: "Views"}, {layout: 'other-layout.html'});
+            return h.view(
+                'index.html', 
+                {topic: "Views"}, 
+                {layout: 'other-layout.html'}
+            );
             /* context and options are optional */
         }
     });
@@ -1236,10 +1245,33 @@ server.route({
 
 
 
------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
+# SECTION 6: AUTHENTICATION
+- [my github for this section](https://github.com/MostlyFocusedMike/hapi-notes-6)
+- primary sources
+    - https://hapijs.com/tutorials/auth
+    - https://github.com/hapijs/hapi-auth-basic
+    - https://futurestud.io/tutorials/hapi-basic-authentication-with-username-and-password
+    - https://github.com/kelektiv/node.bcrypt.js
+
+--------------------------------------------------------------------------------------------------------------------
+# Basic auth overview
+#### this section has a lot more conceptual stuff going on, so without any code, here is the overall idea of what Hapi is doing  
 
 
- 
+- Certain routes can require authentication before being viewed, i.e. users must be signed in and allowed to view this content 
+- like a lot of frameworks, this authorization data is stored in the requests headers, under the authorization key
+- The way hapi does auth is with plugins that use *strategies* and *schemes*. 
+- The plugin will provide the scheme, and you will use that scheme to create a strategy by giving it options. You can use multiple different strategies based off a scheme
+    - The scheme will have a lot of built in functionality, things like checking the headers to make sure there even is a username and password and have built in error handling
+    - You can customize this behavior by giving a scheme options, and to get access to that scheme with those options by assigning it a strategy 
+    - **a *strategy* is just the name you give a *scheme* after configuring it with *options***
 
 
+- most auth plugins will require certain things in the options to even work, for instance [hapi-auth-basic](https://github.com/hapijs/hapi-auth-basic/blob/master/lib/index.js) requires you to pass in a validation function specifically called 'validate'
+- this section will use hapi-auth-basic since it is very easy to read and understand due to its simplicity. 
+
+
+--------------------------------------------------------------------------------------------------------------------
+# Auth via headers (hapi-auth-basic)
 
