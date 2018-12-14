@@ -12,11 +12,12 @@ class TableOfContents extends React.Component {
 
   loadContents() {
     if (this.props.text) {
-      let sections = marked(this.props.text).match(/<h1.+>.+</g).map(text => {
-        let match = text.match(/<h1 id="(.+)">(.+)</)
+      let sections = marked(this.props.text).match(/<h(?:1|2|3).+>.+</g).map(text => {
+        let match = text.match(/<h(1|2|3) id="(.+)">(.+)</)
         return {
-          link: match[1],
-          text: match[2]
+          padding: match[1],
+          link: match[2],
+          text: match[3],
         }
       })
       this.setState({ sections })
@@ -37,9 +38,16 @@ class TableOfContents extends React.Component {
       <div id="table-of-contents">
         <h3>Table of contents</h3>
         <div id="sections">
-          {
-            this.state.sections.map(section => <a href={`#${section.link}`}>{section.text}</a>)
-          }
+          <ul>
+            {
+              this.state.sections.map(section => (
+                <li class={`padding-lvl-${section.padding}`}>
+                  <a href={`#${section.link}`}>{section.text}</a>
+                </li>
+              ))
+            }
+          </ul>
+
         </div>
       </div>
     )

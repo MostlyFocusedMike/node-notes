@@ -1,6 +1,6 @@
 # Videos
 --------------------------------------------------------------------------------------------------------------------
-### Section 6 vids:
+## Section 6 vids:
 - [hapi Tutorial — Basic Authentication With Username and Password](https://www.youtube.com/watch?v=wclRFgj3Bl4)
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -16,12 +16,13 @@
 
 
 --------------------------------------------------------------------------------------------------------------
-# What is Hapi?
+## What is Hapi?
  - Hapi is is a JS framework that handles routing, and has a great plugin system that lets you make a modular application
  - It uses other frameworks and plugins like Joi, for validation, and Boom for error handling, and there are many more
 - it has built in blackbox testing with server.inject
 - Hapi core is so small and lightweight, since it uses other plugins that are only added when needed
-# Installation
+
+## Installation
 - just use npm like any other project
 - you no longer have to specify to get hapi v 17
 
@@ -40,8 +41,7 @@ npm install -S hapi
 
 
 --------------------------------------------------------------------------------------------------------------
-# Starting your server
-### v17
+## Starting your server
 - to run a server in Hapi, you need to initialize a new instance with       
   
 ```new Hapi.server()```
@@ -104,8 +104,7 @@ npm start
 
 
 ------------------------------------------------------------------------------------------------------
-# Basic routes
-### v17 
+## Basic routes
 - You have to add routes to your server using the **server.route([route config object])** method 
 - This method takes an argument, the actual route object, which looks like this: 
     - [server.route() docs](https://hapijs.com/api#-serverrouteroute)
@@ -119,7 +118,7 @@ server.route({
   }
 })
 ```
-### here are the properties of the **route configuration object**, largely from the docs: 
+**here are the properties of the route configuration object, largely from the docs:**
 
 - method (required)
     - the HTTP method, so 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', or 'OPTIONS' (use caps)
@@ -151,7 +150,7 @@ vhost (optional)
 
 
 ------------------------------------------------------------------------------------------------------------
-# Add your routes to your server.js file
+## Add your routes to your server.js file
 - add your routes before the server starts like so: 
 
 ```
@@ -218,7 +217,7 @@ start();
 
 
 -----------------------------------------------------------------------------------------------------------
-# Route handler methods 
+## Route handler methods 
 - In the **route config object** you can pass either one or many HTTP methods to a route
 - to pass several, just use an array. You will be fine as long as there are no HTTP verb collisions: 
 
@@ -248,7 +247,7 @@ server.route({
 
 
 -----------------------------------------------------------------------------------------------------------
-# Path parameters
+## Path parameters
 - Most modern applications will require dynamic routing, where one or more sections of a url will change
 - Hapi uses {} to mark what sections of a path are the parameters, and you can access them from the handler's request object like so:
 
@@ -355,17 +354,17 @@ pizza and ice-cream are the best!
 
 
 ------------------------------------------------------------------------------------------------------------
-# Route handler
+### Route handler
 - the route handler is a function that can accept 2 parameters: the request object and the response toolkit
     - here's the signature:  **function (request, h)**
     - that 'h' is the response toolkit, which is an object that has several useful methods
 
-## The Request Object 
+### The Request Object 
 - this contains all the info for request from the end user
 - it has things like the payload, parameters, path, headers and much more 
 - check out the [docs for the request](https://hapijs.com/api#request) for all its properties
 
-## Response toolkit
+### Response toolkit
 - first off, it's called 'h' for Hapi, that's took me too long to figure out 
 - Unlike Hapi 16, which needed a **reply()** callback to send anything back to the user, Hapi 17's handlers can send back simple data on their own 
 - However, there are still cases where we need some extra methods, like for redirecting or rendering views
@@ -403,7 +402,7 @@ server.route({
 
 
 ------------------------------------------------------------------------------------------------------------
-# Route options
+## Route options
 - the route options object is where you configure things like auth, caches, and validation
 - it's also where tags, notes, and documentation go. These are used for things like automated logging and documentation, and are quite helpful, so I recommend adding them.
 - in hapi 16 this was called 'config', which is still backwards compatible in hapi 17, but you should really call it options moving forward 
@@ -431,11 +430,11 @@ server.route({
 
 
 ------------------------------------------------------------------------------------------------------------
-# Basic file organization
+## Basic file organization
 - Route handlers can get rather large, so it is not advisable to define them in your server file 
 - Let's talk about one way (there are MANY) to organize your files for a project 
 
-## File configuration
+### File configuration
 **let's layout our project like so:**
 - package.json
 - README.md
@@ -492,17 +491,6 @@ async function start () {
 - Haute implements a system, much like rails, where if you configure your project in a certain way, Haute will do a lot of the grunt work for you. 
 - In this case, if your routes are in **/lib/routes** and match that export shape I listed above, it will automatically load them all into you server for you, no requires() required. 
 
-
-
-
---------------------------------------------------------------------------------------------------------------
-# MINI SECTION A: HAUTE COUTURE
-
-## COMING SOON
-
-
-
-
 --------------------------------------------------------------------------------------------------------------
 # SECTION 3: USING PLUGINS
 - [my github for this section](https://github.com/MostlyFocusedMike/hapi-notes-3)
@@ -514,7 +502,7 @@ async function start () {
 
 
 --------------------------------------------------------------------------------------------------------------
-# Creating a plugin
+## Creating a plugin
 - Hapi has a plugin system that allows devs to break their applications into smaller components that work together
 - plugins can do all sorts of things, from generating documentation to creating routes
 - kind of like a large site breaking down to micro services, a good application will be made up of many plugins, the main application itself might even be a plugin
@@ -574,7 +562,7 @@ exports.plugin = { register, name, version }.
 
 
 --------------------------------------------------------------------------------------------------------------
-# Register Method
+## Register Method
 - the **register()** method takes two arguments: **server** and **options**
     - we're talking about **plugin.register()**, not **server.register()**, we'll talk about the later in a second 
 - **server** is just a reference to the server instance that your plugin will be loaded into
@@ -651,13 +639,13 @@ const start = async () => {
 
 
 --------------------------------------------------------------------------------------------------------------
-# Loading plugins 
+## Loading plugins 
 - As you can see, we load our plugins into our server with **server.register()**
     - [docs for **server.register()**](https://hapijs.com/api#-await-serverregisterplugins-options)
 - **server.register()** accepts two things: your plugins, and a **registration options object** 
 - lets look at all the ways to load plugins, then what that options object does
 
-## Load a single external plugin
+### Load a single external plugin
 - you can load a plugin with a simple require statement: 
 
 ```
@@ -665,7 +653,7 @@ await server.register(require('./lib/plugins/myPluginTop.js'))
 ```
 
 
-## Load a single plugin and its options
+### Load a single plugin and its options
 - if you want to give the plugin its options, you have to give server.register() an object with the keys **plugin** and **options**: 
 
 ```
@@ -675,7 +663,7 @@ await server.register({
 });
 ```
 
-## Load multiple plugins 
+### Load multiple plugins 
 - **server.register()** can also take an array of plugins, using either the require() or object format: 
 
 ```
@@ -690,7 +678,7 @@ await server.register([
 ]);
 ```
 
-## Server.register's options object 
+## Server.register options object 
 - Just like you can give each individual plugin an options object, you can give Hapi an options object
     - [docs for service.register, go to the options section](https://hapijs.com/api#-await-serverregisterplugins-options)
 - the server.register's **registration options object** does *not* go to any of the plugins, Hapi is the one that uses it
@@ -748,7 +736,7 @@ module.exports = {
 
 
 ---------------------------------------------------------------------------------------------------------------------
-# Setting up the Inert plugin 
+## Setting up the Inert plugin 
  - to serve static files and assets like HTML, JS, CSS, JPG files, hapi relies on the [inert](https://github.com/hapijs/inert) plugin
 - Inert serves files individually per path, or it can register a directory structure
 - Load using Yarn or NPM:  
@@ -796,8 +784,8 @@ start();
 
 
 ---------------------------------------------------------------------------------------------------------------------
-# Serving a single static file 
-### File Structure 
+## Serving a single static file  
+for this section, this will be the file structure:
 - lib 
     - public 
         - images 
@@ -808,7 +796,7 @@ start();
         - app.js 
 - server.js 
 
-# serving a single file 
+**Serving a single file**
 - the way inert works is that you will have routes that instead of just giving a response, will serve as a static file: 
 - when you register Inert, it decorates the 'h' response toolkit with the .file() method, which takes the path to file you would like to serve
 - lets show this by serving a single image: 
@@ -915,7 +903,7 @@ server.route({
 - check Inert's docs for info about the [options argument](https://github.com/hapijs/inert#hfilepath-options) as well
 
 ---------------------------------------------------------------------------------------------------------------------
-# Using relative file paths
+## Using relative file paths
 - putting 'lib/public/' in front of everything can get annoying, so you can tell files that there is a default relative path to start at
 - in the server config object, just include the **routes** object (don't forget to add Node's path package): 
 
@@ -941,7 +929,7 @@ const server = new Hapi.server({
 
 
 ---------------------------------------------------------------------------------------------------------------------
-# Directory handler 
+## Directory handler 
 - Assigning every asset their own route isn't necessary, you can also turn a folder into a static asset directory for your project
 - do this with the **directory handler**: 
 
@@ -1029,7 +1017,7 @@ FILE: lib/public/index.html
 **NOTE:**
 - this section's github has a lot of helpful comments and template files, be sure to check it out
 ---------------------------------------------------------------------------------------------------------------------
-# Using views with the Vision plugin
+## Using views with the Vision plugin
 - Using template views like Pug or Handlebars is a crucial part of any major project, pure HTML is too clunky for more advanced projects 
 - Just like static files that required a plugin, rendering views takes a plugin, it's called [Vision](https://github.com/hapijs/vision)
 - installing is dead easy as usual: 
@@ -1046,7 +1034,7 @@ npm install -S vision
 
 
 ---------------------------------------------------------------------------------------------------------------------
-# The server.views() method 
+## The server.views() method 
 - after registering, Vision decorates the server object with a .views() method, which takes an object, the **views manager options**: 
 
 ```
@@ -1129,7 +1117,7 @@ engines: {
 
 
 ---------------------------------------------------------------------------------------------------------------------
-# View options 
+## View options 
 
 - There are two places to put your options: 
     - **View Manager Options**: when options are put at the top level, they will affect all engines, so this is a good place to put things like **global context**
@@ -1183,14 +1171,14 @@ layout: 'custom-layout-name.html'
 - the hapi tutorial site also has some good parts on [these](https://hapijs.com/tutorials/views?lang=en_US) 
 - personal observation, it seems Hapi is much more suited to using handlebars out of the box, especially since it is the template engine of choice for Hapi Pal 
  
-### where can these options be used?
+**where can these options be used?**
 - most, if not all, of these options can be configured at either the engine level, or apply to all engines at once in the **view manager** object
 
 
 
 
 ----------------------------------------------------------------------------------------------------------------------------------
-# Rendering views with h.view()
+## Rendering views with h.view()
 - Again, like we had with static assets, Vision also decorates the response toolkit with a method, this time it's **.view(file, context, options)**
 
 ```
@@ -1211,7 +1199,7 @@ layout: 'custom-layout-name.html'
     - use the options object to override anything but **isCached, partialsPath,** or **helpersPath** which are set only once on the initialization of the engines 
 
 ----------------------------------------------------------------------------------------------------------------------------------
-# Rendering with the view handler 
+## Rendering with the view handler 
 - Like static files, you can also use the handler approach:
 
 ```
@@ -1255,8 +1243,8 @@ server.route({
     - https://github.com/kelektiv/node.bcrypt.js
 
 --------------------------------------------------------------------------------------------------------------------
-# Basic auth overview
-#### this section has a lot more conceptual stuff going on, so without any code, here is the overall idea of what Hapi is doing  
+## Basic auth overview
+**this section has a lot more conceptual stuff going on, so without any code, here is the overall idea of what Hapi is doing**  
 
 
 - Certain routes can require authentication before being viewed, i.e. users must be signed in and allowed to view this content 
@@ -1288,11 +1276,11 @@ on a slightly more nuts an bolts level, here is what happens with hapi:
 
 
 --------------------------------------------------------------------------------------------------------------------
-# Auth via headers (hapi-auth-basic)
+## Auth via headers (hapi-auth-basic)
 - the simplest possible way to authenticate is through the headers using [hapi-auth-basic](https://github.com/hapijs/hapi-auth-basic) since it is easy to understand
 - A much better way to set auth is through session cookies, which we will cover in the next section
 
-## Overview 
+### Code  Overview 
 - here is a helpful snippet straight from the [hapi docs](https://hapijs.com/tutorials/auth?lang=en_US), it uses hapi-auth-basic:
  
 ```
@@ -1359,7 +1347,7 @@ start();
 
 
 -----------------------------------------------------------------------------------------------------------------------------------
-# Validation function
+## Validation function
 - For most auth plugins, you'll have to pass something into the options like a function or key value, sometimes these objects must not only be named specifically, but return certain values as well
 - hapi-auth-basic only requires a user defined validation function called 'validate', which we get to define
     - that function must return 'isValid' as true or false, and an object called 'credentials' that contains the user's info
@@ -1367,7 +1355,7 @@ start();
 - hapi-auth-basic it has to return an object with an isValid property, since that is what the scheme's **authenticate** function will go off of when telling hapi whether or not the user is authenticated or not 
 
 ---------------------------------------------------------------------------------------------------------------------------------
-# Setting your strategy 
+## Setting your strategy 
 - After we register the hapi auth-plugin (which registers the scheme), we set the strategy
 - setting the strategy uses **server.auth.strategy(strategy-name, schema-name, [options])**
 - for hapi-auth-basic, the only required key for **options** is a function called 'validate'
@@ -1396,7 +1384,7 @@ server.auth.default('simple');
 
 
 ----------------------------------------------------------------------------------------------------------------------------------
-# Options (the auth options object in our routes)
+## Options (the auth options object in our routes)
 - finally, we have to tell the route which strategy to use and any additional configs
 - here are some ways you can do that 
 
@@ -1538,7 +1526,7 @@ internals.implementation = function (server, options) {
 };
 ```
 --------------------------------------------------------------------------------------------------------------------------------
-# Export setup 
+## Export setup 
 - the most important part is setting up the export. After we load our required packages, just [hoek](https://github.com/hapijs/hoek) which is a node utilities package for hapi, and hapi itself, we set up our export: 
 
 ```
@@ -1560,7 +1548,10 @@ internals.implementation = function (server, options) {
 - all the register function does is run server.auth.scheme(), with the actual scheme being contained in an internals.implementation function
     - this is a common structure for hapi auth plugins, it keeps larger projects neat 
 
-# Scheme setup
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+## Scheme setup
 - in broad strokes here is what our scheme looks like: 
 
 ```
@@ -1607,7 +1598,7 @@ internals.implementation = function (server, options) {
 - let's talk about each part a little: 
 
 ----------------------------------------------------------------------------------------------------------------------------------
-# Scheme.authenticate(request, h) 
+## Scheme.authenticate(request, h) 
 - takes the request and h toolkit
 - it MUST return either **h.authenticated()** or **h.unauthenticated()**
     - **h.authenticated({credentials, [artifacts] })** (required)
@@ -1620,7 +1611,7 @@ internals.implementation = function (server, options) {
         - **data** optional, and it's the user data that failed auth
    
 ----------------------------------------------------------------------------------------------------------------------------------
-# Scheme.payload(request, h), also need options 
+## Scheme.payload(request, h), also need options 
 - takes the request and h toolkit
 - this function just takes care of payload authentication
 - if authentication is good, return h.continue, if it fails, just throw an error ([boom](https://github.com/hapijs/boom) is what hapi recommends using)
@@ -1635,7 +1626,7 @@ internals.implementation = function (server, options) {
         }
 ```
 ----------------------------------------------------------------------------------------------------------------------------------
-# Scheme.response(request, h) 
+## Scheme.response(request, h) 
 - takes the request and h toolkit
 - this is used to decorate the response object with headers
 - it should throw an error or return h.continue, like payload does 
