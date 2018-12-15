@@ -1264,10 +1264,11 @@ server.route({
 on a slightly more nuts an bolts level, here is what happens with hapi:
 
 1. register your auth plugin with your server 
- - inside the plugin, it will register its schema to your server with **server.auth.scheme()**
+ - inside the plugin, it will register its scheme to your server with **server.auth.scheme()**
 - set your strategy on your server by passing in options to your schema with **server.auth.strategy()**
 - on each route under options, name the auth strategy that must pass for the route to be accessed
-- on every request, hapi will first check if it passes the auth strategy, or the default if one is specified (or it will skip it if no strategy is specified for that route),
+- on every request, hapi will first check if it passes the given auth strategy
+    - you can specify a strategy on a route, specify more than one, leave it off and instead use a default, or specifically state that no authentication should be done
     - you can also tell it to authenticate the payload as well and change the response headers
 - once everything passes, hapi will finally send your response to the user 
 
@@ -1277,11 +1278,12 @@ on a slightly more nuts an bolts level, here is what happens with hapi:
 
 --------------------------------------------------------------------------------------------------------------------
 ## Auth via headers (hapi-auth-basic)
-- the simplest possible way to authenticate is through the headers using [hapi-auth-basic](https://github.com/hapijs/hapi-auth-basic) since it is easy to understand
+- the simplest possible way to authenticate is through the headers using [hapi-auth-basic](https://github.com/hapijs/hapi-auth-basic) 
+- We'll use this for this section since it is simple and easy to read
 - A much better way to set auth is through session cookies, which we will cover in the next section
 
 ### Code  Overview 
-- here is a helpful snippet straight from the [hapi docs](https://hapijs.com/tutorials/auth?lang=en_US), it uses hapi-auth-basic:
+- here is a helpful snippet straight from the [hapi docs](https://hapijs.com/tutorials/auth?lang=en_US) that uses hapi-auth-basic:
  
 ```
 const Bcrypt = require('bcrypt');
@@ -1348,12 +1350,22 @@ start();
 
 -----------------------------------------------------------------------------------------------------------------------------------
 ## Validation function
-- For most auth plugins, you'll have to pass something into the options like a function or key value, sometimes these objects must not only be named specifically, but return certain values as well
+- For most auth plugins, you'll have to pass something into the options like a function or key value,  and those may have to return certain values 
 - hapi-auth-basic only requires a user defined validation function called 'validate', which we get to define
     - that function must return 'isValid' as true or false, and an object called 'credentials' that contains the user's info
 - In this case, all we're doing is checking whether or not a given user is valid by using [Bcrypt](https://www.npmjs.com/package/bcrypt-nodejs) to decode the password and check for a match
-- hapi-auth-basic it has to return an object with an isValid property, since that is what the scheme's **authenticate** function will go off of when telling hapi whether or not the user is authenticated or not 
+- hapi-auth-basic has to return an object with an isValid property, since that is what the scheme's **authenticate** function will go off of when telling hapi whether or not the user is authenticated or not 
 
+```
+const validate = async (request, username, password) => {
+    const user = users[username];
+    if (!user) return { credentials: null, isValid: false };
+
+    const isValid = await Bcrypt.compare(password, user.password);
+    const credentials = { id: user.id, name: user.name };
+    return { isValid, credentials };
+};
+```
 ---------------------------------------------------------------------------------------------------------------------------------
 ## Setting your strategy 
 - After we register the hapi auth-plugin (which registers the scheme), we set the strategy
@@ -1428,10 +1440,127 @@ options: {
         - note that not all auth plugins support payload validation
 
 -----------------------------------------------------------------------------------------------------------------------------------
-# How Schemes work
+## Seeing strategies in context
+
+- you can test this my opening an incognito browser and going to each route, and when you want to restart, just close the incognito window. Google seems to remember these auth headers for the duration of the window (not tab) being opened 
+- you can also use postman, as long as you set each individual request with basic auth set
+- finally, here is what our routes look like in the github, notice how each one differs:
+
+```
+const start = async () => {
+
+    await server.register([
+        /* our schemes get registered when the plugins are registered */
+        require('hapi-auth-basic'),
+        require('./hapi-auth-basic-plus')
+    ]);
+                       /* strategy, scheme, options */
+    server.auth.strategy('simple', 'basic', { validate });
+    server.auth.strategy('simplePlus', 'basicPlus', { validate });
+    /* you can set a default auth strategy */
+    server.auth.default('simplePlus');
+    
+    server.route({
+        method: 'GET',
+        path: '/',
+        options: {
+            /* 
+                here is where we say which strategy 
+                it will override the simplePlus default
+            */
+            auth: 'simple',
+            handler: function (request, h) {
+                return {
+                    title: 'All auth data from h.request.auth',
+                    stuff: h.request.auth};
+            }
+        },
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/no-auth',
+        options: {
+            /* 
+                here is where we say no auth strategy
+                it will override the simplePlus default
+            */
+            auth: false,
+            handler: function (request, h) {
+                return {
+                    title: 'All the auth data is empty now',
+                    stuff: h.request.auth};
+            }
+        },
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/plus',
+        options: {
+            /*
+                here is how we can use multiple strategies 
+            */
+            auth: {
+                strategies: ['simplePlus', 'simple']
+            },
+            handler: function (request, h) {
+                return {
+                    title: 'All auth data from h.request.auth',
+                    hRequestAuthStuff: h.request.auth};
+            }
+        },
+    });
+
+    server.route({
+        method: 'POST',
+        path: '/plus',
+        options: {
+            /* 
+                Notice no auth is given, but because of our default 
+                it will still run simplePlus
+            */
+            handler: function (request, h) {
+                console.log("Hello from the POST route handler: ", request.payload)
+                return {
+                    title: 'All auth data from h.request.auth, including the artifacts now',
+                    hRequestAuthStuff: h.request.auth};
+            }
+        },
+    });
+
+    /* 
+        These are lifecycle methods, we will talk more about them
+        later, but for now just use them to see at what point 
+        things get run with auth
+        https://freecontent.manning.com/hapi-js-in-action-diagram/ 
+    */
+
+    server.ext('onPreAuth', (request, h) => {
+        console.log('hello from preAuth')
+        return h.continue
+    });
+    server.ext('onPostAuth', (request, h) => {
+        console.log('hello from postAuth')
+        return h.continue
+    });
+    await server.start();
+
+    console.log('server running at: ' + server.info.uri);
+};
+```
+
+- notice that there are two strategies registered, before moving on to the next section, let's look a bit at how the schemes themselves work
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+# How Schemes work with hapi-auth-basic-plus
+
 - schemes at their most basic level are just methods that look like:      
  **function (server, options)**
-- the method must return an object with the key of **authenticate**, but it can also have the keys **payload** and **response**
+- the method must return an object with the key of **authenticate**, but it can also have the keys **payload**, **response**, and **options**
 - I've taken [hapi-auth-basic](https://github.com/hapijs/hapi-auth-basic) and modified it a bit to add all the parts we'll talk about, but let's look at it in full, and then break down each function
 - here is the file below, but really, try reading [my GitHub](https://github.com/MostlyFocusedMike/hapi-notes-6/blob/master/hapi-auth-basic-plus.js) for full context, it's much easier to read 
 
@@ -1527,7 +1656,7 @@ internals.implementation = function (server, options) {
 ```
 --------------------------------------------------------------------------------------------------------------------------------
 ## Export setup 
-- the most important part is setting up the export. After we load our required packages, just [hoek](https://github.com/hapijs/hoek) which is a node utilities package for hapi, and hapi itself, we set up our export: 
+- the most important part is setting up the export. After we load our required packages, [hoek](https://github.com/hapijs/hoek) which is a node utilities package for hapi, and hapi itself, we set up our export: 
 
 ```
 const internals = {};
@@ -1550,6 +1679,7 @@ internals.implementation = function (server, options) {
 
 
 
+
 -----------------------------------------------------------------------------------------------------------------------------------
 ## Scheme setup
 - in broad strokes here is what our scheme looks like: 
@@ -1557,7 +1687,10 @@ internals.implementation = function (server, options) {
 ```
 internals.implementation = function (server, options) {
 
-    /* validate that options are right before doing anything */
+    /* 
+        validate that options are right before doing anything,
+        if they aren't we will throw an error with the given msg
+    */
     Hoek.assert(options, 'Missing basic auth strategy options');
     Hoek.assert(typeof options.validate === 'function', 'options.validate must be a valid function in basic scheme');
     const settings = Hoek.clone(options);
@@ -1592,6 +1725,8 @@ internals.implementation = function (server, options) {
         options: {
             payload: true  us to run the payload function */
         }
+    return scheme;
+}
 
 ```
 - so schemes have 3 main functions, and then a an options object, the only required thing is the authenticate function
@@ -1605,7 +1740,7 @@ internals.implementation = function (server, options) {
         - just pass in an *object* with the keys of **credentials** and if you want **artifacts**
         - **credentials** is all the user data used for auth, like id and username 
         - **artifacts** are optional data to pass back that is not user data, but does relate to auth
-        - these are both accessible later in the route handler 
+        - these are both accessible later in the route handler under **request.auth**
     - **h.unauthenticated(err, [data])** (required)
         - **err** is the auth error
         - **data** optional, and it's the user data that failed auth
@@ -1625,6 +1760,10 @@ internals.implementation = function (server, options) {
             payload: true;
         }
 ```
+
+
+
+
 ----------------------------------------------------------------------------------------------------------------------------------
 ## Scheme.response(request, h) 
 - takes the request and h toolkit
