@@ -27,7 +27,7 @@
 - you no longer have to specify to get hapi v 17
 
 ```
-yarn add hapi
+yarn add hapi test
 // or 
 npm install -S hapi 
 ```
