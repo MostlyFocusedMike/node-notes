@@ -14,31 +14,31 @@ button {
   margin: 2rem;
 }
 
-code {
-  white-space: pre-wrap;
-  background: rgb(216, 216, 216);
-  color: rgb(21, 21, 21);
-  display: block;
-  font-weight: bold;
-  width: 90%;
-  line-height: 1rem;
-  padding: 1rem;
-  margin: 0 auto;
-}
-code + p {
-  margin: 0;
-  padding: 0;
-}
+// code {
+//   white-space: pre-wrap;
+//   background: rgb(216, 216, 216);
+//   color: rgb(21, 21, 21);
+//   display: block;
+//   font-weight: bold;
+//   width: 90%;
+//   line-height: 1rem;
+//   padding: 1rem;
+//   margin: 0 auto;
+// }
+// code + p {
+//   margin: 0;
+//   padding: 0;
+// }
 
-p code {
-  padding: 1rem;
-  margin: 0;
-}
+// p code {
+//   padding: 1rem;
+//   margin: 0;
+// }
 
-code p {
-  padding: 0;
-  margin: 0;
-}
+// code p {
+//   padding: 0;
+//   margin: 0;
+// }
 .App {
   display: flex;
   flex-wrap: no-wrap;
@@ -121,11 +121,11 @@ code p {
           padding-left: 0;
           font-size: 1.25rem;
           font-weight: bold;
-        } 
+        }
         .padding-lvl-2 {
           padding-left: .5rem;
           font-size: 1rem;
-        } 
+        }
         .padding-lvl-3 {
           padding-left: 1rem;
           font-size: .9rem;
@@ -133,7 +133,7 @@ code p {
           &::before {
             content: "- "
           }
-        } 
+        }
         li {
           display: block;
           margin: 1rem;
