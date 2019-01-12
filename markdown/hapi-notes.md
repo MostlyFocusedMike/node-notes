@@ -44,7 +44,11 @@ npm install -S hapi
 ## Starting your server
 - to run a server in Hapi, you need to initialize a new instance with       
   
-```new Hapi.server()```
+```
+new Hapi.server()
+ waka waka
+
+```
 
 - server() takes an optional argument, a **server configuration object** which 
   sets things like the server's host and port

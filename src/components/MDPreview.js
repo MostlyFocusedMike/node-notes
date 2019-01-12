@@ -3,10 +3,6 @@ import marked, { Renderer } from 'marked';
 import highlightjs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
 
-
-
-highlightjs.initHighlightingOnLoad();
-
 class MDPreview extends React.Component {
   constructor() {
     super()
@@ -20,17 +16,20 @@ class MDPreview extends React.Component {
   }
 
   createCustomRenderer() {
-      alert('creating new renderer');
+    //   alert('creating new renderer');
       // Create your custom renderer.
         const renderer = new Renderer();
-        renderer.code = (code, language) => {
-        //   // Check whether the given language is valid for highlight.js.
-        //   console.log('code', code);
-        //   const validLang = !!(language && highlightjs.getLanguage(language));
+        renderer.code = (code) => {
+        const language = 'js';
+        const validLang = !!(language && highlightjs.getLanguage(language));
+        console.log('valid: ', validLang);
         //   // Highlight only if the language is valid.
-        const highlighted = highlightjs.highlightAuto(code).value;
+        const highlighted = highlightjs.highlight(language, code, true).value;
         //   // Render the highlighted code with `hljs` class.
-        return `<pre><code class="hljs">${highlighted}</code></pre>`;
+        return `<pre><code class="hljs">
+        ${highlightjs.highlightAuto(code).langauge}
+        ${highlighted}
+</code></pre>`;
         };
 
         // Set the renderer to marked.
