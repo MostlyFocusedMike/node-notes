@@ -1,30 +1,32 @@
-import React from 'react';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/dracula.css';
+// import React from 'react';
+// import hljs from 'highlight.js';
+// import 'highlight.js/styles/atom-one-dark.css';
 
-hljs.initHighlightingOnLoad();
-const text = `
-class MDPreview extends React.Component {
-    constructor() {
-      super()
-      this.state = {
-        markdown: "ok"
-      }
-    }
-`
-console.log(hljs.listLanguages());
+// hljs.initHighlightingOnLoad();
 
-class HighlightTest extends React.Component {
-  render() {
-    return (
-        <pre>
-            <code>
-                { text }
-            </code>
-            This is a test
-        </pre>
-    )
-  }
-}
+// Array.from(document.getElementsByTagName('code')).forEach(function (block) {
+//     console.log('hello', block);
+//     hljs.highlightBlock(block);
+// })
 
-export default HighlightTest
+// const text = `
+// class MDPreview extends React.Component {
+//     constructor() {
+//       super()
+//       this.state = {
+//         markdown: "ok"
+//       }
+//     }
+// `
+
+// class HighlightTest extends React.Component {
+//   render() {
+//     return (
+//         <code className="test">
+//             { text }
+//         </code>
+//     )
+//   }
+// }
+
+// export default HighlightTest
