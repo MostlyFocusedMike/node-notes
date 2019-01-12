@@ -17,9 +17,9 @@ const init = async () => {
   await server.start();
 
   server.route(Routes.home);
-  server.route(Routes.createNote);  
-  server.route(Routes.updateNote);  
-  server.route(Routes.reload);  
+  server.route(Routes.createNote);
+  server.route(Routes.updateNote);
+  server.route(Routes.reload);
 };
 
 module.exports = {
