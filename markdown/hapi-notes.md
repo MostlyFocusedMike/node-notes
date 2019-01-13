@@ -24,9 +24,8 @@
 - you no longer have to specify to get hapi v 17
 
 ```
-bash
-yarn add hapi test
-// or 
+yarn add hapi
+# or
 npm install -S hapi 
 ```
 
@@ -45,7 +44,6 @@ npm install -S hapi
 ```
 js
 new Hapi.server()
- waka waka
 ```
 
 - server() takes an optional argument, a **server configuration object** which 
@@ -56,7 +54,8 @@ new Hapi.server()
 - here is the code for just getting the server started, most simple servers only need host and port:
 
 ```
-FILE: hapi-practice/server.js
+js
+// FILE: hapi-practice/server.js
 
 const Hapi = require('hapi');
 

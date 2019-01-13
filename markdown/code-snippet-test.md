@@ -1,16 +1,16 @@
-### header needed for marked for some reason
+# examples of specific vs default
 
 ```
 js
-const server = new Hapi.Server({
+let options = {
   host: 'localhost',
   port: 3101
-});
+};
 ```
 
 ```
-const server = new Hapi.Server({
+let options = {
   host: 'localhost',
   port: 3101
-});
+};
 ```
