@@ -20,16 +20,15 @@ class MDPreview extends React.Component {
       // Create your custom renderer.
         const renderer = new Renderer();
         renderer.code = (code) => {
-        const language = 'js';
-        const validLang = !!(language && highlightjs.getLanguage(language));
-        console.log('valid: ', validLang);
-        //   // Highlight only if the language is valid.
-        const highlighted = highlightjs.highlight(language, code, true).value;
-        //   // Render the highlighted code with `hljs` class.
-        return `<pre><code class="hljs">
-        ${highlightjs.highlightAuto(code).langauge}
-        ${highlighted}
-</code></pre>`;
+            const language = code.match(/(^\w+)\n/);
+            if (language) {
+                console.log('language: ', language[1]);
+                // const validLang = !!(language && highlightjs.getLanguage(language));
+                const highlighted = highlightjs.highlight(language[1], code, true).value;
+                return `<pre><code class="hljs">${highlighted}</code></pre>`;
+            }
+            return `<pre><code class="hljs">${highlightjs.highlightAuto(code).value}</code></pre>`;
+
         };
 
         // Set the renderer to marked.

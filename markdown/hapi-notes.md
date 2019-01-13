@@ -12,9 +12,6 @@
     - [Future Studio's article](https://futurestud.io/tutorials/hapi-route-handling-and-drive-traffic-to-your-server)
     - [hapi docs](https://hapijs.com/api)
 
-
-
-
 --------------------------------------------------------------------------------------------------------------
 ## What is Hapi?
  - Hapi is is a JS framework that handles routing, and has a great plugin system that lets you make a modular application
@@ -27,6 +24,7 @@
 - you no longer have to specify to get hapi v 17
 
 ```
+bash
 yarn add hapi test
 // or 
 npm install -S hapi 
@@ -45,9 +43,9 @@ npm install -S hapi
 - to run a server in Hapi, you need to initialize a new instance with       
   
 ```
+js
 new Hapi.server()
  waka waka
-
 ```
 
 - server() takes an optional argument, a **server configuration object** which 
