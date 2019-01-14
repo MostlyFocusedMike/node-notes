@@ -10,10 +10,15 @@ import 'highlight.js/styles/atom-one-dark.css';
 
 const useHighlightRenderer = (marked) => {
     /* Create your custom renderer that uses highlight js on the code blocks */
+
+    /*
+        if users want, they can put the name of the langauge as the first line
+        of their code block examples in the document
+        if no langauge given, just use the default detection for highlight.js
+    */
     const renderer = new Renderer();
     renderer.code = (code) => {
         let highlightedCode;
-        // if users want, they can put the name of the langauge as the first line
         const language = code.match(/(^\w+)\n/);
         if (language && highlightjs.getLanguage(language[1])) {
             const codeWithNoName = code.replace((language[0]), ''); // language[0] includes the \n at the end
@@ -24,7 +29,6 @@ const useHighlightRenderer = (marked) => {
             */
             highlightedCode = highlightjs.highlight(language[1], codeWithNoName, true).value;
         } else {
-            // if no langauge given, just use the default detection for highlight.js
             highlightedCode = highlightjs.highlightAuto(code).value;
         }
 
