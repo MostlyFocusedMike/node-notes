@@ -3,9 +3,6 @@ import createMarkdown from '../helpers/createMarkdown';
 
 class MDPreview extends React.Component {
 
-    shouldComponentUpdate(prevProps, prevState) {
-        return this.props.viewInfo.editing || prevProps.viewInfo.editing;
-    }
     render() {
         console.log('I render', );
         const { title, text } = this.props.note;
