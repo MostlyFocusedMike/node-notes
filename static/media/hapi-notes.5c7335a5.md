@@ -1,19 +1,15 @@
-# Videos
+# Videos 
 --------------------------------------------------------------------------------------------------------------------
 ## Section 6 vids:
 - [hapi Tutorial — Basic Authentication With Username and Password](https://www.youtube.com/watch?v=wclRFgj3Bl4)
 ---------------------------------------------------------------------------------------------------------------------
 
-
 --------------------------------------------------------------------------------------------------------------
 # SECTION 1: THE BASICS
 - [My github for this section](https://github.com/MostlyFocusedMike/hapi-notes-1)
-- primary sources: 
+- primary sources:
     - [Future Studio's article](https://futurestud.io/tutorials/hapi-route-handling-and-drive-traffic-to-your-server)
     - [hapi docs](https://hapijs.com/api)
-
-
-
 
 --------------------------------------------------------------------------------------------------------------
 ## What is Hapi?
@@ -27,9 +23,9 @@
 - you no longer have to specify to get hapi v 17
 
 ```
-yarn add hapi test
-// or 
-npm install -S hapi 
+yarn add hapi
+# or
+npm install -S hapi
 ```
 
 ## file structure
@@ -42,11 +38,14 @@ npm install -S hapi
 
 --------------------------------------------------------------------------------------------------------------
 ## Starting your server
-- to run a server in Hapi, you need to initialize a new instance with       
-  
-```new Hapi.server()```
+- to run a server in Hapi, you need to initialize a new instance with
 
-- server() takes an optional argument, a **server configuration object** which 
+```
+js
+new Hapi.server()
+```
+
+- server() takes an optional argument, a **server configuration object** which
   sets things like the server's host and port
 
     - [server configuration object docs](https://hapijs.com/api#server.options)
@@ -54,7 +53,8 @@ npm install -S hapi
 - here is the code for just getting the server started, most simple servers only need host and port:
 
 ```
-FILE: hapi-practice/server.js
+js
+// FILE: hapi-practice/server.js
 
 const Hapi = require('hapi');
 
@@ -80,15 +80,16 @@ async function start () {
 start();
 ```
 
-- to make sure that your server runs, do: 
+- to make sure that your server runs, do:
 
 ```
 npm start
 ```
 
-- FYI don't forget to use [nodemon](https://www.npmjs.com/package/nodemon) for your server, your start command should look like this in your package.json file: 
+- FYI don't forget to use [nodemon](https://www.npmjs.com/package/nodemon) for your server, your start command should look like this in your package.json file:
 
 ```
+js
   ...
   "scripts": {
     "start": "nodemon server.js",
@@ -105,12 +106,13 @@ npm start
 
 ------------------------------------------------------------------------------------------------------
 ## Basic routes
-- You have to add routes to your server using the **server.route([route config object])** method 
-- This method takes an argument, the actual route object, which looks like this: 
+- You have to add routes to your server using the **server.route([route config object])** method
+- This method takes an argument, the actual route object, which looks like this:
     - [server.route() docs](https://hapijs.com/api#-serverrouteroute)
 
 ```
-server.route({  
+js
+server.route({
   method: 'GET',
   path: '/',
   handler: (request, h) => {
@@ -122,22 +124,22 @@ server.route({
 
 - method (required)
     - the HTTP method, so 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', or 'OPTIONS' (use caps)
-    - Any HTTP method is allowed, except for 'HEAD'. 
-    - Use '*' to match against any HTTP method (only when an exact match was not found, and any match with a specific method will be given a higher priority over a wildcard match). 
+    - Any HTTP method is allowed, except for 'HEAD'.
+    - Use '*' to match against any HTTP method (only when an exact match was not found, and any match with a specific method will be given a higher priority over a wildcard match).
     - Can be assigned an array of methods which has the same result as adding the same route with different methods manually.
 
 - path (required)
     - the absolute path used to match incoming requests (must begin with '/').
-    - Incoming requests are compared to the configured paths based on the server's router configuration. 
-    - Use named parameters enclosed with {}, ie '/people/{id}' 
+    - Incoming requests are compared to the configured paths based on the server's router configuration.
+    - Use named parameters enclosed with {}, ie '/people/{id}'
 
 - handler (required if handler property is not set in options)
     - the route handler function called to generate the response after successful authentication and validation.
 
-- options (optional) 
-    - The options value is usually an object 
+- options (optional)
+    - The options value is usually an object
     - it can instead be a function that returns an object
-        - the function's signature must be **function(server)**, 
+        - the function's signature must be **function(server)**,
         - where **server** is the server the route is being added to.
     - the options object is where you can define authentication, validations, tags, notes, descriptions, and even the handler
     - the handler goes in either **options** or the main *route config object**, not both
@@ -151,9 +153,10 @@ vhost (optional)
 
 ------------------------------------------------------------------------------------------------------------
 ## Add your routes to your server.js file
-- add your routes before the server starts like so: 
+- add your routes before the server starts like so:
 
 ```
+js
 const Hapi = require('hapi');
 
 // create a server with a host and port
@@ -162,7 +165,7 @@ const server = new Hapi.Server({
     port: 3101
   });
 
-server.route({  
+server.route({
     method: 'GET',
     path: '/',
     handler: (request, h) => {
@@ -170,7 +173,7 @@ server.route({
     },
 });
 
-server.route({  
+server.route({
     method: 'GET',
     path: '/example',
     handler: (request, h) => {
@@ -203,7 +206,7 @@ start();
 -----------------------------------------------------------------------------------------------------------
 # SECTION 2: ROUTE HANDLING
 - [My github for this section](https://github.com/MostlyFocusedMike/hapi-notes-2)
-- primary sources: 
+- primary sources:
     - [Future Studio's main article](https://futurestud.io/tutorials/hapi-route-handling-and-drive-traffic-to-your-server)
     - [Route handler section from this Future Studio article](https://futurestud.io/tutorials/hapi-v17-upgrade-guide-your-move-to-async-await)
     - [Routing section in the hapi docs tutorial](https://hapijs.com/tutorials/routing)
@@ -217,12 +220,13 @@ start();
 
 
 -----------------------------------------------------------------------------------------------------------
-## Route handler methods 
+## Route handler methods
 - In the **route config object** you can pass either one or many HTTP methods to a route
-- to pass several, just use an array. You will be fine as long as there are no HTTP verb collisions: 
+- to pass several, just use an array. You will be fine as long as there are no HTTP verb collisions:
 
 ```
-server.route({  
+js
+server.route({
     method: 'GET',
     path: '/',
     handler: (request, h) => {
@@ -230,7 +234,7 @@ server.route({
     }
 })
 
-server.route({  
+server.route({
     method: [ 'POST', 'PUT' ],
     path: '/',
     handler: (request, h) => {
@@ -252,7 +256,8 @@ server.route({
 - Hapi uses {} to mark what sections of a path are the parameters, and you can access them from the handler's request object like so:
 
 ```
-server.route({  
+js
+server.route({
     method: 'GET',
     path: '/schools/{schoolName}/users/{username}',
     handler: (request, h) => {
@@ -265,20 +270,23 @@ server.route({
 });
 ```
 
-- so when we enter the url http://localhost:3101/schools/harvard/users/tom, our page outputs: 
+- so when we enter the url http://localhost:3101/schools/harvard/users/tom, our page outputs:
 
 ```
+plaintext
 tom wishes harvard wasn't so expensive.
 ```
+
 
 - parameters must be valid JS variable names
     - schoolName works, school-name does not
 
-## Optional parameters 
+## Optional parameters
 - sometimes, parameters are optional, if that is the case use a '?' at the end
-- optional parameters must be the very last parameter 
+- optional parameters must be the very last parameter
 
 ```
+js
 server.route({
     method: 'GET',
     path: '/my-age/{age?}',
@@ -293,10 +301,11 @@ server.route({
 });
 ```
 
-## Partial and multiple parameters in a url segment 
-- Sometimes only part of a parameter needs to be dynamic: 
+## Partial and multiple parameters in a url segment
+- Sometimes only part of a parameter needs to be dynamic:
 
 ```
+js
 server.route({
     method: 'GET',
     path: '/my-file/{fileName}.jpg',
@@ -308,11 +317,13 @@ server.route({
     }
 });
 ```
+
 - other times, you'll want more than one parameter in a segment
-- the two parameters (or more) must have valid url charaters between them, you can't just do: 
+- the two parameters (or more) must have valid url charaters between them, you can't just do:
     - /{param1} {param2}
 
 ```
+js
 server.route({
     method: 'GET',
     path: '/my-file/{fileName}.{ext}',
@@ -325,11 +336,12 @@ server.route({
 });
 ```
 
-## Multi-segment parameters 
+## Multi-segment parameters
 - A single parameter can span multiple segments, you just have to say how many with '*'
 - you just have to split the param with **split('/')**
 
 ```
+js
 server.route({
     method: 'GET',
     path: '/my-foods/{favFoods*2}',
@@ -343,13 +355,15 @@ server.route({
 });
 ```
 
-- so when we visit http://localhost:3101/my-foods/pizza/ice-cream, we get: 
+- so when we visit http://localhost:3101/my-foods/pizza/ice-cream, we get:
 
 ```
-pizza and ice-cream are the best!
+plaintext
+    pizza and ice-cream are the best!
 ```
-- here's a really crucial part about asterisks directly from the routing [docs](https://hapijs.com/tutorials/routing) in this section: 
-    - The number after the asterisk represents how many path segments should be assigned to the parameter. You can also omit the number entirely, and the parameter will match any number of segments available. Like the optional parameters, a wildcard parameter (for example /{files*}) may only appear as the last parameter in your path.
+
+- here's a really crucial part about asterisks directly from the routing [docs](https://hapijs.com/tutorials/routing) in this section:
+    > The number after the asterisk represents how many path segments should be assigned to the parameter. You can also omit the number entirely, and the parameter will match any number of segments available. Like the optional parameters, a wildcard parameter (for example /{files*}) may only appear as the last parameter in your path.
 
 
 
@@ -359,19 +373,20 @@ pizza and ice-cream are the best!
     - here's the signature:  **function (request, h)**
     - that 'h' is the response toolkit, which is an object that has several useful methods
 
-### The Request Object 
+### The Request Object
 - this contains all the info for request from the end user
-- it has things like the payload, parameters, path, headers and much more 
+- it has things like the payload, parameters, path, headers and much more
 - check out the [docs for the request](https://hapijs.com/api#request) for all its properties
 
 ### Response toolkit
-- first off, it's called 'h' for Hapi, that's took me too long to figure out 
-- Unlike Hapi 16, which needed a **reply()** callback to send anything back to the user, Hapi 17's handlers can send back simple data on their own 
+- first off, it's called 'h' for Hapi, that's took me too long to figure out
+- Unlike Hapi 16, which needed a **reply()** callback to send anything back to the user, Hapi 17's handlers can send back simple data on their own
 - However, there are still cases where we need some extra methods, like for redirecting or rendering views
 - for more info look at the [docs for the response toolkit](https://hapijs.com/api#response-toolkit)
-- here are some common ones below, note that some of these methods require plugins, which we will cover in the next section: 
+- here are some common ones below, note that some of these methods require plugins, which we will cover in the next section:
 
 ```
+js
 server.route({
     method: 'GET',
     path: '/response-toolkit',
@@ -405,11 +420,12 @@ server.route({
 ## Route options
 - the route options object is where you configure things like auth, caches, and validation
 - it's also where tags, notes, and documentation go. These are used for things like automated logging and documentation, and are quite helpful, so I recommend adding them.
-- in hapi 16 this was called 'config', which is still backwards compatible in hapi 17, but you should really call it options moving forward 
+- in hapi 16 this was called 'config', which is still backwards compatible in hapi 17, but you should really call it options moving forward
 - check the [docs for more on options](https://hapijs.com/api#route-options)
 
 ```
-server.route({  
+js
+server.route({
     method: 'GET',
     path: '/my-options',
     // handler: (request, h) => 'duplicate',
@@ -417,7 +433,7 @@ server.route({
         description: 'Just a page that shows all the options',
         notes: 'This page is really just for my notes',
         tags: ['api', 'tutorial'],
-        // auth: auth strategies go here 
+        // auth: auth strategies go here
         // validation: validation checks go here
         handler: (request, h) => {
             return 'Check the code for all the options'
@@ -431,8 +447,8 @@ server.route({
 
 ------------------------------------------------------------------------------------------------------------
 ## Basic file organization
-- Route handlers can get rather large, so it is not advisable to define them in your server file 
-- Let's talk about one way (there are MANY) to organize your files for a project 
+- Route handlers can get rather large, so it is not advisable to define them in your server file
+- Let's talk about one way (there are MANY) to organize your files for a project
 
 ### File configuration
 **let's layout our project like so:**
@@ -440,18 +456,19 @@ server.route({
 - README.md
 - node_modules/
 - server.js
-- lib/ 
-    - routes/ 
+- lib/
+    - routes/
         - home.js
         - options.js
         - toolkit.js
         - ...etc.
 
-- each of those routes files is just the **route configuration object** as the export: 
+- each of those routes files is just the **route configuration object** as the export:
 
 ```
+js
 // FILE: home.js
- 
+
 module.exports = {
     method: 'GET',
     path: '/',
@@ -461,14 +478,15 @@ module.exports = {
 };
 ```
 
-- to load them into our server, just place them into our **start()** function: 
+- to load them into our server, just place them into our **start()** function:
 
 ```
-// FILE: server.js 
+js
+// FILE: server.js
 
 async function start () {
 
-    // load our routes 
+    // load our routes
     server.route(require('./lib/routes/home'));
     server.route(require('./lib/routes/options'));
     server.route(require('./lib/routes/toolkit'));
@@ -488,8 +506,8 @@ async function start () {
 
 - this is much better, now our handlers don't all get smushed into a single file, but all those requires aren't super dry
 - This is where Hapi's [Haute Couture](https://github.com/hapipal/haute-couture) plugin comes in. We'll talk about it very briefly in the next mini section.
-- Haute implements a system, much like rails, where if you configure your project in a certain way, Haute will do a lot of the grunt work for you. 
-- In this case, if your routes are in **/lib/routes** and match that export shape I listed above, it will automatically load them all into you server for you, no requires() required. 
+- Haute implements a system, much like rails, where if you configure your project in a certain way, Haute will do a lot of the grunt work for you.
+- In this case, if your routes are in **/lib/routes** and match that export shape I listed above, it will automatically load them all into you server for you, no requires() required.
 
 --------------------------------------------------------------------------------------------------------------
 # SECTION 3: USING PLUGINS
@@ -506,9 +524,10 @@ async function start () {
 - Hapi has a plugin system that allows devs to break their applications into smaller components that work together
 - plugins can do all sorts of things, from generating documentation to creating routes
 - kind of like a large site breaking down to micro services, a good application will be made up of many plugins, the main application itself might even be a plugin
-- making a plugin is not hard, it basically is just an object with a **name, version,** and **register** property: 
+- making a plugin is not hard, it basically is just an object with a **name, version,** and **register** property:
 
 ```
+js
 const myPlugin = {
     name: 'myPlugin',
     version: '1.0.0',
@@ -532,30 +551,32 @@ const myPlugin = {
 module.exports = myPlugin;
 ```
 
-- instead of specifying a specific **name** and **version** you can also just use **pkg** property, which expects the package.json file: 
+- instead of specifying a specific **name** and **version** you can also just use **pkg** property, which expects the package.json file:
 
 ```
+js
 const myPlugin = {
     /* instead of name and version properties, you can just pull in the package */
     pkg: require('../../package.json'),
     ...
 ```
 
-- plugins can either be at the top level of your export, or they can be in the **plugin** property of an export: 
+- plugins can either be at the top level of your export, or they can be in the **plugin** property of an export:
 
 ```
-module.exports = { register, name, version } 
+js
+module.exports = { register, name, version }
 // or if you want your module to export more than a Hapi plugin
 exports.plugin = { register, name, version }.
 ```
 
-- The plugin can also have three other *optional* properties: **multiple**, **once**, and **dependencies** 
-- from the [docs on plugins](https://hapijs.com/api#plugins): 
+- The plugin can also have three other *optional* properties: **multiple**, **once**, and **dependencies**
+- from the [docs on plugins](https://hapijs.com/api#plugins):
     - multiple
         - if true, allows the plugin to be registered multiple times with the same server safely. Defaults to false.
     - dependencies
         - a string or an array of strings indicating a plugin dependency. Same as setting dependencies via server.dependency().
-    - once 
+    - once
         - if true, will only register the plugin once per server. If set, overrides the once option passed to server.register(). Defaults to no override.
 
 
@@ -564,14 +585,15 @@ exports.plugin = { register, name, version }.
 --------------------------------------------------------------------------------------------------------------
 ## Register Method
 - the **register()** method takes two arguments: **server** and **options**
-    - we're talking about **plugin.register()**, not **server.register()**, we'll talk about the later in a second 
+    - we're talking about **plugin.register()**, not **server.register()**, we'll talk about the later in a second
 - **server** is just a reference to the server instance that your plugin will be loaded into
-- **options** is more interesting. When registering a plugin on your server, you have the ability to pass in any data you want. Your plugin can access this info by going into the options object: 
+- **options** is more interesting. When registering a plugin on your server, you have the ability to pass in any data you want. Your plugin can access this info by going into the options object:
 
-- here is our plugin: 
+- here is our plugin:
 
 ```
-// FILE: /lib/plugins/myPluginExternal.js 
+js
+// FILE: /lib/plugins/myPluginExternal.js
 
 const myPlugin = {
     pkg: require('../../package.json'),
@@ -581,7 +603,7 @@ const myPlugin = {
             method: 'GET',
             path: '/plugin-external',
             handler: function (request, h) {
-                return { options }; 
+                return { options };
             }
         });
         // etc ...
@@ -591,13 +613,14 @@ const myPlugin = {
 
 module.exports.plugin = myPlugin;
 
-``` 
+```
 
-- now when we load in our plugin, we can pass things to it using the **options** property: 
+- now when we load in our plugin, we can pass things to it using the **options** property:
 
 
 ```
-// FILE: /server.js 
+js
+// FILE: /server.js
 const start = async () => {
 
     await server.register({
@@ -612,9 +635,10 @@ const start = async () => {
 }
 ```
 
-- now when we visit http://localhost:3103/plugins/plugin-external, we'll get: 
+- now when we visit http://localhost:3103/plugins/plugin-external, we'll get:
 
 ```
+json
 {
   "options": {
     "msg": "Anything here goes into the plugin",
@@ -639,34 +663,37 @@ const start = async () => {
 
 
 --------------------------------------------------------------------------------------------------------------
-## Loading plugins 
+## Loading plugins
 - As you can see, we load our plugins into our server with **server.register()**
     - [docs for **server.register()**](https://hapijs.com/api#-await-serverregisterplugins-options)
-- **server.register()** accepts two things: your plugins, and a **registration options object** 
+- **server.register()** accepts two things: your plugins, and a **registration options object**
 - lets look at all the ways to load plugins, then what that options object does
 
 ### Load a single external plugin
-- you can load a plugin with a simple require statement: 
+- you can load a plugin with a simple require statement:
 
 ```
+js
 await server.register(require('./lib/plugins/myPluginTop.js'))
 ```
 
 
 ### Load a single plugin and its options
-- if you want to give the plugin its options, you have to give server.register() an object with the keys **plugin** and **options**: 
+- if you want to give the plugin its options, you have to give server.register() an object with the keys **plugin** and **options**:
 
 ```
+js
 await server.register({
    plugin: require('./lib/plugins/myPluginTop.js'),
-   options: { msg: "I go to the plugin" } 
+   options: { msg: "I go to the plugin" }
 });
 ```
 
-### Load multiple plugins 
-- **server.register()** can also take an array of plugins, using either the require() or object format: 
+### Load multiple plugins
+- **server.register()** can also take an array of plugins, using either the require() or object format:
 
 ```
+js
 await server.register([
     require('./lib/plugins/myPluginTop.js'),
     {
@@ -678,15 +705,16 @@ await server.register([
 ]);
 ```
 
-## Server.register options object 
+## Server.register options object
 - Just like you can give each individual plugin an options object, you can give Hapi an options object
     - [docs for service.register, go to the options section](https://hapijs.com/api#-await-serverregisterplugins-options)
 - the server.register's **registration options object** does *not* go to any of the plugins, Hapi is the one that uses it
 - an easy example is the **routes.prefix** property
-- by giving a prefix, all the routes in the registered plugins will be prefixed, but your server routes won't: 
+- by giving a prefix, all the routes in the registered plugins will be prefixed, but your server routes won't:
 
 ```
-// FILE: server.js 
+js
+// FILE: server.js
 const start = async () => {
     await server.register([
         require('./lib/plugins/myPluginTop.js'),
@@ -700,7 +728,7 @@ const start = async () => {
     ],
     { /* this is the options object */
         routes: {
-            prefix: '/plugins' 
+            prefix: '/plugins'
         }
     });
 
@@ -720,9 +748,9 @@ module.exports = {
     }
 };
 ```
-- so thanks to the prefix, any plugin routes will now have to be prefixed with /plugins, but our home route does not. 
+- so thanks to the prefix, any plugin routes will now have to be prefixed with /plugins, but our home route does not.
     - FYI, any prefix string must start with '/'
-- the other property on the options.routes object is **vhost**, which sets each plugin's virtual host. 
+- the other property on the options.routes object is **vhost**, which sets each plugin's virtual host.
 
 
 
@@ -736,21 +764,23 @@ module.exports = {
 
 
 ---------------------------------------------------------------------------------------------------------------------
-## Setting up the Inert plugin 
+## Setting up the Inert plugin
  - to serve static files and assets like HTML, JS, CSS, JPG files, hapi relies on the [inert](https://github.com/hapijs/inert) plugin
 - Inert serves files individually per path, or it can register a directory structure
-- Load using Yarn or NPM:  
+- Load using Yarn or NPM:
 
 ```
-npm install inert 
-# or 
-yarn add inert 
+bash
+npm install inert
+# or
+yarn add inert
 ```
 - it is updated and ready for use with hapi 17, for hapi 16 use inert 4.X.X
-- once it is installed, simply register it as a plugin: 
+- once it is installed, simply register it as a plugin:
 
 ```
-FILE: server.js 
+js
+// FILE: server.js
 
 
 const Hapi = require('hapi')
@@ -784,25 +814,26 @@ start();
 
 
 ---------------------------------------------------------------------------------------------------------------------
-## Serving a single static file  
+## Serving a single static file
 for this section, this will be the file structure:
-- lib 
-    - public 
-        - images 
+- lib
+    - public
+        - images
             -  all our images
         - style.css
         - index.html
         - used-picture.html
-        - app.js 
-- server.js 
+        - app.js
+- server.js
 
 **Serving a single file**
-- the way inert works is that you will have routes that instead of just giving a response, will serve as a static file: 
+- the way inert works is that you will have routes that instead of just giving a response, will serve as a static file:
 - when you register Inert, it decorates the 'h' response toolkit with the .file() method, which takes the path to file you would like to serve
-- lets show this by serving a single image: 
+- lets show this by serving a single image:
 
 ```
-FILE: server.js 
+js
+// FILE: server.js
 
 ...
     server.route({
@@ -815,12 +846,13 @@ FILE: server.js
     });
 ...
 ```
-- so now when we go to http://localhost:3104/picture we will just see the Hapi logo image, even though the image file is stored in lib/public/images 
+- so now when we go to http://localhost:3104/picture we will just see the Hapi logo image, even though the image file is stored in lib/public/images
 - If we want to access this file from within our site pages, you would go to the route path, not the actual file's path
-- let's look at how a simple html page would use that image asset:  
+- let's look at how a simple html page would use that image asset:
 
 ```
-FILE: lib/public/used-picture.html
+html
+// FILE: lib/public/used-picture.html
 
 <!DOCTYPE html>
 <html lang="en">
@@ -839,10 +871,11 @@ FILE: lib/public/used-picture.html
 ```
 - it loads the file from '/picture', even though the file's actual location is /lib/public/images
 - **when loading an asset use the route path, not the file's path**
-- and now lets actually serve up this html page itself with a new route: 
+- and now lets actually serve up this html page itself with a new route:
 
 ```
-FILE: server.js
+js
+// FILE: server.js
 ...
     server.route({
         method: 'GET',
@@ -871,7 +904,8 @@ FILE: server.js
 - instead of using the response toolkit, you could also use the file handler:
 
 ```
-FILE: server.js
+js
+// FILE: server.js
 
 ...
     server.route({
@@ -885,8 +919,8 @@ FILE: server.js
 
 
 
-FILE: copy from docs 
-/* use a function instead of an object to get access 
+FILE: copy from docs
+/* use a function instead of an object to get access
    to the response object for things like parameters */
 server.route({
     method: 'GET',
@@ -905,10 +939,11 @@ server.route({
 ---------------------------------------------------------------------------------------------------------------------
 ## Using relative file paths
 - putting 'lib/public/' in front of everything can get annoying, so you can tell files that there is a default relative path to start at
-- in the server config object, just include the **routes** object (don't forget to add Node's path package): 
+- in the server config object, just include the **routes** object (don't forget to add Node's path package):
 
 ```
-FILE: server.js 
+js
+// FILE: server.js
 
 const Hapi = require('hapi');
 const Path = require ('path');
@@ -924,17 +959,18 @@ const server = new Hapi.server({
 });
 ...
 ```
-- this makes it so that any paths for static files do not need to start with 'lib/public', which is nice 
+- this makes it so that any paths for static files do not need to start with 'lib/public', which is nice
 
 
 
 ---------------------------------------------------------------------------------------------------------------------
-## Directory handler 
+## Directory handler
 - Assigning every asset their own route isn't necessary, you can also turn a folder into a static asset directory for your project
-- do this with the **directory handler**: 
+- do this with the **directory handler**:
 
 ```
-FILE: server.js
+js
+// FILE: server.js
     server.route({
         method: 'GET',
         path: '/{param*}',
@@ -957,30 +993,32 @@ FILE: server.js
     });
 
 ```
-- what this does is it looks for the param, like say 'style.css' and checks if that file is found in the given directory. If no file is found to match, it will then look for it on the other routes 
+- what this does is it looks for the param, like say 'style.css' and checks if that file is found in the given directory. If no file is found to match, it will then look for it on the other routes
     - this is why '/example-page' doesn't throw and error when there is no file in our public directory called 'example-page', it doesn't find a file so it just moves on
     - what's interesting though is that /images/hapi-logo.png will also work thanks to the wildcard in the param (see the Multi-segment parameters section)
 
-- lets look at the three most common properties: 
+- lets look at the three most common properties:
     - **path**: this is the path to the directory that we will use to store our assets, and it takes a string.
          - However, if you set the **routes.files.relativeTo** in the server object (as I have in these examples), then it assumes that is the starting directory, so it is perfectly fine to give a path of '.' as we have here
-    - **index**: let's say the user just goes to http://localhost:3104, there will be no params given, so the directory will be default search for an index.html file. However, if you named your index something else, you can specify that here 
-        - it takes either a string, or an array of strings to search in order: 
-``` 
+    - **index**: let's say the user just goes to http://localhost:3104, there will be no params given, so the directory will be default search for an index.html file. However, if you named your index something else, you can specify that here
+        - it takes either a string, or an array of strings to search in order:
+```
+js
  index: ['default.hmlt', 'weird.html']
 ```
     - **listing**: if you don't want to use an index, and instead want a clickable directory of hyperlinks deplayed for http://localhost:3104, then be sure that you don't have an index.html file and you switch listing to true (default is false).
          - this can be useful when working on API's that don't actually have a home route
-    - **showHidden**: if set to true, listing will show hidden dotfiles, the default is false 
+    - **showHidden**: if set to true, listing will show hidden dotfiles, the default is false
     - **defaultExtension**: a string that will be used as a default file extentsion if the path isn't found. So a request for /thing will try the file /thing.html.
-    - **lookupCompressed**: allows you to serve precompressed files when possible. 
+    - **lookupCompressed**: allows you to serve precompressed files when possible.
    - **redirectToSlash**: requests without trailing slashes are treated as if they are, this is called “with slash pendant” BTW. You might need this for relative paths, so it's good to leave it on (it defaults to false)
 --------------------------------------------------------------------------------------------------------------------
 ## Using assets from the directory
 - so now that we saw what everything was set up to do, our static assets will now all work in our pages:
 
 ```
-FILE: lib/public/index.html
+js
+// FILE: lib/public/index.html
 
 <!DOCTYPE html>
 <html lang="en">
@@ -1018,27 +1056,28 @@ FILE: lib/public/index.html
 - this section's github has a lot of helpful comments and template files, be sure to check it out
 ---------------------------------------------------------------------------------------------------------------------
 ## Using views with the Vision plugin
-- Using template views like Pug or Handlebars is a crucial part of any major project, pure HTML is too clunky for more advanced projects 
+- Using template views like Pug or Handlebars is a crucial part of any major project, pure HTML is too clunky for more advanced projects
 - Just like static files that required a plugin, rendering views takes a plugin, it's called [Vision](https://github.com/hapijs/vision)
-- installing is dead easy as usual: 
+- installing is dead easy as usual:
 
 ```
 yarn add vision
-// or 
-npm install -S vision 
+# or
+npm install -S vision
 ```
 - then simply register it to your server like you would any plugin
-- You will also need to install template engines, this section uses [Pug](https://pugjs.org/api/getting-started.html) and [Handlebars](https://handlebarsjs.com/installation.html) 
+- You will also need to install template engines, this section uses [Pug](https://pugjs.org/api/getting-started.html) and [Handlebars](https://handlebarsjs.com/installation.html)
 - Handlebars has much more builtin features that work right out of the box, but it's good to see other engines in action too
 
 
 
 ---------------------------------------------------------------------------------------------------------------------
-## The server.views() method 
-- after registering, Vision decorates the server object with a .views() method, which takes an object, the **views manager options**: 
+## The server.views() method
+- after registering, Vision decorates the server object with a .views() method, which takes an object, the **views manager options**:
 
 ```
-FILE: server.js
+js
+// FILE: server.js
 
 
 const Hapi = require('hapi');
@@ -1080,14 +1119,15 @@ const start = async () => {
 
 ...rest of file
 ```
-- that's a lot, so let's break down just the engines property: 
+- that's a lot, so let's break down just the engines property:
 
 ## the template engines
 - For Vision to work, you must give it at least one template engine
 - here is the simple way:
 
 ```
-sever.views({ 
+js
+sever.views({
     engines: {
        pug:  require('pug'),
     }
@@ -1097,6 +1137,7 @@ sever.views({
 - sometimes though, you will want to configure special options on a per engine basis, so you can also pass in objects to **engines**
 
 ```
+js
 engines: {
     pug:  require('pug'),
     html: {
@@ -1111,39 +1152,42 @@ engines: {
 }
 
 ```
-- all you do is have the top key be the file extension, and then an object, the only required key is **module**, since this will be the actual rendering engine. 
+- all you do is have the top key be the file extension, and then an object, the only required key is **module**, since this will be the actual rendering engine.
 - for any other options, just include them as keys, we'll talk about them below
 
 
 
 ---------------------------------------------------------------------------------------------------------------------
-## View options 
+## View options
 
-- There are two places to put your options: 
+- There are two places to put your options:
     - **View Manager Options**: when options are put at the top level, they will affect all engines, so this is a good place to put things like **global context**
     - **Engine level**: when passed in at the individual engine level, the options will only affect that engine, and they will override the main options given in the View Manager
 
 - lets look at some of the common ones below (for a full list see the [docs section](https://github.com/hapijs/vision/blob/master/API.md#options)):
 
 - **relativeTo** (optional)
-    - Like our static files, this sets where Hapi will start looking for files, it's very common to see this set with __dirname, like I did: 
+    - Like our static files, this sets where Hapi will start looking for files, it's very common to see this set with __dirname, like I did:
 ```
+js
 relativeTo: Path.join(__dirname, 'lib/templates'),
-``` 
+```
 - **path** (required)
     - this is the path to the directory where all your templates are located, when used in conjunction with **relativeTo** it's fine to just be '.'
-    - it should be noted that templates *can't* be outside the **path** directory unless **allowAbsolutePaths** and **allowInsecureAccess** are also given and set to true: 
+    - it should be noted that templates *can't* be outside the **path** directory unless **allowAbsolutePaths** and **allowInsecureAccess** are also given and set to true:
 ```
+js
 allowAbsolutePaths: true,
 allowInsecureAccess: true
 ```
-    - they are optional and default to false 
+    - they are optional and default to false
 
 - **isCached** (optional, BUT NEEDED FOR SANITY)
     - takes true or false, and decides if Hapi will cache the templates. In dev, it should *absolutely* be set to false, otherwise, you will have to restart your server every time you want to see any change.
     - in production, it should be set to true in order to improve performance, so it's common to see it set as a boolean that pulls in environment variables or something
-    - here's my simple little test: 
+    - here's my simple little test:
 ```
+js
 isCached: process.env.NODE_ENV === 'production',
 ```
     - I don't have that variable setup in dev, so it will always go to false
@@ -1152,8 +1196,8 @@ isCached: process.env.NODE_ENV === 'production',
     - while you can pass context to each individual view, you can also pass a global context that will either affect all engines or per engine, depending where you put it
 
 
-- In addition to the **path** property, there are several other useful directories that you can setup: 
-  - **partialsPath**: (optional) 
+- In addition to the **path** property, there are several other useful directories that you can setup:
+  - **partialsPath**: (optional)
     - contains your partials
   - **helpersPath** (optional)
     - contains your template helpers, which are js files that export a helper function that are accessible inside your views. Check my github for an example as well as the [view helpers](https://hapijs.com/tutorials/views?lang=en_US) section on the Hapi docs tutorial
@@ -1161,16 +1205,17 @@ isCached: process.env.NODE_ENV === 'production',
     - contains layout templates, to use this you must set **layout** to a boolean or string first:
 
 ```
+js
 layout: true /* assumes layout file is layout.[ext] */
 /* if your layout file is titled differently: */
 layout: 'custom-layout-name.html'
 
 ```
 
-- all three of these are to help with views, but since these are sometimes engine specific, if you want to know more, check the [docs](https://github.com/hapijs/vision/blob/master/API.md#options) for more info, as well as my github, which shows simple examples with Pug and Handlebars 
-- the hapi tutorial site also has some good parts on [these](https://hapijs.com/tutorials/views?lang=en_US) 
-- personal observation, it seems Hapi is much more suited to using handlebars out of the box, especially since it is the template engine of choice for Hapi Pal 
- 
+- all three of these are to help with views, but since these are sometimes engine specific, if you want to know more, check the [docs](https://github.com/hapijs/vision/blob/master/API.md#options) for more info, as well as my github, which shows simple examples with Pug and Handlebars
+- the hapi tutorial site also has some good parts on [these](https://hapijs.com/tutorials/views?lang=en_US)
+- personal observation, it seems Hapi is much more suited to using handlebars out of the box, especially since it is the template engine of choice for Hapi Pal
+
 **where can these options be used?**
 - most, if not all, of these options can be configured at either the engine level, or apply to all engines at once in the **view manager** object
 
@@ -1182,27 +1227,29 @@ layout: 'custom-layout-name.html'
 - Again, like we had with static assets, Vision also decorates the response toolkit with a method, this time it's **.view(file, context, options)**
 
 ```
-    server.route({
-        method: 'GET',
-        path: '/',
-        handler: function (request, h) {
-            return h.view(
-                'index.html', 
-                {topic: "Views"}, 
-                {layout: 'other-layout.html'}
-            );
-            /* context and options are optional */
-        }
-    });
+js
+server.route({
+    method: 'GET',
+    path: '/',
+    handler: function (request, h) {
+        return h.view(
+            'index.html',
+            {topic: "Views"},
+            {layout: 'other-layout.html'}
+        );
+        /* context and options are optional */
+    }
+});
 ```
-- here we are telling it to look up the template in index.html, giving it a context, and using our options to override what layout gets used for this particular route 
-    - use the options object to override anything but **isCached, partialsPath,** or **helpersPath** which are set only once on the initialization of the engines 
+- here we are telling it to look up the template in index.html, giving it a context, and using our options to override what layout gets used for this particular route
+    - use the options object to override anything but **isCached, partialsPath,** or **helpersPath** which are set only once on the initialization of the engines
 
 ----------------------------------------------------------------------------------------------------------------------------------
-## Rendering with the view handler 
+## Rendering with the view handler
 - Like static files, you can also use the handler approach:
 
 ```
+js
 server.route({
     method: 'GET',
     path: '/',
@@ -1214,13 +1261,14 @@ server.route({
             },
             options: {
                 layout: 'other-layout.html'
-            } 
+            }
         }
     }
 });
 ```
-- both context and options are optional arguments, so if you just want to render a view, there's a simpler way: 
+- both context and options are optional arguments, so if you just want to render a view, there's a simpler way:
 ```
+js
 server.route({
     method: 'GET',
     path: '/',
@@ -1244,14 +1292,14 @@ server.route({
 
 --------------------------------------------------------------------------------------------------------------------
 ## Basic auth overview
-**this section has a lot more conceptual stuff going on, so without any code, here is the overall idea of what Hapi is doing**  
+**this section has a lot more conceptual stuff going on, so without any code, here is the overall idea of what Hapi is doing**
 
 
-- Certain routes can require authentication before being viewed, i.e. users must be signed in and allowed to view this content 
+- Certain routes can require authentication before being viewed, i.e. users must be signed in and allowed to view this content
 
 - like a lot of frameworks, this authorization data is stored in the request's headers, under the authorization key, or in cookies
 
-- The way hapi does auth is with plugins that use *strategies* and *schemes*. 
+- The way hapi does auth is with plugins that use *strategies* and *schemes*.
 
 - The plugin will provide the scheme, and you will use that scheme to create a strategy by giving it options. You will use that strategy to authenticate users for your routes
 
@@ -1263,14 +1311,14 @@ server.route({
 
 on a slightly more nuts an bolts level, here is what happens with hapi:
 
-1. register your auth plugin with your server 
+1. register your auth plugin with your server
  - inside the plugin, it will register its scheme to your server with **server.auth.scheme()**
 - set your strategy on your server by passing in options to your schema with **server.auth.strategy()**
 - on each route under options, name the auth strategy that must pass for the route to be accessed
 - on every request, hapi will first check if it passes the given auth strategy
     - you can specify a strategy on a route, specify more than one, leave it off and instead use a default, or specifically state that no authentication should be done
     - you can also tell it to authenticate the payload as well and change the response headers
-- once everything passes, hapi will finally send your response to the user 
+- once everything passes, hapi will finally send your response to the user
 
 
 
@@ -1278,14 +1326,15 @@ on a slightly more nuts an bolts level, here is what happens with hapi:
 
 --------------------------------------------------------------------------------------------------------------------
 ## Auth via headers (hapi-auth-basic)
-- the simplest possible way to authenticate is through the headers using [hapi-auth-basic](https://github.com/hapijs/hapi-auth-basic) 
+- the simplest possible way to authenticate is through the headers using [hapi-auth-basic](https://github.com/hapijs/hapi-auth-basic)
 - We'll use this for this section since it is simple and easy to read
 - A much better way to set auth is through session cookies, which we will cover in the next section
 
-### Code  Overview 
+### Code  Overview
 - here is a helpful snippet straight from the [hapi docs](https://hapijs.com/tutorials/auth?lang=en_US) that uses hapi-auth-basic:
- 
+
 ```
+js
 const Bcrypt = require('bcrypt');
 const Hapi = require('hapi');
 
@@ -1294,7 +1343,7 @@ const users = {
     john: {
         username: 'john',
         /* this translates to 'secret' */
-        password: '$2a$10$iqJSHD.BGr0E2IxQwYgJmeP3NvhPrXAeLSaGCj6IR/XU5QtjVu5Tm',  
+        password: '$2a$10$iqJSHD.BGr0E2IxQwYgJmeP3NvhPrXAeLSaGCj6IR/XU5QtjVu5Tm',
         name: 'John Doe',
         id: '2133d32a'
     }
@@ -1343,20 +1392,21 @@ start();
 - Since this requires headers to run, chrome will spit a prompt box asking for username and password in order to get the headers. This is odd, and another reason why sites don't use an auth strategy that relies only on headers like this
 
 
-- now let's break down all that code: 
+- now let's break down all that code:
 
 
 
 
 -----------------------------------------------------------------------------------------------------------------------------------
 ## Validation function
-- For most auth plugins, you'll have to pass something into the options like a function or key value,  and those may have to return certain values 
+- For most auth plugins, you'll have to pass something into the options like a function or key value,  and those may have to return certain values
 - hapi-auth-basic only requires a user defined validation function called 'validate', which we get to define
     - that function must return 'isValid' as true or false, and an object called 'credentials' that contains the user's info
 - In this case, all we're doing is checking whether or not a given user is valid by using [Bcrypt](https://www.npmjs.com/package/bcrypt-nodejs) to decode the password and check for a match
-- hapi-auth-basic has to return an object with an isValid property, since that is what the scheme's **authenticate** function will go off of when telling hapi whether or not the user is authenticated or not 
+- hapi-auth-basic has to return an object with an isValid property, since that is what the scheme's **authenticate** function will go off of when telling hapi whether or not the user is authenticated or not
 
 ```
+js
 const validate = async (request, username, password) => {
     const user = users[username];
     if (!user) return { credentials: null, isValid: false };
@@ -1367,13 +1417,14 @@ const validate = async (request, username, password) => {
 };
 ```
 ---------------------------------------------------------------------------------------------------------------------------------
-## Setting your strategy 
+## Setting your strategy
 - After we register the hapi auth-plugin (which registers the scheme), we set the strategy
 - setting the strategy uses **server.auth.strategy(strategy-name, schema-name, [options])**
 - for hapi-auth-basic, the only required key for **options** is a function called 'validate'
 
 
 ```
+js
 // plugin
 await server.register(require('hapi-auth-basic'));
 
@@ -1381,8 +1432,9 @@ await server.register(require('hapi-auth-basic'));
 server.auth.strategy('simple', 'basic', { validate });
 ```
 - you can also set a default strategy for all routes:
- 
+
 ```
+js
 await server.register(require('hapi-auth-basic'));
 server.auth.strategy('simple', 'basic', { validate });
 
@@ -1390,7 +1442,7 @@ server.auth.strategy('simple', 'basic', { validate });
 server.auth.default('simple');
 ```
 - you pass **.default()** the strategy name as a string, or you can pass it as an **auth options object** (see below)
-- any route registered before **.default()** is run will not have the default set, so set it at the top if you want all your routes covered 
+- any route registered before **.default()** is run will not have the default set, so set it at the top if you want all your routes covered
 
 
 
@@ -1398,10 +1450,11 @@ server.auth.default('simple');
 ----------------------------------------------------------------------------------------------------------------------------------
 ## Options (the auth options object in our routes)
 - finally, we have to tell the route which strategy to use and any additional configs
-- here are some ways you can do that 
+- here are some ways you can do that
 
 ```
-// no auth strategy 
+js
+// no auth strategy
 options: {
     auth: false
 }
@@ -1423,30 +1476,32 @@ options: {
     auth: {
         strategies: ['name', 'other-name']
         mode: 'required'
-    } 
+    }
 }
 ```
-- when naming more than one, they will be tried in order 
+js
+- when naming more than one, they will be tried in order
 - when auth is set to false there will be no authentication provided for that route
-- in addition to the auth strategy, you can also pass several other options to auth: 
+- in addition to the auth strategy, you can also pass several other options to auth:
     - **mode (optional)** options are:
         -  required: the user must have valid authentication
         - optional: authentication's optional, but if present, it must be valid (so no auth will pass, but wrong auth will fail)
-        - try: authentication is optional, and wrong authentication will pass, this is the main difference to the 'optional' setting 
+        - try: authentication is optional, and wrong authentication will pass, this is the main difference to the 'optional' setting
     - **payload** (optional):
         - false: the payload is NOT to be authenticated
-        - true or 'required': the payload WILL be authenticated 
-        - optional: if there is payload authentication data given from the client, it will be used, otherwise the payload will not be authenticated 
+        - true or 'required': the payload WILL be authenticated
+        - optional: if there is payload authentication data given from the client, it will be used, otherwise the payload will not be authenticated
         - note that not all auth plugins support payload validation
 
 -----------------------------------------------------------------------------------------------------------------------------------
 ## Seeing strategies in context
 
-- you can test this my opening an incognito browser and going to each route, and when you want to restart, just close the incognito window. Google seems to remember these auth headers for the duration of the window (not tab) being opened 
+- you can test this my opening an incognito browser and going to each route, and when you want to restart, just close the incognito window. Google seems to remember these auth headers for the duration of the window (not tab) being opened
 - you can also use postman, as long as you set each individual request with basic auth set
 - finally, here is what our routes look like in the github, notice how each one differs:
 
 ```
+js
 const start = async () => {
 
     await server.register([
@@ -1459,13 +1514,13 @@ const start = async () => {
     server.auth.strategy('simplePlus', 'basicPlus', { validate });
     /* you can set a default auth strategy */
     server.auth.default('simplePlus');
-    
+
     server.route({
         method: 'GET',
         path: '/',
         options: {
-            /* 
-                here is where we say which strategy 
+            /*
+                here is where we say which strategy
                 it will override the simplePlus default
             */
             auth: 'simple',
@@ -1481,7 +1536,7 @@ const start = async () => {
         method: 'GET',
         path: '/no-auth',
         options: {
-            /* 
+            /*
                 here is where we say no auth strategy
                 it will override the simplePlus default
             */
@@ -1499,7 +1554,7 @@ const start = async () => {
         path: '/plus',
         options: {
             /*
-                here is how we can use multiple strategies 
+                here is how we can use multiple strategies
             */
             auth: {
                 strategies: ['simplePlus', 'simple']
@@ -1516,8 +1571,8 @@ const start = async () => {
         method: 'POST',
         path: '/plus',
         options: {
-            /* 
-                Notice no auth is given, but because of our default 
+            /*
+                Notice no auth is given, but because of our default
                 it will still run simplePlus
             */
             handler: function (request, h) {
@@ -1529,11 +1584,11 @@ const start = async () => {
         },
     });
 
-    /* 
+    /*
         These are lifecycle methods, we will talk more about them
-        later, but for now just use them to see at what point 
+        later, but for now just use them to see at what point
         things get run with auth
-        https://freecontent.manning.com/hapi-js-in-action-diagram/ 
+        https://freecontent.manning.com/hapi-js-in-action-diagram/
     */
 
     server.ext('onPreAuth', (request, h) => {
@@ -1558,13 +1613,14 @@ const start = async () => {
 -----------------------------------------------------------------------------------------------------------------------------------
 # How Schemes work with hapi-auth-basic-plus
 
-- schemes at their most basic level are just methods that look like:      
+- schemes at their most basic level are just methods that look like:
  **function (server, options)**
 - the method must return an object with the key of **authenticate**, but it can also have the keys **payload**, **response**, and **options**
 - I've taken [hapi-auth-basic](https://github.com/hapijs/hapi-auth-basic) and modified it a bit to add all the parts we'll talk about, but let's look at it in full, and then break down each function
-- here is the file below, but really, try reading [my GitHub](https://github.com/MostlyFocusedMike/hapi-notes-6/blob/master/hapi-auth-basic-plus.js) for full context, it's much easier to read 
+- here is the file below, but really, try reading [my GitHub](https://github.com/MostlyFocusedMike/hapi-notes-6/blob/master/hapi-auth-basic-plus.js) for full context, it's much easier to read
 
 ```
+js
 const Boom = require('boom');
 const Hoek = require('hoek');
 
@@ -1655,10 +1711,11 @@ internals.implementation = function (server, options) {
 };
 ```
 --------------------------------------------------------------------------------------------------------------------------------
-## Export setup 
-- the most important part is setting up the export. After we load our required packages, [hoek](https://github.com/hapijs/hoek) which is a node utilities package for hapi, and hapi itself, we set up our export: 
+## Export setup
+- the most important part is setting up the export. After we load our required packages, [hoek](https://github.com/hapijs/hoek) which is a node utilities package for hapi, and hapi itself, we set up our export:
 
 ```
+js
 const internals = {};
 
 exports.plugin = {
@@ -1675,19 +1732,20 @@ internals.implementation = function (server, options) {
 ```
 - Like any plugin, we give it a name and version, and then a register function
 - all the register function does is run server.auth.scheme(), with the actual scheme being contained in an internals.implementation function
-    - this is a common structure for hapi auth plugins, it keeps larger projects neat 
+    - this is a common structure for hapi auth plugins, it keeps larger projects neat
 
 
 
 
 -----------------------------------------------------------------------------------------------------------------------------------
 ## Scheme setup
-- in broad strokes here is what our scheme looks like: 
+- in broad strokes here is what our scheme looks like:
 
 ```
+js
 internals.implementation = function (server, options) {
 
-    /* 
+    /*
         validate that options are right before doing anything,
         if they aren't we will throw an error with the given msg
     */
@@ -1707,7 +1765,7 @@ internals.implementation = function (server, options) {
             }
             return h.authenticated({ credentials, artifacts: { theThings: "in here are artifacts" } });
         },
-        
+
 
         /* payload authentication function */
         payload: async function(request, h) {
@@ -1730,51 +1788,52 @@ internals.implementation = function (server, options) {
 
 ```
 - so schemes have 3 main functions, and then a an options object, the only required thing is the authenticate function
-- let's talk about each part a little: 
+- let's talk about each part a little:
 
 ----------------------------------------------------------------------------------------------------------------------------------
-## Scheme.authenticate(request, h) 
+## Scheme.authenticate(request, h)
 - takes the request and h toolkit
 - it MUST return either **h.authenticated()** or **h.unauthenticated()**
     - **h.authenticated({credentials, [artifacts] })** (required)
         - just pass in an *object* with the keys of **credentials** and if you want **artifacts**
-        - **credentials** is all the user data used for auth, like id and username 
+        - **credentials** is all the user data used for auth, like id and username
         - **artifacts** are optional data to pass back that is not user data, but does relate to auth
         - these are both accessible later in the route handler under **request.auth**
     - **h.unauthenticated(err, [data])** (required)
         - **err** is the auth error
         - **data** optional, and it's the user data that failed auth
-   
+
 ----------------------------------------------------------------------------------------------------------------------------------
-## Scheme.payload(request, h), also need options 
+## Scheme.payload(request, h), also need options
 - takes the request and h toolkit
 - this function just takes care of payload authentication
 - if authentication is good, return h.continue, if it fails, just throw an error ([boom](https://github.com/hapijs/boom) is what hapi recommends using)
 - you only run the payload authentication when the sheme's option's object has the key of **payload** set to true
 ```
-        payload: (request, h) => {
-            console.log('hello from the payload authentication');
-            return h.continue;
-        },
-        options: {
-            payload: true;
-        }
+js
+payload: (request, h) => {
+    console.log('hello from the payload authentication');
+    return h.continue;
+},
+options: {
+    payload: true;
+}
 ```
 
 
 
 
 ----------------------------------------------------------------------------------------------------------------------------------
-## Scheme.response(request, h) 
+## Scheme.response(request, h)
 - takes the request and h toolkit
 - this is used to decorate the response object with headers
-- it should throw an error or return h.continue, like payload does 
+- it should throw an error or return h.continue, like payload does
 ```
+js
         response: async function (request, h) {
             request.response.headers.test = "new-header"
             console.log('hello from request:', request.response.headers);
             return h.continue;
         },
 ```
-
 
