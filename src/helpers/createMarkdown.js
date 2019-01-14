@@ -11,9 +11,9 @@ const renderWelcome = () => {
 
 }
 
-const createMarkdown = (text, isEditMode) => {
+const createMarkdown = (text, useHighlighting) => {
     /* returns the final markdown */
-    toggleHighlighting(marked, isEditMode); // we only want marked to use special highlighing when not in edit mode
+    toggleHighlighting(marked, useHighlighting); // we only want marked to use special highlighing when not in edit mode
     const md = text || renderWelcome();
     return marked(md)
 }

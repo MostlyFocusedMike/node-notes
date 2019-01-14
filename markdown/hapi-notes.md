@@ -3,8 +3,10 @@
 ## Section 6 vids:
 - [hapi Tutorial — Basic Authentication With Username and Password](https://www.youtube.com/watch?v=wclRFgj3Bl4)
 ---------------------------------------------------------------------------------------------------------------------
-
-
+```
+js
+ok does this work
+```
 --------------------------------------------------------------------------------------------------------------
 # SECTION 1: THE BASICS
 - [My github for this section](https://github.com/MostlyFocusedMike/hapi-notes-1)

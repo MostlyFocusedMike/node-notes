@@ -42,12 +42,12 @@ const useDefaultRenderer = (marked) => {
     marked.setOptions({ renderer: new Renderer() });
 }
 
-const toggleHighlighting = (marked, isEditMode) => {
+const toggleHighlighting = (marked, useHighlighting) => {
     /* Due to performace, highlighting can't run while in edit mode, this turns it on and off */
-    if (isEditMode) {
-        useDefaultRenderer(marked);
-    } else {
+    if (useHighlighting) {
         useHighlightRenderer(marked);
+    } else {
+        useDefaultRenderer(marked);
     }
 }
 
