@@ -19,7 +19,7 @@ const useHighlightRenderer = (marked) => {
     const renderer = new Renderer();
     renderer.code = (code) => {
         let highlightedCode;
-        const language = code.match(/(^\w+)\n/);
+        const language = code.match(/(^\w+)(?:\s+)?\n/);
         if (language && highlightjs.getLanguage(language[1])) {
             const codeWithNoName = code.replace((language[0]), ''); // language[0] includes the \n at the end
             /*
