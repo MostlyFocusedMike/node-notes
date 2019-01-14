@@ -23,6 +23,7 @@
 - you no longer have to specify to get hapi v 17
 
 ```
+plaintext
 yarn add hapi
 # or
 npm install -S hapi
