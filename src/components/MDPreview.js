@@ -1,5 +1,4 @@
 import React from 'react';
-import marked from 'marked';
 import createMarkdown from '../helpers/createMarkdown';
 
 class MDPreview extends React.Component {
@@ -9,7 +8,7 @@ class MDPreview extends React.Component {
 
   render() {
     const { title, text } = this.props.note;
-    const markdown = createMarkdown(text);
+    const markdown = createMarkdown(text, this.props.viewInfo.editing);
     return (
       <div id="md-preview">
         <h1>Preview of: {title}</h1>
