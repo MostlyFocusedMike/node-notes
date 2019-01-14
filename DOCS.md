@@ -1,15 +1,22 @@
 ## How does highlighting work?
 For highlighting, Ollie uses [Highlight.js](https://highlightjs.org) which has a nice default option so users don't have to specify the code language if they don't want. Specifically, Ollie alters the marked Renderer's behavioir. Now, when it comes across a code block in the markdown it will convert that text according to highlight.js.
 
-However, it only does this in the View Mode, since it is resource heavy, and on longer notes can take several seconds. There may be a way to fix this with web workers, but for now it will just have to hang a few seconds.
+However, if a user fails to specify the languge a LOT then the performance will lag (or maybe if it's old hardware) so TODO: add a way to turn this behavior off using a button with state.
 
 ## Specifying a language
-While highlight.js' auto detection is good, sometimes it misses some things. So, if a user wants to specify what language is in the code block, they have to put it on the first line.
+While highlight.js' auto detection can slow you down, so whenever possible, specify the language. Do this by putting it on the first line.
 
 ```
 js
 // this code block would be highlighted as javascript
 let x = 2;
+```
+
+if you want no highlighting:
+
+```
+plaintext
+this will just be monospace font, maybe good for console logs
 ```
 
 In View Mode, that js won't be there. For a list of available langauges to choose from, check [highlight's list](https://highlightjs.org/static/demo/).
