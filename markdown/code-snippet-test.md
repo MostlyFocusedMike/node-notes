@@ -1,14 +1,7 @@
-# examples of specific vs default
+# examples 
 
 ```
 js
-let options = {
-  host: 'localhost',
-  port: 3101
-};
-```
-
-```
 let options = {
   host: 'localhost',
   port: 3101

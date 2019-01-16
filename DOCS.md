@@ -4,22 +4,20 @@ For highlighting, Ollie uses [Highlight.js](https://highlightjs.org) which has a
 However, if a user fails to specify the languge a LOT then the performance will lag (or maybe if it's old hardware) so TODO: add a way to turn this behavior off using a button with state.
 
 ## Specifying a language
-While highlight.js' auto detection can slow you down, so whenever possible, specify the language. Do this by putting it on the first line.
+Highlight.js' auto detection can slow you down, so whenever possible, specify the language. Do this by putting it next to the ``` without any space. (ignore that \ that is just so we github doesn't actually turn the triple ticks into a code block)
 
-```
-js
+\```js
 // this code block would be highlighted as javascript
 let x = 2;
-```
+\```
 
 if you want no highlighting:
 
-```
-plaintext
+\```plaintext
 this will just be monospace font, maybe good for console logs
-```
+\```
 
-In View Mode, that js won't be there. For a list of available langauges to choose from, check [highlight's list](https://highlightjs.org/static/demo/).
+In the rendered markdown, the language won't be there. For a list of available langauges to choose from, check [highlight's list](https://highlightjs.org/static/demo/).
 
 ## Changing the default style
 - Ollie notes comes set with a pretty standard night theme, but it's quite easy to change it.

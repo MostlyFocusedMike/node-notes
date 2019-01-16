@@ -17,24 +17,32 @@ const useHighlightRenderer = (marked) => {
         if no langauge given, just use the default detection for highlight.js
     */
     const renderer = new Renderer();
-    renderer.code = (code) => {
+    renderer.code = (code, lang) => {
+        /*
+            that is the format needed for marked to pick up the
+            lang attribute, it must be next to the ``` with no space
+            ```js               ```lang
+            let x = y    ===    code
+            ```                 ```
+        */
         let highlightedCode;
-        const language = code.match(/(^\w+)(?:\s+)?\n/);
-        if (language && highlightjs.getLanguage(language[1])) {
-            const codeWithNoName = code.replace((language[0]), ''); // language[0] includes the \n at the end
+        if (lang && highlightjs.getLanguage(lang)) {
             /*
                 the highlight() signature is:
                 highlight(langaugeName, textToHighlight,g igrnoreImproperSyntax)
                 it returns a full object, but the highlighted code is inthe value property
             */
-            highlightedCode = highlightjs.highlight(language[1], codeWithNoName, true).value;
+            highlightedCode = highlightjs.highlight(lang, code, true).value;
         } else {
             highlightedCode = highlightjs.highlightAuto(code).value;
         }
 
         return `<pre><code class="hljs">${highlightedCode}</code></pre>`;
     };
-    marked.setOptions({ renderer });
+    marked.setOptions({
+        renderer,
+        xhtml: false
+      });
 }
 
 const useDefaultRenderer = (marked) => {
