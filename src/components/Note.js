@@ -35,12 +35,8 @@ class Note extends React.Component {
   }
 
   loadFile(title) {
-    let path = require('../../markdown/' + title + ".md")
-    fetch(path)
-      .then(response => {
-        return response.text()
-      })
-      .then(text => {   
+    NotesAdapter.getOne(title)
+      .then(text => {
         this.setState((prevState) => ({
           title,
           text,
@@ -48,12 +44,12 @@ class Note extends React.Component {
       })
   }
 
-  // handles initial load of the page 
+  // handles initial load of the page
   componentDidMount() {
     console.log('mount')
     try {
-      if (this.props.match.params.fileName) { 
-        this.loadFile(this.props.match.params.fileName) 
+      if (this.props.match.params.fileName) {
+        this.loadFile(this.props.match.params.fileName)
       }
     } catch (err) {
       console.log('couldnt find the file')
@@ -89,27 +85,27 @@ class Note extends React.Component {
     return (
       <div className="note">
         {
-          this.props.viewInfo.editing ? 
-            <MDInputForm 
+          this.props.viewInfo.editing ?
+            <MDInputForm
             handleChange = {this.handleChange}
             handleSubmit = {this.handleSubmit}
             newNote = {this.state}
             viewInfo={this.props.viewInfo}
             toggleEdit={this.props.toggleEdit}
           /> : ""
-          
+
         }
-        <MDPreview 
+        <MDPreview
           note = {this.state}
           viewInfo={this.props.viewInfo}
         />
         {
-          !this.props.viewInfo.editing ? 
+          !this.props.viewInfo.editing ?
           <TableOfContents text={this.state.text} /> : ""
         }
         {
           this.props.viewInfo.local ?
-          <ModeBar 
+          <ModeBar
             viewInfo={this.props.viewInfo}
             toggleEdit={this.props.toggleEdit}
           /> : ""

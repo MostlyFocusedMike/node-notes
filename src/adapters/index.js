@@ -1,8 +1,12 @@
 const notesUrl = "http://localhost:8100"
 
 class NotesAdapter {
-  static getOne(route) {
-    return fetch(`${notesUrl}/notes/${route}`).then(r=>r.json())
+  static getOne(title) {
+    let path = require('../../markdown/' + title + ".md")
+    return fetch(path)
+      .then(response => {
+        return response.text()
+      })
   }
 
   static create(title) {
