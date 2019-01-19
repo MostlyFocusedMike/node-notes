@@ -46,13 +46,11 @@ class Note extends React.Component {
 
   // handles initial load of the page
   componentDidMount() {
-    console.log('mount')
     try {
       if (this.props.match.params.fileName) {
         this.loadFile(this.props.match.params.fileName)
       }
     } catch (err) {
-      console.log('couldnt find the file')
       this.setState({ redirectMissingFile: true })
     }
   }
@@ -87,12 +85,12 @@ class Note extends React.Component {
         {
           this.props.viewInfo.editing ?
             <MDInputForm
-            handleChange = {this.handleChange}
-            handleSubmit = {this.handleSubmit}
-            newNote = {this.state}
-            viewInfo={this.props.viewInfo}
-            toggleEdit={this.props.toggleEdit}
-          /> : ""
+                handleChange = {this.handleChange}
+                handleSubmit = {this.handleSubmit}
+                newNote = {this.state}
+                viewInfo={this.props.viewInfo}
+                toggleEdit={this.props.toggleEdit}
+            /> : ""
 
         }
         <MDPreview
@@ -100,8 +98,7 @@ class Note extends React.Component {
           viewInfo={this.props.viewInfo}
         />
         {
-          !this.props.viewInfo.editing ?
-          <TableOfContents text={this.state.text} /> : ""
+          !this.props.viewInfo.editing ? <TableOfContents text={this.state.text} /> : ""
         }
         {
           this.props.viewInfo.local ?
@@ -115,4 +112,4 @@ class Note extends React.Component {
   }
 }
 
-export default Note
+export default Note;
