@@ -8,108 +8,108 @@ import { Redirect } from 'react-router'
 
 class Note extends React.Component {
 
-  constructor() {
-    super()
-    this.initState = {
-      title: "",
-      text: "",
-      redirectNewFile: false,
-      redirectMissingFile: false,
-    }
-    this.state = this.initState;
-  }
-
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('update it', )
-    NotesAdapter.update({...this.state, oldTitle: this.props.match.params.fileName})
-      .then(() => {
-        if (!this.props.match.params.fileName) this.setState({ redirectNewFile: true })
-      })
-  }
-
-  loadFile(title) {
-    NotesAdapter.getOne(title)
-      .then(text => {
-        this.setState((prevState) => ({
-          title,
-          text,
-        }));
-      })
-  }
-
-  // handles initial load of the page
-  componentDidMount() {
-    try {
-      if (this.props.match.params.fileName) {
-        this.loadFile(this.props.match.params.fileName)
-      }
-    } catch (err) {
-      this.setState({ redirectMissingFile: true })
-    }
-  }
-
-  // handles every time we switch notes
-  componentDidUpdate(prevProps, prevState, snapshot) {
-      if (this.props.match.params.fileName !== prevProps.match.params.fileName) {
-        if (this.props.match.params.fileName) {
-          this.loadFile(this.props.match.params.fileName)
-        } else {
-          this.setState(this.initState)
+    constructor() {
+        super()
+        this.initState = {
+        title: "",
+        text: "",
+        redirectNewFile: false,
+        redirectMissingFile: false,
         }
-      }
-      if (this.state.redirectMissingFile) {
-        this.setState(this.initState)
-      }
-  }
+        this.state = this.initState;
+    }
 
-  render() {
-    if (this.state.redirectNewFile) {
-      // whole page hard reloads on file creation, so we need to immediately redirect to the new file
-      console.log('redirected new file')
-      return <Redirect to={`/notes/${this.state.title}`}/>;
+    handleChange = (e) => {
+        this.setState({
+        [e.target.name]: e.target.value
+        })
     }
-    if (this.state.redirectMissingFile) {
-      console.log('redirected missing file')
-      // whole page hard reloads on file creation, so we need to immediately redirect to the new file
-      return <Redirect to="/"/>;
+
+    handleSubmit = (e) => {
+        e.preventDefault()
+        console.log('update it', )
+        NotesAdapter.update({...this.state, oldTitle: this.props.match.params.fileName})
+        .then(() => {
+            if (!this.props.match.params.fileName) this.setState({ redirectNewFile: true })
+        })
     }
-    return (
-      <div className="note">
-        {
-          this.props.viewInfo.editing ?
-            <MDInputForm
-                handleChange = {this.handleChange}
-                handleSubmit = {this.handleSubmit}
-                newNote = {this.state}
+
+    loadFile(title) {
+        NotesAdapter.getOne(title)
+        .then(text => {
+            this.setState((prevState) => ({
+            title,
+            text,
+            }));
+        })
+    }
+
+    // handles initial load of the page
+    componentDidMount() {
+        try {
+        if (this.props.match.params.fileName) {
+            this.loadFile(this.props.match.params.fileName)
+        }
+        } catch (err) {
+        this.setState({ redirectMissingFile: true })
+        }
+    }
+
+    // handles every time we switch notes
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.match.params.fileName !== prevProps.match.params.fileName) {
+            if (this.props.match.params.fileName) {
+            this.loadFile(this.props.match.params.fileName)
+            } else {
+            this.setState(this.initState)
+            }
+        }
+        if (this.state.redirectMissingFile) {
+            this.setState(this.initState)
+        }
+    }
+
+    render() {
+        if (this.state.redirectNewFile) {
+        // whole page hard reloads on file creation, so we need to immediately redirect to the new file
+        console.log('redirected new file')
+        return <Redirect to={`/notes/${this.state.title}`}/>;
+        }
+        if (this.state.redirectMissingFile) {
+        console.log('redirected missing file')
+        // whole page hard reloads on file creation, so we need to immediately redirect to the new file
+        return <Redirect to="/"/>;
+        }
+        return (
+        <div className="note">
+            {
+            this.props.viewInfo.editing ?
+                <MDInputForm
+                    handleChange = {this.handleChange}
+                    handleSubmit = {this.handleSubmit}
+                    newNote = {this.state}
+                    viewInfo={this.props.viewInfo}
+                    toggleEdit={this.props.toggleEdit}
+                /> : ""
+
+            }
+            <MDPreview
+            note = {this.state}
+            viewInfo={this.props.viewInfo}
+            />
+            {
+            !this.props.viewInfo.editing ? <TableOfContents text={this.state.text} /> : ""
+            }
+            {
+            this.props.viewInfo.local ?
+        <ModeBar
                 viewInfo={this.props.viewInfo}
                 toggleEdit={this.props.toggleEdit}
             /> : ""
-
-        }
-        <MDPreview
-          note = {this.state}
-          viewInfo={this.props.viewInfo}
-        />
-        {
-          !this.props.viewInfo.editing ? <TableOfContents text={this.state.text} /> : ""
-        }
-        {
-          this.props.viewInfo.local ?
-          <ModeBar
-            viewInfo={this.props.viewInfo}
-            toggleEdit={this.props.toggleEdit}
-          /> : ""
-        }
-      </div>
-    );
-  }
+            }
+        </div>
+        );
+    }
 }
 
 export default Note;
