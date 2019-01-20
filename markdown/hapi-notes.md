@@ -4,6 +4,7 @@
 - [hapi Tutorial — Basic Authentication With Username and Password](https://www.youtube.com/watch?v=wclRFgj3Bl4)
 ---------------------------------------------------------------------------------------------------------------------
 
+
 --------------------------------------------------------------------------------------------------------------
 # SECTION 1: THE BASICS
 - [My github for this section](https://github.com/MostlyFocusedMike/hapi-notes-1)
@@ -12,6 +13,11 @@
     - [hapi docs](https://hapijs.com/api)
 
 --------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 ## What is Hapi?
  - Hapi is is a JS framework that handles routing, and has a great plugin system that lets you make a modular application
  - It uses other frameworks and plugins like Joi, for validation, and Boom for error handling, and there are many more

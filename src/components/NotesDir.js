@@ -1,48 +1,50 @@
-import React from 'react'
-import NotesAdapter from '../adapters'
-import NewNoteModal from './NewNoteModal'
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import NotesAdapter from '../adapters';
+import NewNoteModal from './NewNoteModal';
+
 
 class NotesDir extends React.Component {
     constructor() {
-        super()
+        super();
         this.state = {
-        files: [],
-        isNewFileModalVisibile: false,
-        }
+            files: [],
+            isNewFileModalVisibile: false,
+        };
     }
 
-    componentWillMount() {
-        const files = require('../files.json')
-        this.setState({files})
-    }
-
-    reload() {
-        NotesAdapter.reload()
+    componentDidMount() {
+        const files = require('../files.json');
+        this.setState({ files });
     }
 
     isEditMode() {
-        return this.props.viewInfo.editing && this.props.viewInfo.local
+        return this.props.viewInfo.editing && this.props.viewInfo.local;
     }
 
     toggleNewFileModal = () => {
-        console.log('hello')
-        this.setState((prevState) => ({
-        isNewFileModalVisibile: !prevState.isNewFileModalVisibile
+        this.setState(prevState => ({
+            isNewFileModalVisibile: !prevState.isNewFileModalVisibile,
         }));
     }
 
     render() {
         return (
-        <div id="notes-dir">
-            <h1>Files</h1>
-            { this.isEditMode() ? <button onClick={this.toggleNewFileModal}>New File</button> : "" }
-            { this.state.isNewFileModalVisibile ? <NewNoteModal toggleNewFileModal={this.toggleNewFileModal} /> : "" }
-            { this.state.files.map((file, idx) =>  <Link to={`/notes/${file}`} key={idx}>{file}</Link>) }
-            { this.isEditMode() ? <button onClick={this.reload}>Reload</button> : "" }
-        </div>
-        )
+            <div id="notes-dir">
+                <h1>Files</h1>
+                { this.isEditMode() ? <button onClick={this.toggleNewFileModal}>New File</button> : '' }
+                { this.state.isNewFileModalVisibile ? <NewNoteModal toggleNewFileModal={this.toggleNewFileModal} /> : '' }
+                { this.state.files.map((file, idx) => <Link to={`/notes/${file}`} key={idx}>{file}</Link>) }
+                { this.isEditMode() ? <button onClick={NotesAdapter.reload()}>Reload</button> : '' }
+            </div>
+        );
     }
 }
 
-export default NotesDir
+NotesDir.propTypes = {
+    viewInfo: PropTypes.object,
+};
+
+
+export default NotesDir;

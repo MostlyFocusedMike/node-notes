@@ -19,6 +19,7 @@ module.exports = {
         "no-console": "off",
         "arrow-body-style": "off",
         "global-require": "off",
+        "operator-linebreak": "off",
     },
     parser: "babel-eslint", // this lets us use ES6+ things in react like `= () => {}`
 };

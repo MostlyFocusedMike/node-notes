@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 class ModeBar extends React.Component {
     render() {
@@ -12,4 +13,9 @@ class ModeBar extends React.Component {
     }
 }
 
-export default ModeBar
+ModeBar.propTypes = {
+    text: PropTypes.string,
+};
+
+
+export default ModeBar;

@@ -1,5 +1,6 @@
 import React from 'react';
 import createMarkdown from '../helpers/createMarkdown';
+import PropTypes from 'prop-types';
 
 class MDPreview extends React.Component {
 

@@ -1,10 +1,11 @@
 import React from 'react'
 import NotesAdapter from '../adapters'
 import { Redirect } from 'react-router'
+import PropTypes from 'prop-types';
 
 class NewNoteModal extends React.Component {
   constructor() {
-    super() 
+    super()
     this.initState = {
       title: "",
       redirectNewFile: false,
@@ -20,7 +21,7 @@ class NewNoteModal extends React.Component {
   sleep = (time) => {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
-  
+
   handleSubmit = (e) => {
     e.preventDefault();
     NotesAdapter.create(this.state)
@@ -58,7 +59,7 @@ class NewNoteModal extends React.Component {
           <button onClick={this.props.toggleNewFileModal}>Cancel</button>
           <button>Create</button>
         </form>
-      </div> 
+      </div>
     )
   }
 }

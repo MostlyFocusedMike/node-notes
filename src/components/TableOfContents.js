@@ -19,7 +19,7 @@ class TableOfContents extends React.Component {
                 padding: match[1],
                 link: match[2],
                 text: match[3],
-            }
+            };
         });
         this.setState({ contents });
     }

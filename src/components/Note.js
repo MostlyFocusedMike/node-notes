@@ -1,57 +1,51 @@
 import React from 'react';
-import MDInputForm from './MDInputForm'
-import MDPreview from './MDPreview'
-import ModeBar from './ModeBar'
-import TableOfContents from './TableOfContents'
-import NotesAdapter from '../adapters'
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
+import PropTypes from 'prop-types';
+import MDInputForm from './MDInputForm';
+import MDPreview from './MDPreview';
+import ModeBar from './ModeBar';
+import TableOfContents from './TableOfContents';
+import NotesAdapter from '../adapters';
 
 class Note extends React.Component {
-
     constructor() {
-        super()
+        super();
         this.initState = {
-        title: "",
-        text: "",
-        redirectNewFile: false,
-        redirectMissingFile: false,
-        }
+            title: '',
+            text: '',
+            redirectNewFile: false,
+            redirectMissingFile: false,
+        };
         this.state = this.initState;
     }
 
     handleChange = (e) => {
         this.setState({
-        [e.target.name]: e.target.value
-        })
+            [e.target.name]: e.target.value,
+        });
     }
 
     handleSubmit = (e) => {
-        e.preventDefault()
-        console.log('update it', )
-        NotesAdapter.update({...this.state, oldTitle: this.props.match.params.fileName})
-        .then(() => {
-            if (!this.props.match.params.fileName) this.setState({ redirectNewFile: true })
-        })
+        e.preventDefault();
+        NotesAdapter.update({ ...this.state, oldTitle: this.props.match.params.fileName })
+            .then(() => {
+                if (!this.props.match.params.fileName) this.setState({ redirectNewFile: true });
+            });
     }
 
     loadFile(title) {
         NotesAdapter.getOne(title)
-        .then(text => {
-            this.setState((prevState) => ({
-            title,
-            text,
-            }));
-        })
+            .then((text) => {
+                this.setState({ title, text });
+            });
     }
 
     // handles initial load of the page
     componentDidMount() {
         try {
-        if (this.props.match.params.fileName) {
-            this.loadFile(this.props.match.params.fileName)
-        }
+            if (this.props.match.params.fileName) this.loadFile(this.props.match.params.fileName);
         } catch (err) {
-        this.setState({ redirectMissingFile: true })
+            this.setState({ redirectMissingFile: true });
         }
     }
 
@@ -59,57 +53,58 @@ class Note extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.match.params.fileName !== prevProps.match.params.fileName) {
             if (this.props.match.params.fileName) {
-            this.loadFile(this.props.match.params.fileName)
+                this.loadFile(this.props.match.params.fileName);
             } else {
-            this.setState(this.initState)
+                this.setState(this.initState);
             }
         }
         if (this.state.redirectMissingFile) {
-            this.setState(this.initState)
+            this.setState(this.initState);
         }
     }
 
     render() {
-        if (this.state.redirectNewFile) {
+        if (this.state.redirectNewFile) return <Redirect to={`/notes/${this.state.title}`}/>;
         // whole page hard reloads on file creation, so we need to immediately redirect to the new file
-        console.log('redirected new file')
-        return <Redirect to={`/notes/${this.state.title}`}/>;
-        }
-        if (this.state.redirectMissingFile) {
-        console.log('redirected missing file')
-        // whole page hard reloads on file creation, so we need to immediately redirect to the new file
-        return <Redirect to="/"/>;
-        }
-        return (
-        <div className="note">
-            {
-            this.props.viewInfo.editing ?
-                <MDInputForm
-                    handleChange = {this.handleChange}
-                    handleSubmit = {this.handleSubmit}
-                    newNote = {this.state}
-                    viewInfo={this.props.viewInfo}
-                    toggleEdit={this.props.toggleEdit}
-                /> : ""
 
-            }
-            <MDPreview
-            note = {this.state}
-            viewInfo={this.props.viewInfo}
-            />
-            {
-            !this.props.viewInfo.editing ? <TableOfContents text={this.state.text} /> : ""
-            }
-            {
-            this.props.viewInfo.local ?
-        <ModeBar
-                viewInfo={this.props.viewInfo}
-                toggleEdit={this.props.toggleEdit}
-            /> : ""
-            }
-        </div>
+        if (this.state.redirectMissingFile) return <Redirect to="/"/>;
+        // whole page hard reloads on file creation, so we need to immediately redirect to the new file
+        return (
+            <div className="note">
+                {
+                    this.props.viewInfo.editing ?
+                        <MDInputForm
+                            handleChange = {this.handleChange}
+                            handleSubmit = {this.handleSubmit}
+                            newNote = {this.state}
+                            viewInfo={this.props.viewInfo}
+                            toggleEdit={this.props.toggleEdit}
+                        /> : ''
+                }
+                <MDPreview
+                    note = {this.state}
+                    viewInfo={this.props.viewInfo}
+                />
+                {
+                    !this.props.viewInfo.editing ? <TableOfContents text={this.state.text} /> : ''
+                }
+                {
+                    this.props.viewInfo.local ?
+                        <ModeBar
+                            viewInfo={this.props.viewInfo}
+                            toggleEdit={this.props.toggleEdit}
+                        /> : ''
+                }
+            </div>
         );
     }
 }
+
+Note.propTypes = {
+    match: PropTypes.object,
+    viewInfo: PropTypes.object,
+    toggleEdit: PropTypes.function,
+};
+
 
 export default Note;
