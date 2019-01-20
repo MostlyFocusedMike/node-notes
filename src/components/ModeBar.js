@@ -5,16 +5,17 @@ class ModeBar extends React.Component {
     render() {
         const { toggleEdit, viewInfo } = this.props;
         return (
-            <div id="mode-bar">
-                <p>Currently in { viewInfo.editing ? "Editing" : "Viewing" } mode</p>
+            <div id='mode-bar'>
+                <p>Currently in { viewInfo.editing ? 'Editing' : 'Viewing' } mode</p>
                 <button onClick={ toggleEdit }>Toggle</button>
             </div>
-        )
+        );
     }
 }
 
 ModeBar.propTypes = {
-    text: PropTypes.string,
+    toggleEdit: PropTypes.function,
+    viewInfo: PropTypes.object,
 };
 
 
