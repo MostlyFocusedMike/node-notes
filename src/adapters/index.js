@@ -1,48 +1,49 @@
-const notesUrl = "http://localhost:8100"
+const notesUrl = 'http://localhost:8100';
 
 class NotesAdapter {
-  static getOne(title) {
-    let path = require('../../markdown/' + title + ".md")
-    return fetch(path)
-      .then(response => {
-        return response.text()
-      })
-  }
-
-  static create(title) {
-    let options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(title)
+    static getOne(title) {
+        const path = require(`../../markdown/${title}.md`); // eslint-disable-line import/no-dynamic-require
+        return fetch(path)
+            .then(response => response.text())
+            .catch(console.log);
     }
-    return fetch(`${notesUrl}/notes`, options)
-      .then(r => r.json())
-      .catch(console.log)
-  }
 
-  static update(note) {
-    let options = {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(note)
+    static create(title) {
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(title),
+        };
+        return fetch(`${notesUrl}/notes`, options)
+            .then(r => r.json())
+            .catch(console.log);
     }
-    console.log('Note in update:', note)
-    return fetch(`${notesUrl}/notes/${note.title}`, options)
-      .then(r => r.json())
-  }
 
-
-  static reload(route) {
-    let options = {
-      method: 'PUT',
+    static update(note) {
+        const options = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(note),
+        };
+        console.log('Note in update:', note);
+        return fetch(`${notesUrl}/notes/${note.title}`, options)
+            .then(r => r.json())
+            .catch(console.log);
     }
-    return fetch(`${notesUrl}/reload`, options)
-      .then(r=>r.text())
-  }
+
+
+    static reload() {
+        const options = {
+            method: 'PUT',
+        };
+        return fetch(`${notesUrl}/reload`, options)
+            .then(r => r.text())
+            .catch(console.log);
+    }
 }
 
-export default NotesAdapter
+export default NotesAdapter;

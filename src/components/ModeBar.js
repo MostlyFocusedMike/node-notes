@@ -18,5 +18,4 @@ ModeBar.propTypes = {
     viewInfo: PropTypes.object,
 };
 
-
 export default ModeBar;
