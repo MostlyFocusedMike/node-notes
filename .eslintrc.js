@@ -8,6 +8,7 @@ module.exports = {
         node: true,
         es6: true,
         jquery: true,
+        jest: true,
     },
     rules: {
         "indent": ["error", 4],
