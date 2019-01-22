@@ -14,7 +14,7 @@ class ModeBar extends React.Component {
 }
 
 ModeBar.propTypes = {
-    toggleEdit: PropTypes.function,
+    toggleEdit: PropTypes.func,
     viewInfo: PropTypes.object,
 };
 

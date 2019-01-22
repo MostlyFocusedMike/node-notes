@@ -5,7 +5,6 @@ class MDInputForm extends React.Component {
     render() {
         return (
             <form
-                onChange={this.props.handleChange}
                 onSubmit={this.props.handleSubmit}
             >
                 <label htmlFor="title">title</label>
@@ -14,12 +13,14 @@ class MDInputForm extends React.Component {
                     name="title"
                     type="text"
                     value={this.props.newNote.title}
+                    onChange={this.props.handleChange}
                 />
                 <label htmlFor="text">text</label>
                 <textarea
                     id="text"
                     name="text"
                     value={this.props.newNote.text}
+                    onChange={this.props.handleChange}
                 />
                 <button>Save</button>
             </form>
@@ -28,8 +29,8 @@ class MDInputForm extends React.Component {
 }
 
 MDInputForm.propTypes = {
-    handleChange: PropTypes.function,
-    handleSubmit: PropTypes.function,
+    handleChange: PropTypes.func,
+    handleSubmit: PropTypes.func,
     newNote: PropTypes.object,
 };
 

@@ -25,7 +25,7 @@ const Routes = (props) => {
 
 Routes.propTypes = {
     viewInfo: PropTypes.object,
-    toggleEdit: PropTypes.function,
+    toggleEdit: PropTypes.func,
 };
 
 export default Routes;

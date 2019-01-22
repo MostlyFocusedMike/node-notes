@@ -103,7 +103,7 @@ class Note extends React.Component {
 Note.propTypes = {
     match: PropTypes.object,
     viewInfo: PropTypes.object,
-    toggleEdit: PropTypes.function,
+    toggleEdit: PropTypes.func,
 };
 
 

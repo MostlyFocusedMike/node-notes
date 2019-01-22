@@ -65,7 +65,7 @@ class NewNoteModal extends React.Component {
 }
 
 NewNoteModal.propTypes = {
-    toggleNewFileModal: PropTypes.function,
+    toggleNewFileModal: PropTypes.func,
 };
 
 export default NewNoteModal;

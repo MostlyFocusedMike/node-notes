@@ -36,7 +36,7 @@ class NotesDir extends React.Component {
                 { this.isEditMode() ? <button onClick={this.toggleNewFileModal}>New File</button> : '' }
                 { this.state.isNewFileModalVisibile ? <NewNoteModal toggleNewFileModal={this.toggleNewFileModal} /> : '' }
                 { this.state.files.map((file, idx) => <Link to={`/notes/${file}`} key={idx}>{file}</Link>) }
-                { this.isEditMode() ? <button onClick={NotesAdapter.reload()}>Reload</button> : '' }
+                { this.isEditMode() ? <button onClick={NotesAdapter.reload}>Reload</button> : '' }
             </div>
         );
     }
