@@ -13,8 +13,6 @@ class Note extends React.Component {
         this.initState = {
             title: '',
             text: '',
-            redirectNewFile: false,
-            redirectMissingFile: false,
         };
         this.state = this.initState;
     }
@@ -42,11 +40,8 @@ class Note extends React.Component {
 
     // handles initial load of the page
     componentDidMount() {
-        try {
-            if (this.props.match.params.fileName) this.loadFile(this.props.match.params.fileName);
-        } catch (err) {
-            this.setState({ redirectMissingFile: true });
-        }
+        alert('mount');
+        if (this.props.match.params.fileName) this.loadFile(this.props.match.params.fileName);
     }
 
     // handles every time we switch notes
@@ -58,16 +53,16 @@ class Note extends React.Component {
                 this.setState(this.initState);
             }
         }
-        if (this.state.redirectMissingFile) {
-            this.setState(this.initState);
-        }
+        // if (this.state.redirectMissingFile) {
+        //     this.setState(this.initState);
+        // }
     }
 
     render() {
-        if (this.state.redirectNewFile) return <Redirect to={`/notes/${this.state.title}`}/>;
+        // if (this.state.redirectNewFile) return <Redirect to={`/notes/${this.state.title}`}/>;
         // whole page hard reloads on file creation, so we need to immediately redirect to the new file
 
-        if (this.state.redirectMissingFile) return <Redirect to="/"/>;
+        // if (this.state.redirectMissingFile) return <Redirect to="/"/>;
         // whole page hard reloads on file creation, so we need to immediately redirect to the new file
         return (
             <div className="note">

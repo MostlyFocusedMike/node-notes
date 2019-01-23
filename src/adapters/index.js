@@ -2,10 +2,17 @@ const notesUrl = 'http://localhost:8100';
 
 class NotesAdapter {
     static getOne(title) {
-        const path = require(`../../markdown/${title}.md`); // eslint-disable-line import/no-dynamic-require
-        return fetch(path)
-            .then(response => response.text())
-            .catch(console.log);
+        const files = require('../files.json');
+        if (files.includes(title)) {
+            const path = require(`../../markdown/${title}.md`); // eslint-disable-line import/no-dynamic-require
+            return fetch(path)
+                .then(response => response.text())
+                .catch(console.log);
+        }
+        return Promise.resolve({
+            title: 'no-title',
+            text: '# No file',
+        });
     }
 
     static create(title) {

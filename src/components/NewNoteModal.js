@@ -30,9 +30,13 @@ class NewNoteModal extends React.Component {
                 if (res.msg) {
                     alert(res.msg);
                 } else {
-                    this.sleep(100).then(() => { // I give up trying to solve the race condition for now.
-                        this.setState({ redirectNewFile: true });
-                    });
+                    alert('created!');
+                    console.log('res: ', res);
+                    alert('read the log!');
+                    this.setState({ redirectNewFile: true });
+
+                    // this.sleep(100).then(() => { // I give up trying to solve the race condition for now.
+                    // });
                 }
             });
     }

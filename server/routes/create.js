@@ -9,8 +9,8 @@ module.exports = {
         handler: (request, h) => {
             const files = require('../../src/files.json');
             try {
-                fs.writeFileSync(`./markdown/${request.payload.title}.md`, '');
                 if (!files.includes(request.payload.title)) {
+                    fs.writeFileSync(`./markdown/${request.payload.title}.md`, '');
                     const newFiles = [...files, request.payload.title].sort();
                     fs.writeFileSync('./src/files.json', JSON.stringify(newFiles));
                     return request.payload;

@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-module.exports.reload = {
+module.exports = {
     method: 'PUT',
     path: '/reload',
     options: {
