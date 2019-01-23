@@ -34,6 +34,7 @@ class Note extends React.Component {
     loadFile(title) {
         NotesAdapter.getOne(title)
             .then((text) => {
+                console.log('text: ', text);
                 this.setState({ title, text });
             });
     }
