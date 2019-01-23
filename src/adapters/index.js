@@ -9,7 +9,7 @@ class NotesAdapter {
                 .then(response => response.text())
                 .catch(console.log);
         }
-        return Promise.resolve('# New file');
+        return Promise.resolve('# Missing File');
     }
 
     static create(title) {

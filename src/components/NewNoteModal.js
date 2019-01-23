@@ -19,10 +19,6 @@ class NewNoteModal extends React.Component {
         });
     }
 
-    sleep = (time) => {
-        return new Promise(resolve => setTimeout(resolve, time));
-    }
-
     handleSubmit = (e) => {
         e.preventDefault();
         NotesAdapter.create(this.state)
@@ -33,25 +29,34 @@ class NewNoteModal extends React.Component {
                     alert('created!');
                     console.log('res: ', res);
                     alert('read the log!');
-                    this.setState({ redirectNewFile: true });
-
-                    // this.sleep(100).then(() => { // I give up trying to solve the race condition for now.
-                    // });
                 }
+            })
+            .then(() => {
+                this.setState({ redirectNewFile: true });
             });
     }
 
-    componentDidUpdate =() => {
-        if (this.state.redirectNewFile) {
-            this.setState({
-                redirectNewFile: false,
-            });
-        }
+    // componentDidUpdate =() => {
+    //     if (this.state.redirectNewFile) {
+    //         this.setState({
+    //             redirectNewFile: false,
+    //         });
+    //     }
+    // }
+
+    shouldComponentUpdate(prevState) {
+        return this.state.title !== prevState.title;
     }
 
     render() {
-        if (this.state.redirectNewFile) return <Redirect to={`/notes/${this.state.title}`}/>;
-        // whole page hard reloads on file creation, so we need to immediately redirect to the new file
+        console.log('title: ', this.state.title);
+        const files = require('../files.json');
+        console.log('files: ', files);
+        if (this.state.redirectNewFile && files.includes(this.state.title)) {
+            console.log('Redirected here!');
+            this.props.toggleNewFileModal();
+            return <Redirect to={`/notes/${this.state.title}`}/>;
+        }
 
         return (
             <div id="new-file-modal">

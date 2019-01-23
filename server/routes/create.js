@@ -13,6 +13,10 @@ module.exports = {
                     fs.writeFileSync(`./markdown/${request.payload.title}.md`, '');
                     const newFiles = [...files, request.payload.title].sort();
                     fs.writeFileSync('./src/files.json', JSON.stringify(newFiles));
+                    if (fs.existsSync(`./markdown/${request.payload.title}.md`)) {
+                        // Do something
+                        console.log('still waiting');
+                    }
                     return request.payload;
                 }
             } catch (err) {

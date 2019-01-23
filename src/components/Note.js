@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import MDInputForm from './MDInputForm';
 import MDPreview from './MDPreview';
