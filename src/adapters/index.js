@@ -33,7 +33,6 @@ class NotesAdapter {
             },
             body: JSON.stringify(note),
         };
-        console.log('Note in update:', note);
         return fetch(`${notesUrl}/notes/${note.title}`, options)
             .then(r => r.json())
             .catch(console.log);

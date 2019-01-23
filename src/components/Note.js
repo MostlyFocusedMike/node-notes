@@ -33,14 +33,12 @@ class Note extends React.Component {
     loadFile(title) {
         NotesAdapter.getOne(title)
             .then((text) => {
-                console.log('text: ', text);
                 this.setState({ title, text });
             });
     }
 
     // handles initial load of the page
     componentDidMount() {
-        alert('mount');
         if (this.props.match.params.fileName) this.loadFile(this.props.match.params.fileName);
     }
 
@@ -53,17 +51,9 @@ class Note extends React.Component {
                 this.setState(this.initState);
             }
         }
-        // if (this.state.redirectMissingFile) {
-        //     this.setState(this.initState);
-        // }
     }
 
     render() {
-        // if (this.state.redirectNewFile) return <Redirect to={`/notes/${this.state.title}`}/>;
-        // whole page hard reloads on file creation, so we need to immediately redirect to the new file
-
-        // if (this.state.redirectMissingFile) return <Redirect to="/"/>;
-        // whole page hard reloads on file creation, so we need to immediately redirect to the new file
         return (
             <div className="note">
                 {

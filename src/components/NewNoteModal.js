@@ -25,36 +25,23 @@ class NewNoteModal extends React.Component {
             .then((res) => {
                 if (res.msg) {
                     alert(res.msg);
-                } else {
-                    alert('created!');
-                    console.log('res: ', res);
-                    alert('read the log!');
+                    throw new Error('Already Created the file');
                 }
             })
             .then(() => {
                 this.setState({ redirectNewFile: true });
-            });
+            })
+            .catch(console.log);
     }
-
-    // componentDidUpdate =() => {
-    //     if (this.state.redirectNewFile) {
-    //         this.setState({
-    //             redirectNewFile: false,
-    //         });
-    //     }
-    // }
 
     shouldComponentUpdate(prevState) {
         return this.state.title !== prevState.title;
     }
 
     render() {
-        console.log('title: ', this.state.title);
         const files = require('../files.json');
-        console.log('files: ', files);
+        // this rerenders one too many times so we wind up redirecting twice before the modal finally disapears, not sure why it ever does
         if (this.state.redirectNewFile && files.includes(this.state.title)) {
-            console.log('Redirected here!');
-            this.props.toggleNewFileModal();
             return <Redirect to={`/notes/${this.state.title}`}/>;
         }
 
