@@ -33,3 +33,14 @@ import 'highlight.js/styles/atom-one-dark.css'; // RIGHT HERE
 ```
 import  highlight.js/styles/[file-name-from-github-here.css]
 ```
+
+
+# race condition issue
+- While we can tell the system to write a file, JS doesn't actually wait for that file to be written. Even if you tell it to writeFileSync, that just makes the JS file halt everything else while it sends the create command, but it doesn't halt everything for a response.
+- Because of this delay, an artificial one had to be added by way of a sleep function. I have found 1 second to be more than enough on my machine, however if you are running into missing file errors on create, then you will need to change the duration of the sleep funciton in `server/routes/create.js`
+- also, if you want to speed it up, feel free to experiment and see how fast your machine can run, my fastest was 500ms.
+
+## nodemon watch
+- By default, nodemon will monitor the CWD for any changes to .js and .json files
+- however, this doesn't work for us, since `files.json` will update and cause a server restart *before* our server will be able to send a response for a create request.
+- To avoid this, we tell nodemon to only monitor the server files, which also makes sense anyway, since we don't need to restart the server everytime we make a change in the frontend files either (though that is technically harmless)
