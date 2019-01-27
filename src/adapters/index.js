@@ -20,7 +20,21 @@ class NotesAdapter {
             },
             body: JSON.stringify(title),
         };
+
+        function sleep(ms) {
+            /*  Deal with the race condition of waiting for the system to
+                create a file that can't be synced up with the JS program
+                starts it
+            */
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
         return fetch(`${notesUrl}/notes`, options)
+            .then((response) => {
+                return sleep(1000).then(() => {
+                    return response;
+                });
+            })
             .then(r => r.json())
             .catch(console.log);
     }
@@ -37,7 +51,6 @@ class NotesAdapter {
             .then(r => r.json())
             .catch(console.log);
     }
-
 
     static reload() {
         const options = {

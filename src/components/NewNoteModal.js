@@ -39,9 +39,8 @@ class NewNoteModal extends React.Component {
     }
 
     render() {
-        const files = require('../files.json');
         // this rerenders one too many times so we wind up redirecting twice before the modal finally disapears, not sure why it ever does
-        if (this.state.redirectNewFile && files.includes(this.state.title)) {
+        if (this.state.redirectNewFile) {
             return <Redirect to={`/notes/${this.state.title}`}/>;
         }
 
