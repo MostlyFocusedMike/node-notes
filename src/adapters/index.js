@@ -12,6 +12,19 @@ class NotesAdapter {
         return Promise.resolve('# Missing File');
     }
 
+    static list() {
+        const options = {
+            method: 'GET',
+        };
+
+        return fetch(`${notesUrl}/notes`, options)
+            .then(r => r.json())
+            .catch((err) => {
+                console.log('err: ', err);
+                return [];
+            });
+    }
+
     static create(title) {
         const options = {
             method: 'POST',
@@ -37,15 +50,6 @@ class NotesAdapter {
         };
         return fetch(`${notesUrl}/notes/${note.title}`, options)
             .then(r => r.json())
-            .catch(console.log);
-    }
-
-    static reload() {
-        const options = {
-            method: 'PUT',
-        };
-        return fetch(`${notesUrl}/reload`, options)
-            .then(r => r.text())
             .catch(console.log);
     }
 }

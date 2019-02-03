@@ -8,8 +8,9 @@ const server = Hapi.server({
 const init = async () => {
     /* load the routes */
     server.route(require('./routes/create'));
-    server.route(require('./routes/reload'));
+    server.route(require('./routes/list'));
     server.route(require('./routes/update'));
+    server.route(require('./routes/health'));
 
     /* start the server */
     try {
