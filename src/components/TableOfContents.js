@@ -37,7 +37,7 @@ class TableOfContents extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.text !== this.props.text) this.loadContents();
+        if (prevProps.text !== this.props.text) this.checkForHeadings();
     }
 
     render() {
