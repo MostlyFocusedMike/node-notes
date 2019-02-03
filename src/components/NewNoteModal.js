@@ -23,7 +23,6 @@ class NewNoteModal extends React.Component {
         e.preventDefault();
         NotesAdapter.create(this.state)
             .then((res) => {
-                console.log('res: ', res);
                 if (res.msg) {
                     alert(res.msg);
                     throw new Error('Already Created the file');

@@ -23,11 +23,6 @@ class NotesAdapter {
 
 
         return fetch(`${notesUrl}/notes`, options)
-            // .then((response) => {
-            //     return sleep(1000).then(() => {
-            //         return response;
-            //     });
-            // })
             .then(r => r.json())
             .catch(console.log);
     }

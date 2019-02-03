@@ -15,7 +15,6 @@ module.exports = {
         cors: true,
         description: 'Create a new note',
         handler: async (request, h) => {
-            console.log('hit create', );
             const files = require('../../src/files.json');
             try {
                 if (!files.includes(request.payload.title)) {
