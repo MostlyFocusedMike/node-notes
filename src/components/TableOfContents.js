@@ -28,7 +28,11 @@ class TableOfContents extends React.Component {
         /* see if there are any headings to convert */
         if (this.props.text) {
             const headings = marked(this.props.text).match(/<h(?:1|2|3).+>.+</g);
-            if (headings) this.setContents(headings);
+            if (headings) {
+                this.setContents(headings);
+            } else {
+                this.setState(this.initState);
+            }
         }
     }
 
