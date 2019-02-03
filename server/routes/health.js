@@ -7,6 +7,6 @@ module.exports = {
         cors: true,
     },
     handler: (request, h) => {
-        return { health: "good" };
+        return { health: 'All good' };
     },
 };

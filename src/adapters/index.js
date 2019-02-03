@@ -13,15 +13,20 @@ class NotesAdapter {
     }
 
     static list() {
-        const options = {
-            method: 'GET',
-        };
-
-        return fetch(`${notesUrl}/notes`, options)
+        return fetch(`${notesUrl}/notes`)
             .then(r => r.json())
             .catch((err) => {
-                console.log('err: ', err);
-                return [];
+                /*
+                    if we're on GitHub, then we won't have access to the server,
+                    so we fall back to whatever the latest files.json
+                    A fetch error like this is a TypeError, if we somehow get
+                    another error, it will log it
+                */
+                if (err.constructor === TypeError) {
+                    const files = require('../files.json');
+                    return { files };
+                }
+                return err;
             });
     }
 
