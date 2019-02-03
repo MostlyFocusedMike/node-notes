@@ -1,4 +1,5 @@
 const fs = require('fs');
+const Boom = require('boom');
 
 module.exports = {
     method: 'PUT',
@@ -10,13 +11,16 @@ module.exports = {
             const testFolder = './markdown/';
             const newFiles = [];
             const existingFiles = require('../../src/files.json');
-            fs.readdir(testFolder, (err, files) => {
+            try {
+                const files = fs.readdirSync(testFolder);
                 files.forEach(file => newFiles.push(file.replace('.md', '')));
                 if (JSON.stringify(newFiles) !== JSON.stringify(existingFiles)) {
                     fs.writeFileSync('./src/files.json', JSON.stringify(newFiles));
                 }
-            });
-            return h.response('Success').code(201);
+                return h.response('Successful Reload').code(201);
+            } catch (err) {
+                throw new Boom(err, { statusCode: 501 });
+            }
         },
     },
 
