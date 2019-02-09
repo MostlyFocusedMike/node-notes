@@ -7,32 +7,23 @@ import AppContext from './context';
 import ModeBar from './components/ModeBar';
 
 class App extends React.Component {
-    state = {
-        render: true,
-    }
-
     componentDidMount() {
         this.context.checkIfLocal();
     }
 
     render() {
-        console.log('editmode: ', this.context.isEditMode);
         return (
-            <React.Fragment >
+            <div className="App">
+                <NotesDir />
+                <Routes />
                 {
-                    this.state.render ? <div className="App">
-                        <NotesDir />
-                        <Routes />
-                        {
-                            this.context.isLocal ? <ModeBar
-                                isEditMode={ this.context.isEditMode }
-                                toggleEditMode={ this.context.toggleEditMode }
-                            /> : ''
-                        }
-
-                    </div> : ''
+                    this.context.isLocal ? <ModeBar
+                        isEditMode={ this.context.isEditMode }
+                        toggleEditMode={ this.context.toggleEditMode }
+                    /> : ''
                 }
-            </React.Fragment>
+
+            </div>
         );
     }
 }
