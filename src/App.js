@@ -3,7 +3,7 @@ import { hot } from 'react-hot-loader';
 import './App.css';
 import NotesDir from './components/NotesDir';
 import Routes from './routes';
-import MyProvider from './context';
+import MyProvider from './context/ContextProvider';
 
 class App extends React.Component {
     constructor() {

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import NotesAdapter from '../adapters';
 import NewNoteModal from './NewNoteModal';
-import AppContext from '../context/context';
+import AppContext from '../context';
 
 
 class NotesDir extends React.Component {
@@ -39,7 +39,10 @@ class NotesDir extends React.Component {
                 <h1>Files</h1>
                 <AppContext.Consumer>
                     {context => (
-                        <p>{context.counter}</p>
+                        <div>
+                            <p>{context.counter}</p>
+                            <button onClick={context.addOne}>Add</button>
+                        </div>
                     )}
                 </AppContext.Consumer>
                 <h2>{this.context.test}</h2>
