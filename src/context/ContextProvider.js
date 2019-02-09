@@ -18,11 +18,22 @@ class MyProvider extends React.Component {
         }));
     }
 
+    checkIfLocal = () => {
+        if (window.location.href.match('//localhost:')) {
+            console.log('I ran');
+            this.setState({
+                isEditMode: true,
+                isLocal: true,
+            });
+        }
+    }
+
     render() {
         const context = Object.assign(
             this.state,
             {
                 toggleEditMode: this.toggleEditMode,
+                checkIfLocal: this.checkIfLocal,
             },
         );
 

@@ -4,20 +4,19 @@ import { Switch, Route } from 'react-router-dom';
 import Note from '../components/Note';
 
 const Routes = () => {
-    // TODO FIX THIS
     return (
         <Switch>
             <Route
-                exact path='/'
-                render = { props => <Note {...props} /> }
+                exact path='/' // TODO make actual welcome component
+                component = { Note }
             />
             <Route
                 exact path='/notes/:fileName'
-                render = { props => <Note {...props} /> }
+                component = { Note }
             />
             <Route
                 exact path='*'
-                render = { props => <Note {...props} /> }
+                component = { Note }
             />
         </Switch>
     );

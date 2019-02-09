@@ -71,13 +71,6 @@ class Note extends React.Component {
                 {
                     !this.context.isEditMode ? <TableOfContents text={this.state.text} /> : ''
                 }
-                {
-                    this.context.isLocal ?
-                        <ModeBar
-                            isEditMode={ this.context.isEditMode }
-                            toggleEditMode={ this.context.toggleEditMode }
-                        /> : ''
-                }
             </div>
         );
     }

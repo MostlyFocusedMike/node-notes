@@ -80,22 +80,6 @@ code p {
       .App .note #md-preview h2 {
         color: #363;
         line-height: 2.5rem; }
-    .App .note #mode-bar {
-      width: 100%;
-      background: #000;
-      color: white;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      margin: 0;
-      height: 3rem;
-      display: flex;
-      flex-wrap: no-wrap;
-      justify-content: center;
-      align-items: center; }
-      .App .note #mode-bar button {
-        display: block;
-        margin: 1rem; }
     .App .note #table-of-contents {
       background: #FFF;
       width: 20rem; }
@@ -150,5 +134,22 @@ textarea, input, p {
   border: 1px solid #000;
   height: 80%;
   overflow: auto; }
+
+#mode-bar {
+  width: 100%;
+  background: #000;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  height: 3rem;
+  display: flex;
+  flex-wrap: no-wrap;
+  justify-content: center;
+  align-items: center; }
+  #mode-bar button {
+    display: block;
+    margin: 1rem; }
 
 /*# sourceMappingURL=app.css.map */
