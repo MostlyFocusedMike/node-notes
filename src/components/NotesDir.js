@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import NotesAdapter from '../adapters';
 import NewNoteModal from './NewNoteModal';
+import AppContext from '../context/context';
 
 
 class NotesDir extends React.Component {
@@ -36,6 +37,12 @@ class NotesDir extends React.Component {
         return (
             <div id="notes-dir">
                 <h1>Files</h1>
+                <AppContext.Consumer>
+                    {context => (
+                        <p>{context.counter}</p>
+                    )}
+                </AppContext.Consumer>
+                <h2>{this.context.test}</h2>
                 { this.isEditMode() ? <button onClick={this.toggleNewFileModal}>New File</button> : '' }
                 { this.state.isNewFileModalVisibile ? <NewNoteModal toggleNewFileModal={this.toggleNewFileModal} /> : '' }
                 { this.state.files.map((file, idx) => <Link to={`/notes/${file}`} key={idx}>{file}</Link>) }
@@ -47,6 +54,5 @@ class NotesDir extends React.Component {
 NotesDir.propTypes = {
     viewInfo: PropTypes.object,
 };
-
 
 export default NotesDir;

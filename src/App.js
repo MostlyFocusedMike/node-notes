@@ -3,6 +3,7 @@ import { hot } from 'react-hot-loader';
 import './App.css';
 import NotesDir from './components/NotesDir';
 import Routes from './routes';
+import MyProvider from './context';
 
 class App extends React.Component {
     constructor() {
@@ -24,17 +25,23 @@ class App extends React.Component {
         if (window.location.href.match('//localhost:')) this.setState({ local: true, editing: true });
     }
 
+    addOne = () => {
+        this.context.counter += 1;
+    }
+
     render() {
         return (
-            <div className="App">
-                <NotesDir
-                    viewInfo={this.state}
-                />
-                <Routes
-                    viewInfo = {this.state}
-                    toggleEdit = {this.toggleEdit}
-                />
-            </div>
+            <MyProvider>
+                <div className="App">
+                    <NotesDir
+                        viewInfo={this.state}
+                    />
+                    <Routes
+                        viewInfo = {this.state}
+                        toggleEdit = {this.toggleEdit}
+                    />
+                </div>
+            </MyProvider>
         );
     }
 }
