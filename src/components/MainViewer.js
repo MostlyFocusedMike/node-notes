@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MDInputForm from './MDInputForm';
 import MDPreview from './MDPreview';
-import ModeBar from './ModeBar';
 import TableOfContents from './TableOfContents';
 import NotesAdapter from '../adapters';
 import AppContext from '../context';
@@ -56,7 +55,7 @@ class Note extends React.Component {
 
     render() {
         return (
-            <div className="note">
+            <div className="main-viewer">
                 {
                     this.context.isEditMode ?
                         <MDInputForm

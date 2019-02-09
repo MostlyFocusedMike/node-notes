@@ -1,22 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
-import Note from '../components/Note';
+import MainViewer from '../components/MainViewer';
 
 const Routes = () => {
     return (
         <Switch>
             <Route
                 exact path='/' // TODO make actual welcome component
-                component = { Note }
+                component = { MainViewer }
             />
             <Route
                 exact path='/notes/:fileName'
-                component = { Note }
+                component = { MainViewer }
             />
             <Route
                 exact path='*'
-                component = { Note }
+                component = { MainViewer }
             />
         </Switch>
     );
