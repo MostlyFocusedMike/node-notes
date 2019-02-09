@@ -11,6 +11,7 @@ module.exports = {
         jest: true,
     },
     rules: {
+        "class-methods-use-this": "off",
         "indent": ["error", 4],
         "no-underscore-dangle": "off",
         "no-unused-vars": ["warn", { "vars": "local",  "argsIgnorePattern": "request|h" }],

@@ -6,21 +6,25 @@ class MyProvider extends React.Component {
     constructor() {
         super();
         this.state = {
-            counter: 0,
+            isEditMode: false,
+            isLocal: false,
         };
     }
 
-    addOne = () => {
+
+    toggleEditMode = () => {
         this.setState(prevState => ({
-            counter: prevState.counter + 1,
+            isEditMode: !prevState.isEditMode,
         }));
     }
 
     render() {
-        const context = {
-            counter: this.state.counter,
-            addOne: this.addOne,
-        };
+        const context = Object.assign(
+            this.state,
+            {
+                toggleEditMode: this.toggleEditMode,
+            },
+        );
 
         return (
             <AppContext.Provider value={ context }>
@@ -33,5 +37,6 @@ class MyProvider extends React.Component {
 MyProvider.propTypes = {
     children: PropTypes.object,
 };
+
 
 export default MyProvider;

@@ -3,21 +3,21 @@ import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import Note from '../components/Note';
 
-const Routes = (props) => {
-    const { viewInfo, toggleEdit } = props;
+const Routes = () => {
+    // TODO FIX THIS
     return (
         <Switch>
             <Route
                 exact path='/'
-                render = { props => <Note {...props} viewInfo={viewInfo} toggleEdit={toggleEdit}/> } // eslint-disable-line no-shadow
+                render = { props => <Note {...props} /> }
             />
             <Route
                 exact path='/notes/:fileName'
-                render = { props => <Note {...props} viewInfo={viewInfo} toggleEdit={toggleEdit}/> } // eslint-disable-line no-shadow
+                render = { props => <Note {...props} /> }
             />
             <Route
                 exact path='*'
-                render = { props => <Note {...props} viewInfo={viewInfo} toggleEdit={toggleEdit}/> } // eslint-disable-line no-shadow
+                render = { props => <Note {...props} /> }
             />
         </Switch>
     );
@@ -25,7 +25,7 @@ const Routes = (props) => {
 
 Routes.propTypes = {
     viewInfo: PropTypes.object,
-    toggleEdit: PropTypes.func,
+    toggleEditMode: PropTypes.func,
 };
 
 export default Routes;

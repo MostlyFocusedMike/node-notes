@@ -5,6 +5,7 @@ import MDPreview from './MDPreview';
 import ModeBar from './ModeBar';
 import TableOfContents from './TableOfContents';
 import NotesAdapter from '../adapters';
+import AppContext from '../context';
 
 class Note extends React.Component {
     constructor() {
@@ -57,27 +58,24 @@ class Note extends React.Component {
         return (
             <div className="note">
                 {
-                    this.props.viewInfo.editing ?
+                    this.context.isEditMode ?
                         <MDInputForm
                             handleChange = {this.handleChange}
                             handleSubmit = {this.handleSubmit}
                             newNote = {this.state}
-                            viewInfo={this.props.viewInfo}
-                            toggleEdit={this.props.toggleEdit}
+                            viewInfo={this.context}
+                            toggleEditMode={this.props.toggleEditMode}
                         /> : ''
                 }
-                <MDPreview
-                    note = {this.state}
-                    viewInfo={this.props.viewInfo}
-                />
+                <MDPreview note = {this.state} />
                 {
-                    !this.props.viewInfo.editing ? <TableOfContents text={this.state.text} /> : ''
+                    !this.context.isEditMode ? <TableOfContents text={this.state.text} /> : ''
                 }
                 {
-                    this.props.viewInfo.local ?
+                    this.context.isLocal ?
                         <ModeBar
-                            viewInfo={this.props.viewInfo}
-                            toggleEdit={this.props.toggleEdit}
+                            isEditMode={ this.context.isEditMode }
+                            toggleEditMode={ this.context.toggleEditMode }
                         /> : ''
                 }
             </div>
@@ -88,8 +86,9 @@ class Note extends React.Component {
 Note.propTypes = {
     match: PropTypes.object,
     viewInfo: PropTypes.object,
-    toggleEdit: PropTypes.func,
+    toggleEditMode: PropTypes.func,
 };
 
+Note.contextType = AppContext;
 
 export default Note;

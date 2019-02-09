@@ -3,47 +3,27 @@ import { hot } from 'react-hot-loader';
 import './App.css';
 import NotesDir from './components/NotesDir';
 import Routes from './routes';
-import MyProvider from './context/ContextProvider';
+import context from './context';
 
 class App extends React.Component {
-    constructor() {
-        super();
-        this.initState = {
-            editing: false,
-            local: false,
-        };
-        this.state = this.initState;
-    }
-
-    toggleEdit = () => {
-        this.setState(prevState => ({
-            editing: !prevState.editing,
-        }));
-    }
-
     componentDidMount() {
-        if (window.location.href.match('//localhost:')) this.setState({ local: true, editing: true });
-    }
-
-    addOne = () => {
-        this.context.counter += 1;
+        if (window.location.href.match('//localhost:')) {
+            this.context.isEditMode = true;
+            this.context.isLocal = true;
+        }
     }
 
     render() {
         return (
-            <MyProvider>
-                <div className="App">
-                    <NotesDir
-                        viewInfo={this.state}
-                    />
-                    <Routes
-                        viewInfo = {this.state}
-                        toggleEdit = {this.toggleEdit}
-                    />
-                </div>
-            </MyProvider>
+            <div className="App">
+                <NotesDir />
+                <Routes />
+            </div>
         );
     }
 }
+
+App.contextType = context;
+
 
 export default hot(module)(App);

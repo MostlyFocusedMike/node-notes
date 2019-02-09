@@ -23,10 +23,6 @@ class NotesDir extends React.Component {
         this.loadFiles();
     }
 
-    isEditMode() {
-        return this.props.viewInfo.editing && this.props.viewInfo.local;
-    }
-
     toggleNewFileModal = () => {
         this.setState(prevState => ({
             isNewFileModalVisibile: !prevState.isNewFileModalVisibile,
@@ -37,16 +33,8 @@ class NotesDir extends React.Component {
         return (
             <div id="notes-dir">
                 <h1>Files</h1>
-                <AppContext.Consumer>
-                    {context => (
-                        <div>
-                            <p>{context.counter}</p>
-                            <button onClick={context.addOne}>Add</button>
-                        </div>
-                    )}
-                </AppContext.Consumer>
                 <h2>{this.context.test}</h2>
-                { this.isEditMode() ? <button onClick={this.toggleNewFileModal}>New File</button> : '' }
+                { this.context.isEditMode ? <button onClick={this.toggleNewFileModal}>New File</button> : '' }
                 { this.state.isNewFileModalVisibile ? <NewNoteModal toggleNewFileModal={this.toggleNewFileModal} /> : '' }
                 { this.state.files.map((file, idx) => <Link to={`/notes/${file}`} key={idx}>{file}</Link>) }
             </div>
@@ -57,5 +45,7 @@ class NotesDir extends React.Component {
 NotesDir.propTypes = {
     viewInfo: PropTypes.object,
 };
+
+NotesDir.contextType = AppContext;
 
 export default NotesDir;
