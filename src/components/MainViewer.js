@@ -30,7 +30,7 @@ class Note extends React.Component {
             });
     }
 
-    loadFile(title) {
+    loadFile = (title) => {
         NotesAdapter.getOne(title)
             .then((text) => {
                 this.setState({ title, text });

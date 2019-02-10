@@ -15,8 +15,11 @@ class NotesDir extends React.Component {
         };
     }
 
-    loadFiles() {
-        NotesAdapter.list().then(files => this.setState(files));
+    loadFiles = () => {
+        NotesAdapter.list().then((files) => {
+            console.log('files: ', files);
+            this.setState(files);
+        });
     }
 
     componentDidMount() {
@@ -35,7 +38,12 @@ class NotesDir extends React.Component {
                 <h1>Files</h1>
                 <h2>{this.context.test}</h2>
                 { this.context.isEditMode ? <button onClick={this.toggleNewFileModal}>New File</button> : '' }
-                { this.state.isNewFileModalVisibile ? <NewNoteModal toggleNewFileModal={this.toggleNewFileModal} /> : '' }
+                {
+                    this.state.isNewFileModalVisibile ? <NewNoteModal
+                        toggleNewFileModal={this.toggleNewFileModal}
+                        loadFiles={this.loadFiles}
+                    /> : ''
+                }
                 { this.state.files.map((file, idx) => <Link to={`/notes/${file}`} key={idx}>{file}</Link>) }
             </div>
         );

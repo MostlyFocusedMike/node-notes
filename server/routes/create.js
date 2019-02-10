@@ -22,7 +22,7 @@ module.exports = {
                     fs.writeFileSync(`./markdown/${request.payload.title}.md`, '');
                     const newFiles = [...files, request.payload.title].sort();
                     fs.writeFileSync('./src/files.json', JSON.stringify(newFiles));
-                    await sleep(1000);
+                    await sleep(1500);
                     return request.payload;
                 }
             } catch (err) {

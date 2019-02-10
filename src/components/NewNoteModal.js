@@ -29,6 +29,7 @@ class NewNoteModal extends React.Component {
                 }
             })
             .then(() => {
+                this.props.loadFiles();
                 this.setState({ redirectNewFile: true });
             })
             .catch(console.log);
@@ -61,6 +62,7 @@ class NewNoteModal extends React.Component {
 
 NewNoteModal.propTypes = {
     toggleNewFileModal: PropTypes.func,
+    loadFiles: PropTypes.func,
 };
 
 export default NewNoteModal;
