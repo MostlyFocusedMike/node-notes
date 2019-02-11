@@ -2,10 +2,6 @@ import { Renderer } from 'marked';
 import highlightjs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
 
-const safeTags = (str) => {
-    return str;
-}
-
 const useHighlightRenderer = (marked, text, cursorIndex) => {
     /* Create your custom renderer that uses highlight js on the code blocks */
     const renderer = new Renderer();
@@ -13,7 +9,7 @@ const useHighlightRenderer = (marked, text, cursorIndex) => {
         let highlightedCode;
         const ind = text.indexOf(code);
         const difference = Math.abs(ind - cursorIndex);
-        if (difference < 2000) {
+        if (difference < 1000) {
             if (lang && highlightjs.getLanguage(lang)) {
                 /*
                     the highlight() signature is:
