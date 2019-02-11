@@ -1,16 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import AppContext from '../context';
 
 class MDInputForm extends React.Component {
-    componentDidUpdate() {
-        const textArea = document.querySelector('#text');
-        console.log('textArea: ', textArea.scrollHeight);
-        textArea.scrollTop = textArea.scrollHeight / 2;
-    }
-
     scrolly = () => {
         const textArea = document.querySelector('#text');
-        console.log('text ', textArea.scrollTop / textArea.scrollHeight);
+        this.props.setScroll(textArea);
     }
 
     render() {
@@ -43,7 +38,10 @@ class MDInputForm extends React.Component {
 MDInputForm.propTypes = {
     handleChange: PropTypes.func,
     handleSubmit: PropTypes.func,
+    setScroll: PropTypes.func,
     newNote: PropTypes.object,
 };
+
+MDInputForm.contextType = AppContext;
 
 export default MDInputForm;

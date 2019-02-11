@@ -12,6 +12,7 @@ class Note extends React.Component {
         this.initState = {
             title: '',
             text: '',
+            scroll: 0,
         };
         this.state = this.initState;
     }
@@ -42,6 +43,11 @@ class Note extends React.Component {
         if (this.props.match.params.fileName) this.loadFile(this.props.match.params.fileName);
     }
 
+    setScroll = (textArea) => {
+        const scroll = textArea.scrollTop / textArea.scrollHeight;
+        this.setState({ scroll });
+    }
+
     // handles every time we switch notes
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.match.params.fileName !== prevProps.match.params.fileName) {
@@ -64,9 +70,12 @@ class Note extends React.Component {
                             newNote = {this.state}
                             viewInfo={this.context}
                             toggleEditMode={this.props.toggleEditMode}
+                            setScroll = {this.setScroll}
                         /> : ''
                 }
-                <MDPreview note = {this.state} />
+                <MDPreview
+                    note = {this.state}
+                />
                 {
                     !this.context.isEditMode ? <TableOfContents text={this.state.text} /> : ''
                 }

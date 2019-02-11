@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import createMarkdown from '../helpers/createMarkdown';
+import AppContext from '../context';
 
 class MDPreview extends React.Component {
     scrolly = () => {
         const textArea = document.querySelector('#md-preview');
         console.log('text ', textArea.scrollHeight);
+    }
+
+    componentDidUpdate() {
+        console.log('scrollerino: ', this.el.scrollHeight);
+        this.el.scrollTop = this.el.scrollHeight * this.props.note.scroll;
     }
 
     render() {
@@ -15,9 +21,13 @@ class MDPreview extends React.Component {
             <div
                 id="md-preview"
                 onScroll={this.scrolly}
+                ref={(el) => { this.el = el; }}
             >
                 <h1>Preview of: {title}</h1>
-                <div dangerouslySetInnerHTML={{ __html: markdown }}></div>
+                <div
+                    dangerouslySetInnerHTML={{ __html: markdown }}
+                    id="preview-text"
+                ></div>
             </div>
         );
     }
@@ -26,5 +36,7 @@ class MDPreview extends React.Component {
 MDPreview.propTypes = {
     note: PropTypes.object,
 };
+
+MDPreview.contextType = AppContext;
 
 export default MDPreview;
