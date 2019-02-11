@@ -15,7 +15,7 @@ class ModeBar extends React.Component {
 
 ModeBar.propTypes = {
     toggleEditMode: PropTypes.func,
-    isEditMode: PropTypes.object,
+    isEditMode: PropTypes.bool,
 };
 
 export default ModeBar;

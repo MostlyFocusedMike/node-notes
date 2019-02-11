@@ -2,6 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class MDInputForm extends React.Component {
+    componentDidUpdate() {
+        const textArea = document.querySelector('#text');
+        console.log('textArea: ', textArea.scrollHeight);
+        textArea.scrollTop = textArea.scrollHeight / 2;
+    }
+
+    scrolly = () => {
+        const textArea = document.querySelector('#text');
+        console.log('text ', textArea.scrollTop / textArea.scrollHeight);
+    }
+
     render() {
         return (
             <form
@@ -21,6 +32,7 @@ class MDInputForm extends React.Component {
                     name="text"
                     value={this.props.newNote.text}
                     onChange={this.props.handleChange}
+                    onScroll={this.scrolly}
                 />
                 <button>Save</button>
             </form>

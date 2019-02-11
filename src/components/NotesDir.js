@@ -16,10 +16,7 @@ class NotesDir extends React.Component {
     }
 
     loadFiles = () => {
-        NotesAdapter.list().then((files) => {
-            console.log('files: ', files);
-            this.setState(files);
-        });
+        NotesAdapter.list().then(files => this.setState(files));
     }
 
     componentDidMount() {
