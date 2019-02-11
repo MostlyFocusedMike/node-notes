@@ -15,8 +15,8 @@ class MDPreview extends React.Component {
     }
 
     render() {
-        const { title, text } = this.props.note;
-        const markdown = createMarkdown(text, true); // @TODO change this in the future with a button for context
+        const { title, text, cursorIndex } = this.props.note;
+        const markdown = createMarkdown(text, this.context.isEditMode, cursorIndex); // @TODO change this in the future with a button for context
         return (
             <div
                 id="md-preview"

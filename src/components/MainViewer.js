@@ -13,6 +13,7 @@ class Note extends React.Component {
             title: '',
             text: '',
             scroll: 0,
+            cursorIndex: 0,
         };
         this.state = this.initState;
     }
@@ -48,6 +49,13 @@ class Note extends React.Component {
         this.setState({ scroll });
     }
 
+    setCursorIndex = (textArea) => {
+        console.log('cursor index: ', textArea.selectionStart);
+        this.setState({
+            cursorIndex: textArea.selectionStart,
+        });
+    }
+
     // handles every time we switch notes
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.match.params.fileName !== prevProps.match.params.fileName) {
@@ -71,6 +79,7 @@ class Note extends React.Component {
                             viewInfo={this.context}
                             toggleEditMode={this.props.toggleEditMode}
                             setScroll = {this.setScroll}
+                            setCursorIndex = {this.setCursorIndex}
                         /> : ''
                 }
                 <MDPreview

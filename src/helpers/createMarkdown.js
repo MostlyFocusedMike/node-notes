@@ -10,9 +10,9 @@ const renderWelcome = () => {
 - [This markdown crash course](http://blog.kugghuset.se/2015/11/20/markdown-crash-course.html) teaches you how to use it in like 5 minutes`;
 };
 
-const createMarkdown = (text, useHighlighting) => {
+const createMarkdown = (text, useHighlighting, cursorIndex) => {
     /* returns the final markdown */
-    toggleHighlighting(marked, useHighlighting); // we only want marked to use special highlighing when not in edit mode
+    toggleHighlighting(marked, text, useHighlighting, cursorIndex); // we only want marked to use special highlighing when not in edit mode
     const md = text || renderWelcome();
     return marked(md);
 };
