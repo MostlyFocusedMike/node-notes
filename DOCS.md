@@ -1,20 +1,18 @@
-## How does highlighting work?
-For highlighting, Ollie uses [Highlight.js](https://highlightjs.org) which has a nice default option so users don't have to specify the code language if they don't want. Specifically, Ollie alters the marked Renderer's behavioir. Now, when it comes across a code block in the markdown it will convert that text according to highlight.js.
-
-However, if a user fails to specify the languge a LOT then the performance will lag (or maybe if it's old hardware) so TODO: add a way to turn this behavior off using a button with state.
+# Highlighting and Ollie
+For highlighting code blocks, Ollie uses [Highlight.js](https://highlightjs.org) with the marked renderer.
 
 ## Specifying a language
-Highlight.js' auto detection can slow you down, so whenever possible, specify the language. Do this by putting it next to the ``` without any space. (ignore that \ that is just so we github doesn't actually turn the triple ticks into a code block)
+`Highlight.js`'s auto detection can slow you down, so always specify the language for a code block like so:
 
-\```js
-// this code block would be highlighted as javascript
-let x = 2;
+\```js\
+// this code block would be highlighted as javascript\
+let x = 2;\
 \```
 
 if you want no highlighting:
 
-\```plaintext
-this will just be monospace font, maybe good for console logs
+\```plaintext\
+this will just be monospace font, maybe good for console logs\
 \```
 
 In the rendered markdown, the language won't be there. For a list of available langauges to choose from, check [highlight's list](https://highlightjs.org/static/demo/).
@@ -30,9 +28,23 @@ import 'highlight.js/styles/atom-one-dark.css'; // RIGHT HERE
 ```
 - To see what they look like check out the [demos here](https://highlightjs.org/static/demo/)
 - Then make sure the corresponding file is available in their github [here]( https://github.com/highlightjs/highlight.js/tree/master/src/styles)
+
 ```
 import  highlight.js/styles/[file-name-from-github-here.css]
 ```
+
+## Selective Highlighting
+Highlight.js is pretty fast, but on longer files, it just can't keep up. In `createMarkdown.js` you will find the `configureRenderer()`, which actually tells `marked` how to highlight:
+
+```
+configureRenderer(markedEngine, text, cursorIndex, isSelectiveHighlight)
+```
+
+This will tell `marked` to render all highlights when `isSelectiveHighlight` is false. This is fine when Ollie is in viewing mode. However, in edit mode, every single keypress re-renders the entire note. On short files, highlight *can* keep up, on longer files that is simply not possible and performance lags badly.
+
+To get around this, `configureRenderer` keeps track of where the user's cursor is, and will only apply highlighting to codeblocks that are in the vicinity of the cursor. If a user scrolls a lot, they will see the code blocks are just black and gray. Once they click them though, the highlighting will be applied immediately.
+
+@TODO: In the future, users will be able to toggle selective highlighting with a button on the interface. For now, you can just increase the distance comparison check manually
 
 
 # race condition issue

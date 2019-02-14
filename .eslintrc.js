@@ -14,7 +14,7 @@ module.exports = {
         "class-methods-use-this": "off",
         "indent": ["error", 4],
         "no-underscore-dangle": "off",
-        "no-unused-vars": ["warn", { "vars": "local",  "argsIgnorePattern": "request|h" }],
+        "no-unused-vars": ["warn", { "vars": "local",  "argsIgnorePattern": "request|h|prevState|snapshot" }],
         "no-plusplus": 0,
         "max-len": ["warn", 180],
         "one-var": 0,

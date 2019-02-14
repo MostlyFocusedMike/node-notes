@@ -24,7 +24,7 @@ class NewNoteModal extends React.Component {
         NotesAdapter.create(this.state)
             .then((res) => {
                 if (res.msg) {
-                    alert(res.msg);
+                    alert(res.msg); // eslint-disable-line
                     throw new Error('Already Created the file');
                 }
             })

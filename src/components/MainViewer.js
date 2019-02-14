@@ -50,7 +50,6 @@ class Note extends React.Component {
     }
 
     setCursorIndex = (textArea) => {
-        console.log('cursor index: ', textArea.selectionStart);
         this.setState({
             cursorIndex: textArea.selectionStart,
         });
