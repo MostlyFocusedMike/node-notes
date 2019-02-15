@@ -1,20 +1,15 @@
 # Videos
---------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------
 ## Section 6 vids:
 - [hapi Tutorial — Basic Authentication With Username and Password](https://www.youtube.com/watch?v=wclRFgj3Bl4)
----------------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------
 # SECTION 1: THE BASICS
 - [My github for this section](https://github.com/MostlyFocusedMike/hapi-notes-1)
 - primary sources:
     - [Future Studio's article](https://futurestud.io/tutorials/hapi-route-handling-and-drive-traffic-to-your-server)
     - [hapi docs](https://hapijs.com/api)
 
---------------------------------------------------------------------------------------------------------------
-
-
-
-
+-----------------------------------------------------------------------
 
 ## What is Hapi?
  - Hapi is is a JS framework that handles routing, and has a great plugin system that lets you make a modular application
@@ -40,7 +35,13 @@ npm install -S hapi
 
 
 
---------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+-----------------------------------------------------------------------
 ## Starting your server
 - to run a server in Hapi, you need to initialize a new instance with:
 
@@ -101,11 +102,7 @@ npm start
 - all this does at this point is log the server uri to the console
 - to get something to appear in the browser we need to set up some routes
 
-
-
-
-
-------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------
 ## Basic routes
 - You have to add routes to your server using the **server.route([route config object])** method
 - This method takes an argument, the actual route object, which looks like this:
@@ -148,10 +145,7 @@ vhost (optional)
   - see docs for info
 
 
-
-
-
-------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------
 ## Add your routes to your server.js file
 - add your routes before the server starts like so:
 
@@ -202,7 +196,7 @@ start();
 
 
 
------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------
 # SECTION 2: ROUTE HANDLING
 - [My github for this section](https://github.com/MostlyFocusedMike/hapi-notes-2)
 - primary sources:
@@ -218,7 +212,7 @@ start();
 
 
 
------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------
 ## Route handler methods
 - In the **route config object** you can pass either one or many HTTP methods to a route
 - to pass several, just use an array. You will be fine as long as there are no HTTP verb collisions:
@@ -248,7 +242,7 @@ server.route({
 
 
 
------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------
 ## Path parameters
 - Most modern applications will require dynamic routing, where one or more sections of a url will change
 - Hapi uses {} to mark what sections of a path are the parameters, and you can access them from the handler's request object like so:
@@ -358,7 +352,7 @@ server.route({
 
 
 
-------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------
 ### Route handler
 - the route handler is a function that can accept 2 parameters: the request object and the response toolkit
     - here's the signature:  **function (request, h)**
@@ -406,7 +400,7 @@ server.route({
 
 
 
-------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------
 ## Route options
 - the route options object is where you configure things like auth, caches, and validation
 - it's also where tags, notes, and documentation go. These are used for things like automated logging and documentation, and are quite helpful, so I recommend adding them.
@@ -434,7 +428,7 @@ server.route({
 
 
 
-------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------
 ## Basic file organization
 - Route handlers can get rather large, so it is not advisable to define them in your server file
 - Let's talk about one way (there are MANY) to organize your files for a project
@@ -496,7 +490,7 @@ async function start () {
 - Haute implements a system, much like rails, where if you configure your project in a certain way, Haute will do a lot of the grunt work for you.
 - In this case, if your routes are in **/lib/routes** and match that export shape I listed above, it will automatically load them all into you server for you, no requires() required.
 
---------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------
 # SECTION 3: USING PLUGINS
 - [my github for this section](https://github.com/MostlyFocusedMike/hapi-notes-3)
 - primary sources
@@ -506,7 +500,7 @@ async function start () {
 
 
 
---------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------
 ## Creating a plugin
 - Hapi has a plugin system that allows devs to break their applications into smaller components that work together
 - plugins can do all sorts of things, from generating documentation to creating routes
@@ -566,7 +560,7 @@ exports.plugin = { register, name, version }.
 
 
 
---------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------
 ## Register Method
 - the **register()** method takes two arguments: **server** and **options**
     - we're talking about **plugin.register()**, not **server.register()**, we'll talk about the later in a second
@@ -643,8 +637,7 @@ const start = async () => {
 
 
 
---------------------------------------------------------------------------------------------------------------
-## Loading plugins
+-----------------------------------------------------------
 - As you can see, we load our plugins into our server with **server.register()**
     - [docs for **server.register()**](https://hapijs.com/api#-await-serverregisterplugins-options)
 - **server.register()** accepts two things: your plugins, and a **registration options object**
@@ -731,7 +724,7 @@ module.exports = {
 
 
 
----------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------
 # SECTION 4: SERVING STATIC FILES
 - [my github for this section](https://github.com/MostlyFocusedMike/hapi-notes-4)
 - primary sources
@@ -740,7 +733,7 @@ module.exports = {
     - https://github.com/hapijs/inert
 
 
----------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------
 ## Setting up the Inert plugin
  - to serve static files and assets like HTML, JS, CSS, JPG files, hapi relies on the [inert](https://github.com/hapijs/inert) plugin
 - Inert serves files individually per path, or it can register a directory structure
@@ -789,7 +782,7 @@ start();
 
 
 
----------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------
 ## Serving a single static file
 for this section, this will be the file structure:
 - lib
@@ -909,7 +902,7 @@ server.route({
 - check the docs [tutorial](https://hapijs.com/tutorials/serving-files?lang=en_US) for more on file handler
 - check Inert's docs for info about the [options argument](https://github.com/hapijs/inert#hfilepath-options) as well
 
----------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------
 ## Using relative file paths
 - putting 'lib/public/' in front of everything can get annoying, so you can tell files that there is a default relative path to start at
 - in the server config object, just include the **routes** object (don't forget to add Node's path package):
@@ -935,7 +928,7 @@ const server = new Hapi.server({
 
 
 
----------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------
 ## Directory handler
 - Assigning every asset their own route isn't necessary, you can also turn a folder into a static asset directory for your project
 - do this with the **directory handler**:
@@ -982,7 +975,8 @@ const server = new Hapi.server({
     - **defaultExtension**: a string that will be used as a default file extentsion if the path isn't found. So a request for /thing will try the file /thing.html.
     - **lookupCompressed**: allows you to serve precompressed files when possible.
    - **redirectToSlash**: requests without trailing slashes are treated as if they are, this is called “with slash pendant” BTW. You might need this for relative paths, so it's good to leave it on (it defaults to false)
---------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------
 ## Using assets from the directory
 - so now that we saw what everything was set up to do, our static assets will now all work in our pages:
 
@@ -1013,7 +1007,7 @@ const server = new Hapi.server({
 
 
 
----------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------
 # SECTION 5: VIEWS
 - [my github for this section](https://github.com/MostlyFocusedMike/hapi-notes-5)
 - primary sources

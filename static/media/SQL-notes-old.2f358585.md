@@ -1,0 +1,619 @@
+-------------------------------------------------------------------------------------------------------------------------
+# Intro to SQL
+
+## what is SQL?
+
+ - SQL is a programming language that allows you to communicate
+  with databases and organize them
+ - SQL code is sent from a client to a database to request and organize information, which is then sent back to the client
+ - it does this by organizing it into tables with columns and rows
+ - just like a spreadsheet basically
+
+### basic structure
+ - a database can be made up of one or more tables
+ - tables are made up of rows and columns of cells
+ - columns are named
+    - the first one is almost always 'id' which is used to order the rows
+    - it is known as the primary key, which has a special meaning
+
+```plaintext
+id        title       genre     duration
+----   -----------   --------  -----------
+1       Moon          sci-fi    120
+2       Her           sci-fi    132
+3       The Kid       comedy    79
+4       Iron Man      action    113
+```
+
+### moving through tables
+ - You need to specify the type of data, and then to data itself
+ - so you are looking for the title of Her
+ - SQL will search through the column names for a match of the
+  data type, then go down the rows of that column looking
+  for the data match
+
+### MySQL, postgreSQL, and SQLite
+ - SQL itself has different flavors that are implemented in different ways. SQLite for instance doesn't need any extra stuff to run and just sits in your code with all your other work
+ - all these different styles have slightly different commands, so this file contains the basic SQL syntax and ideas, see individual files for the specific version
+
+-------------------------------------------------------------------------------------------
+# SQL programming language basics
+
+**SQL recipes**
+ - SQL commands are refered to as recipes
+ - here is the basic format (assume we are using the following
+  table:
+
+```plaintext
+table: movies
+id        title       genre     duration
+----    ----------    --------  -------
+1       Moon          sci-fi    120
+2       Her           sci-fi    132
+3       The Kid       comedy    79
+4       Iron Man      action    113
+```
+
+```sql
+ SELECT ________ # the columns to be searched
+ FROM __________;# the table the data is in
+                 # all SQL commands end in a ;
+           # you can break up the command with newlines or not
+```
+- this will select and return all rows from the title column:
+
+```sql
+SELECT title
+FROM movies;
+```
+  would return:
+
+```plaintext
+title
+----------
+Moon
+Her
+The Kid
+Iron Man
+```
+- you can also specify multiple columns:
+
+```sql
+SELECT title, genre
+FROM movies;
+```
+- you can return an entire table using the * wildcard:
+
+```sql
+SELECT *
+FROM movies;
+```
+### returning specific cells
+ - add a WHERE clause:
+
+```sql
+  SELECT title
+  FROM movies
+  WHERE id = 2;
+```
+ returns:
+
+```plaintext
+title
+----------
+Moon
+```
+ - SQL will return all matches it finds, meaning that SQL will search firs the column names, find the title match, then it will search through all rows of title where the associated ID row is equal to 2
+  - we can search with strings as well:
+
+```sql
+  SELECT title
+  FROM movies
+  WHERE title = 'Iron Man';
+```
+ - which returns
+
+```plaintext
+    title
+    ----------
+    Iron Man
+```
+ - Notice that we are using ' ' single quotes, this is the standard way in SQL, and it's best to use them across languages beucase "" mean different things than you may want
+
+### Do you have to capitalize keywords?
+ - capitalizing keywords like SELECT is not required, it just makes it clearer what's a keyword and what isn't.
+ - It's considered good practice to write keywords like this
+
+-----------------------------------------------------------------------------------------------------------------
+# Data Criteria
+## sorting search results with ORDER BY
+ - you can add adding ORDER BY:
+
+```sql
+  SELECT title
+  FROM movies
+  ORDER BY duration;
+```
+
+```plaintext
+title
+----------
+The Kid
+Iron Man
+Moon
+Her
+```
+ - as you can see ORDER BY sorts in ascending order the duration of each title, it doesn't actually return the duration
+ - ascending is the default, but you can also do DESC(ending) order where the lowest number comes first:
+
+```sql
+  SELECT title
+  FROM movies
+  ORDER BY duration;
+```
+```plaintext
+      title
+    ----------
+    Her
+    Moon
+    Iron Man
+    The Kid
+```
+
+## using comparisons
+ - you can use comparison operators with WHERE keywords:
+
+```sql
+  SELECT *
+  from movies
+  WHERE duration <= 100;
+```
+
+```plaintext
+id          title       genre       duration
+----------  ----------  ----------  ----------
+3           The Kid     comedy      79
+```
+
+ - other comparisons are <, <=, >, >= and <> (this means "not equa"l) as in:
+
+```sql
+SELECT *
+from movies
+WHERE genre <> "action"
+```
+## using multiple conditions
+ - using the AND keyword to string together conditionals:
+
+```sql
+    SELECT *
+    from movies
+    WHERE duration <= 100
+    AND title = 'The Kid';
+```
+- that will only return a row where both those statements are true, you can also use the OR keyword:
+
+```sql
+SELECT *
+FROM movies
+WHERE duration <= 100
+OR title = 'Moon';
+```
+```plaintext
+ id    title       genre       duration
+----  ---------   ----------   ----------
+1     Moon        sci-fi        120
+3     The Kid     comedy        79
+```
+ - you can use as many AND and OR operators as you want:
+
+```sql
+SELECT *
+FROM movies
+WHERE duration <= 100
+AND id = 3
+AND title = 'The Kid';
+```
+### NOT keyword
+ - you can also use the NOT keyword to specify the opposite of
+  something:
+
+```sql
+    SELECT *
+    FROM movies
+    WHERE NOT id = 2;
+```
+ - this returns all rows where id is not 2
+
+--------------------------------------------------------------------------------------------------------------------------
+# Adding Data
+**putting data into a table**
+
+```sql
+INSERT INTO specific_table (column1, column2)
+VALUES (data1, data2);
+```
+ - be sure that your data and column names match:
+
+```sql
+  INSERT INTO movies (id, title, genre, duration)
+  VALUES (5, 'Bingo', 'comedy', 78);
+```
+ - the order of the column data listed doesn't matter as long as the actual column data matches:
+
+```sql
+  INSERT INTO movies (id, genre, duration, title)
+  VALUES (5, 'comedy', 78, 'Bingo');
+```
+### shorthand
+ - you don't actually have to specify the columns, SQL will add data into table columns in the order they are given:
+
+```sql
+  INSERT INTO movies
+  VALUES (5, 'Bingo', 'comedy', 78);
+```
+ - just be SURE if you do this that your data matches your column order and you provide all data for all columns
+
+### filling in only some cells
+ - you don't have to populate every cell with data, (unless your SQL version requires it when using the above shorthand) but if you skip a column, you must put the column names to get the right order:
+
+```sql
+  INSERT INTO movies (title, duration)
+  VALUES ('The Fly', 80);
+```
+```plaintext
+id          title       genre       duration
+----------  ----------  ----------  ----------
+1           Moon        sci-fi      120
+2           Her         sci-fi      132
+3           The Kid     comedy      79
+4           Iron Man    action      113
+5           Bingo       comedy      78
+6           The Fly                 80
+```
+ - notice there's just a blank space for the cell you skipped
+    - that blank is technically a value of NULL
+ - BUT WAIT, you didn't specify an id, so how did it know it
+  was 6?
+
+### primary keys
+ - primary keys are special in SQL, they can never be empty and will always be unique
+ - if your primary key is an int, SQL will automatically generate a new key the next number up
+ - so if you add new rows in order, you don't have to worry about adding a column name for your primary key (in this case and usually "id") because SQL will generate one for you
+
+-----------------------------------------------------------------------------------------------------------------------
+# Change Existing Data
+**editing data**
+ - use the update keyword to update existing data in your table
+```sql
+UPDATE table_name
+SET column_name = new_value
+(WHERE column_name = existing_value_to_check)
+```
+ - if you do not provide a WHERE keyword, then the change of data will be applied to all values in a column
+ - here it is in action:
+
+```sql
+UPDATE movies
+SET genre = 'Adventure', title = "IRON MAN"
+WHERE id = 4;
+```
+ - check your table to see the change:
+
+```plaintext
+id          title       genre       duration
+----------  ----------  ----------  ----------
+1           Moon        sci-fi      120
+2           Her         sci-fi      132
+3           The Kid     comedy      79
+4           IRON MAN    Adventure   113
+5           Bingo       comedy      78
+6           The Fly                 80
+```
+ - the where statement can also use OR AND keywords:
+
+```sql
+UPDATE movies
+SET genre = 'Adventure'
+WHERE title = 'Iron Man'
+OR genre IS NULL;
+```
+
+### IS NULL
+ - this is just how you tell if a space is NULL or not
+ - you can also use IS NOT NULL as well
+ - the IS replaces the =
+
+------------------------------------------------------------------------------------------------------------
+# Remove Data
+### DELETE FROM
+ - here are the keywords used to delete data:
+
+```sql
+DELETE FROM table
+(WHERE condition);
+```
+ - the delete will delete rows only when matched by the where clause
+ - if you leave OFF that where clause...you would've deleted the entire table
+ - as usual, the WHERE clasue can use comparison operators and AND OR NOT keywords:
+
+```sql
+DELETE FROM movies
+WHERE id < 3
+AND genre = "sci-fi";
+```
+--------------------------------------------------------------
+# Database Tables
+### creating a database**
+
+```sql
+CREATE DATABASE database_name;
+```
+### deleting a database
+
+```sql
+DROP DATABASE database_name;
+```
+ - you can't undo this, so be careful
+
+### create a table
+ - you just have to specify the names and their types:
+
+```sql
+CREATE TABLE table_name (
+   column_name1 datatype,
+   column_name2 datatype,
+   # ...more columns...
+   column_name3 datatype # there won't be a comma after the last
+);
+```
+ - the datatype is separated from the column name by only a space
+ - the data type options are:
+    - INT PRIMARY KEY, #auto incremented numbers
+    - INTEGER, # a whole number
+    - FLOAT, # a decimal
+    - CHAR, #text
+    - VARCHAR(#) #text but with a number of char limit
+
+ - those are just some basic options, check your SQL variant for more options
+ - also, there are numerous ways to set a primary key, this is just one way
+
+### deleting a table
+```sql
+  DROP TABLE table_name;
+```
+ - again, you can't undo this, be careful
+
+----------------------------------------------------------------------------------------------------------
+# Manipulate Tables
+### add/move/change table column
+ - the basic keywords are ALTER TABLE table name, and then using another clause to specify what you want
+ - so to add:
+
+```sql
+ ALTER TABLE movies
+ ADD COLUMN ratings int;
+```
+
+ - the ADD COLUMN clause just takes the column name and data type
+ - new column values will be filled with NULL, you must update their values to add data
+ - to drop a column:
+
+```sql
+    ALTER TABLE movies
+    DROP COLUMN ratings;
+```
+ - just specify the column name to delete it
+
+------------------------------------------------------------------------------------------------------------
+# Standard statements
+- Here are some of the most common operations you will do:
+
+### LIMIT
+ - use limit to return only a certain number of rows from the top
+ - a common use is to order by DESC and then use LIMIT 1 to return the largest of something:
+
+```sql
+SELECT *
+FROM cats
+ORDER BY age DESC
+LIMIT 1;
+```
+ - this selects the oldest cat
+
+
+### BETWEEN
+ - this is used like a boolean to return values found between
+  (exclusion on both) two values:
+
+    SELECT name
+    FROM cats
+    WHERE age
+    BETWEEN 1 AND 3;
+
+### AS
+ - use this to set aliases for long or confusing column names.
+ - after the initial definition, you can refer to the alias instead of the column name:
+
+```sql
+    SELECT cars.name AS 'car_model', owner.name AS 'owner_name'
+    FROM Cars;
+```
+
+### DISTINCT
+ - it is common for there to be multiple identical values in a return, so use DISTINCT to remove them:
+
+```sql
+    SELECT DISTINCT Customer
+    FROM Orders WHERE
+    Customer LIKE 'B%';
+```
+### LIKE
+ - use the LIKE operator with WHERE clauses to search for a pattern, like regex only simpler.
+ - here are two wildcards used with LIKE
+
+    % - zero, one, or multiple characters
+    _ - any single character
+
+```sql
+    SELECT DISTINCT Customer
+    FROM Orders WHERE
+    Customer LIKE 'B%';
+```
+
+------------------------------------------------------------------------------------
+#   Aggregate functions
+### carry out multiple functions at once**
+ - aggregate functions can do things like add up all values, find averages, or create groups from repeating cells
+
+### MIN/MAX/SUM
+ - these do exactly what you think, they apply a math function to an entire column of data:
+
+  SELECT MAX(cars.price)
+  FROM cars;
+  SELECT MIN(cars.price)
+  FROM cars;
+  SELECT SUM(cars.price)
+  FROM cars;
+  SELECT AVG(cars.price)
+  FROM cars;
+
+**LENGTH**
+ - you can also find the length of a piece of a string:
+
+```sql
+  SELECT LENGTH(car.model)
+  FROM cars
+  WHERE car.model = 'mercury villager';
+```
+
+- to help you understand these next two, use this table:
+
+  id   name        age     breed          owner_id
+------ ----------  ------- -------------  --------
+1      Maru        3       Scottish Fold  1
+2      Hana        1       Tabby          1
+3      Lil\' Bub   5       American Shor
+4      Moe         10      Tabby
+5      Patches     2       Calico
+6                          Tabby
+
+**COUNT**
+ - COUNT will count up how many times a specific piece of data pops up and return it:
+
+```sql
+  SELECT breed, COUNT(breed)
+  FROM cats
+  GROUP BY breed;
+```
+```plaintext
+  # returns:
+  breed               COUNT(breed)
+  ------------------  ------------
+  American Shorthair  1
+  Calico              1
+  Scottish Fold       1
+  Tabby               3
+```
+
+### GROUP BY
+ - so as you see, GROUP BY naturally goes well with COUNT
+ - it combines rows where the cell data is the same
+ - so in this case it grouped by breed
+ - keep in mind that when using group by, if you try to return something other than the count or group by check, it will return a misleading result of the last value it happened to find, it doesn't mean anything:
+
+ ```plaintext
+    id    name                  motto       species
+    ----  --------------------  ----------  ----------
+    1     Lady                  Woof Woof   direwolf
+    2     Tyrion Lannister      A Lanniste  human
+    3     Daenerys Targaryen    If I look   human
+    4     Eddard Stark          Winter is   human
+    5     Character One         motto one   cylon
+    6     Character Two         motto two   human
+    7     Character Three       motto thre  cylon
+    8     Character Four        motto four  cylon
+```
+
+```sql
+    SELECT characters.name, characters.species, COUNT(characters.species)
+    FROM characters
+    GROUP BY characters.species;
+```
+```plaintext
+    name                  species     COUNT...
+    --------------------  ----------  -----
+    Character Four        cylon       4
+    Lady                  direwolf    1
+    Character Two         human       3
+```
+
+ - you can also use ORDER BY and LIMIT with GROUP BY
+```sql
+   SELECT characters.species, COUNT(characters.species) AS cs
+   FROM characters
+   GROUP BY characters.species
+   ORDER BY cs DESC
+   LIMIT 1;
+```
+
+
+# JOIN and join tables
+
+### JOIN
+ - you can tell sql to return a combination of two tables using the JOIN statement
+ - SQL has 4 basic types of joins,
+ - INNER JOIN- returns only rows where there is a match from both tables
+ - LEFT OUTER JOIN- returns all rows from left table, all matching rows from the right table, and leaves gaps where the right table has no matches
+  - FULL JOIN- all rows are joined together with any null values just left in place
+  - RIGHT OUTER JOIN- the same process as LEFT OUTER JOIN but with the opposite side
+
+ - The OUTER and INNER join statements are optional, they just add some readability
+ - NOTE: sqlite is incapable of doing RIGHT and FULL joins, some other SQL versions have differences to
+
+### JOIN IN ACTION
+```sql
+  SELECT cats.name, owners.name
+  FROM cats
+  INNER JOIN owners
+  ON cats.owner_id = owners.id
+```
+ - so first we select what we'd like to return
+ - then we choose our left side table (the first table) but then we specify the typ of join and what table we'd like to join
+ - then the ON statement tells us on which rows will the join happen on, in this case it's when the cats.owner_id (the foreign key) matches up with the owners.id (that table's key)
+ - it's a little clearer if we show the full joined table:
+
+```sql
+  SELECT *
+  FROM cats
+  INNER JOIN owners
+  ON cats.owner_id = owners.id
+```
+
+
+--------------------------------------------------------------------------------------------
+# Still To be sorted
+
+
+- CRUD create, read, update, delete
+
+### DEFAULT/NOT NULL
+ - DEFAULT and NOT NULL are two different ways to deal with
+  no information being inserted into a row
+ - NOT NULL will require a cell to always have data entered into
+  it, otherwise it will reject the insert and act like you
+  hadn't made the INSERT query at all
+ - DEFAULT simply takes a blank value and turns it into a previously specified default value, just like default variables
+
+```sql
+    CREATE TABLE Persons (
+        ID INTEGER PRIMARY KEY,
+        LastName varchar(255) NOT NULL,
+        FirstName varchar(255),
+        Age int,
+        City varchar(255) DEFAULT 'Sandnes'
+    );
+ ```
+  - so if city is blank, then it will default to sanders, but if no value is given to last name (so that means it defaults to NULL) the row won't be inserted or updated
+   - DEFAULT lets you leave a row blank, and instead of getting a value of NULL put in, you can specify the value
+ - NOT NULL simply won't allow you to leave the entry blank, it will reject the insert
