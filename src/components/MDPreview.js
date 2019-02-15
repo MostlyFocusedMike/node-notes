@@ -16,7 +16,6 @@ class MDPreview extends React.Component {
                 id="md-preview"
                 ref={(el) => { this.el = el; }}
             >
-                <h1>Preview of: {title}</h1>
                 <div
                     dangerouslySetInnerHTML={{ __html: markdown }}
                     id="preview-text"

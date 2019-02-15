@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Cousine");
 input, label {
   display: block; }
 
@@ -64,7 +65,7 @@ code p {
         margin: 1rem auto;
         font-size: 1rem;
         padding: 5px;
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: 'Cousine', monospace;
         font-weight: 400; }
     .App .main-viewer #md-preview {
       overflow-x: hidden;
@@ -80,6 +81,14 @@ code p {
       .App .main-viewer #md-preview h2 {
         color: #363;
         line-height: 2.5rem; }
+      .App .main-viewer #md-preview li {
+        margin: 0.5rem; }
+      .App .main-viewer #md-preview blockquote {
+        background: #e1e1e1;
+        font-style: italic;
+        color: #333;
+        padding: 0.1rem 0.5rem;
+        border-left: .2rem solid #555; }
     .App .main-viewer #table-of-contents {
       background: #FFF;
       width: 20rem; }

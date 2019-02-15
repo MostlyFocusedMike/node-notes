@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Cousine');
+
+
 input, label {
   display: block;
 }
@@ -72,7 +75,7 @@ code p {
         margin: 1rem auto;
         font-size: 1rem;
         padding: 5px;
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: 'Cousine', monospace;
         font-weight: 400;
       }
     }
@@ -91,7 +94,16 @@ code p {
         color: #363;
         line-height: 2.5rem;
       }
-
+      li {
+          margin: 0.5rem;
+      }
+      blockquote {
+        background: rgb(225, 225, 225);
+        font-style: italic;
+        color: #333;
+        padding: 0.1rem 0.5rem;
+        border-left: .2rem solid #555;
+      }
     }
     #table-of-contents {
       background: #FFF;
