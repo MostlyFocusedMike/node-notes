@@ -22,7 +22,6 @@ const configureRenderer = (markedEngine, text, cursorIndex, isSelectiveHighlight
                     - it returns a full object, the highlighted code is inthe value property
                 */
                 highlightedCode = highlightjs.highlight(lang, code, true).value;
-                console.log('highlightedCode: ', highlightedCode);
             } else {
                 highlightedCode = highlightjs.highlightAuto(code).value;
             }

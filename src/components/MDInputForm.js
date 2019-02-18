@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import brace from 'brace';
 import AceEditor from 'react-ace';
 import AppContext from '../context';
 
-import 'brace/mode/java';
-import 'brace/theme/github';
+import 'brace/mode/markdown';
+import 'brace/theme/tomorrow'; // TODO replace this with a theme you like
 
 
 class MDInputForm extends React.Component {
@@ -17,6 +16,13 @@ class MDInputForm extends React.Component {
     _setCursorIndex = () => {
         const textArea = document.querySelector('#text');
         this.props.setCursorIndex(textArea);
+    }
+
+    componentDidMount() {
+        this.aceEditor.editor.getSession().setUseWrapMode(true);
+        this.aceEditor.editor.resize();
+        this.aceEditor.editor.setAutoScrollEditorIntoView(true);
+        console.log(this.aceEditor.editor);
     }
 
     render() {
@@ -35,10 +41,15 @@ class MDInputForm extends React.Component {
                 <label htmlFor="text">text</label>
                 <AceEditor
                     mode="markdown"
-                    theme="github"
-                    editorProps={{ $blockScrolling: true }}
-                    id="text"
-                    name="text"
+                    theme="tomorrow"
+                    editorProps={{
+                        $blockScrolling: true,
+                    }}
+                    id="editor"
+                    name="editor"
+                    width="99%"
+                    height="80vh"
+                    ref={(aceEditor) => { this.aceEditor = aceEditor; }}
                     value={this.props.newNote.text}
                     onChange={this.props.handleChange}
                     onScroll={this._setScroll}

@@ -12,8 +12,8 @@
 -----------------------------------------------------------------------
 
 ## What is Hapi?
- - Hapi is is a JS framework that handles routing, and has a great plugin system that lets you make a modular application
- - It uses other frameworks and plugins like Joi, for validation, and Boom for error handling, and there are many more
+- Hapi is is a JS framework that handles routing, and has a great plugin system that lets you make a modular application
+- It uses other frameworks and plugins like Joi, for validation, and Boom for error handling, and there are many more
 - it has built in blackbox testing with server.inject
 - Hapi core is so small and lightweight, since it uses other plugins that are only added when needed
 
