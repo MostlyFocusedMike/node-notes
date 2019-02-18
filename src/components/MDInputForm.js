@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import brace from 'brace';
+import AceEditor from 'react-ace';
 import AppContext from '../context';
+
+import 'brace/mode/java';
+import 'brace/theme/github';
+
 
 class MDInputForm extends React.Component {
     _setScroll = () => {
@@ -27,7 +33,10 @@ class MDInputForm extends React.Component {
                     onChange={this.props.handleChange}
                 />
                 <label htmlFor="text">text</label>
-                <textarea
+                <AceEditor
+                    mode="markdown"
+                    theme="github"
+                    editorProps={{ $blockScrolling: true }}
                     id="text"
                     name="text"
                     value={this.props.newNote.text}

@@ -18,10 +18,16 @@ class Note extends React.Component {
         this.state = this.initState;
     }
 
-    handleChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value,
-        });
+    handleChange = (value, aceInfo) => {
+        if (value.target) {
+            this.setState({
+                [value.target.name]: value.target.value,
+            });
+        } else {
+            this.setState({
+                text: value,
+            });
+        }
     }
 
     handleSubmit = (e) => {
