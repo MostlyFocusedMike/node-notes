@@ -4,8 +4,16 @@ import createMarkdown from '../helpers/createMarkdown';
 import AppContext from '../context';
 
 class MDPreview extends React.Component {
-    componentDidUpdate() {
-        this.el.scrollTop = this.el.scrollHeight * this.props.note.scroll;
+    componentDidUpdate(prevProps) {
+        if (prevProps.note.scroll !== this.props.note.scroll) {
+            this.el.scrollTop = this.el.scrollHeight * this.props.note.scroll;
+        }
+    }
+
+    scroll = () => {
+        console.log("height: ", this.el.scrollHeight);
+        // length: 36322.22265625 px
+        // height: 36841
     }
 
     render() {
@@ -14,6 +22,7 @@ class MDPreview extends React.Component {
         return (
             <div
                 id="md-preview"
+                onScroll={this.scroll}
                 ref={(el) => { this.el = el; }}
             >
                 <div

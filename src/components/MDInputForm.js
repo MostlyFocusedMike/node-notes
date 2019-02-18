@@ -8,18 +8,27 @@ import 'brace/theme/tomorrow'; // TODO replace this with a theme you like
 
 
 class MDInputForm extends React.Component {
-    _setScroll = () => {
-        const textArea = document.querySelector('#text');
-        this.props.setScroll(textArea);
+    _setScroll = (info) => {
+        // console.log('info: ', info);
+        // const foo = this.aceEditor.editor.getSession()
+        const foo = this.aceEditor.editor.session.doc.getAllLines().length * 16.5;
+        // lines * 15 = fake scrollHeight
+        console.log('foo: ', foo);
+        const scrollTop = this.aceEditor.editor.getSession().$scrollTop;
+        console.log('scrollTop: ', scrollTop);
+        // length 32328.66916656494 px
+        const preScrolltop = (scrollTop / foo);
+        console.log('preScrolltop: ', preScrolltop);
+        this.props.setScroll(preScrolltop);
     }
 
-    _setCursorIndex = () => {
-        const textArea = document.querySelector('#text');
-        this.props.setCursorIndex(textArea);
-    }
+    // _setCursorIndex = () => {
+    //     const textArea = document.querySelector('#text');
+    //     this.props.setCursorIndex(textArea);
+    // }
 
     componentDidMount() {
-        this.aceEditor.editor.getSession().setUseWrapMode(true);
+        // this.aceEditor.editor.getSession().setUseWrapMode(true);
         this.aceEditor.editor.resize();
         this.aceEditor.editor.setAutoScrollEditorIntoView(true);
         console.log(this.aceEditor.editor);
@@ -53,7 +62,8 @@ class MDInputForm extends React.Component {
                     value={this.props.newNote.text}
                     onChange={this.props.handleChange}
                     onScroll={this._setScroll}
-                    onClick={this._setCursorIndex}
+                    onChangeScrollTop={()=> console.log('i am')}
+                    // onClick={this._setCursorIndex}
                 />
                 <button>Save</button>
             </form>

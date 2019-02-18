@@ -50,9 +50,11 @@ class Note extends React.Component {
         if (this.props.match.params.fileName) this.loadFile(this.props.match.params.fileName);
     }
 
-    setScroll = (textArea) => {
-        const scroll = textArea.scrollTop / textArea.scrollHeight;
-        this.setState({ scroll });
+    setScroll = (scrollTop) => {
+        // const scroll = textArea.scrollTop / textArea.scrollHeight;
+        console.log('scrollTop: ', scrollTop);
+        console.log('scrollTop: ', scrollTop);
+        this.setState({ scroll: scrollTop });
     }
 
     setCursorIndex = (textArea) => {

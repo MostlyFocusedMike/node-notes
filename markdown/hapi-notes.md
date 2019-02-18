@@ -1,7 +1,8 @@
 # Videos
 -----------------------------------------------------------------------
 ## Section 6 vids:
-- [hapi Tutorial — Basic Authentication With Username and Password](https://www.youtube.com/watch?v=wclRFgj3Bl4)
+- [hapi Tutorial — Basic Authentication With Username and Password
+  ](https://www.youtube.com/watch?v=wclRFgj3Bl4)
 -----------------------------------------------------------------------
 # SECTION 1: THE BASICS
 - [My github for this section](https://github.com/MostlyFocusedMike/hapi-notes-1)
@@ -31,15 +32,6 @@ npm install -S hapi
 - until otherwise noted, this is the file structure:
     - hapi-practice-1
         - server.js
-
-
-
-
-
-
-
-
-
 
 -----------------------------------------------------------------------
 ## Starting your server
@@ -91,12 +83,11 @@ npm start
 
 - FYI don't forget to use [nodemon](https://www.npmjs.com/package/nodemon) for your server, your start command should look like this in your package.json file:
 
-```js
-  ...
-  "scripts": {
+```
+"scripts": {
     "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
+},
 ```
 
 - all this does at this point is log the server uri to the console
@@ -207,10 +198,6 @@ start();
     - [Response Toolkit](https://hapijs.com/api#response-toolkits)
     - [Request object](https://hapijs.com/api#request)
     - [hapi docs](https://hapijs.com/api)
-
-
-
-
 
 ---------------------------------------------------------------------
 ## Route handler methods
@@ -348,9 +335,11 @@ server.route({
 ```
 
 - here's a really crucial part about asterisks directly from the routing [docs](https://hapijs.com/tutorials/routing) in this section:
-    > The number after the asterisk represents how many path segments should be assigned to the parameter. You can also omit the number entirely, and the parameter will match any number of segments available. Like the optional parameters, a wildcard parameter (for example /{files*}) may only appear as the last parameter in your path.
-
-
+    > The number after the asterisk represents how many path segments 
+    > should be assigned to the parameter. You can also omit the number entirely,
+    > and the parameter will match any number of segments available.
+    > Like the optional parameters, a wildcard parameter (for example /{files*})
+    > may only appear as the last parameter in your path.
 
 ----------------------------------------------------------------------
 ### Route handler
@@ -425,9 +414,6 @@ server.route({
 });
 ```
 
-
-
-
 ----------------------------------------------------------------------
 ## Basic file organization
 - Route handlers can get rather large, so it is not advisable to define them in your server file
@@ -497,9 +483,6 @@ async function start () {
     - https://hapijs.com/tutorials/plugins?lang=en_US
     - https://hapipal.com/best-practices/server-plugin-separation#the-joys-of-server--plugin-separation
     - https://hapijs.com/api#plugins
-
-
-
 ------------------------------------------------------------------
 ## Creating a plugin
 - Hapi has a plugin system that allows devs to break their applications into smaller components that work together
@@ -957,14 +940,24 @@ const server = new Hapi.server({
     });
 
 ```
-- what this does is it looks for the param, like say 'style.css' and checks if that file is found in the given directory. If no file is found to match, it will then look for it on the other routes
-    - this is why '/example-page' doesn't throw and error when there is no file in our public directory called 'example-page', it doesn't find a file so it just moves on
-    - what's interesting though is that /images/hapi-logo.png will also work thanks to the wildcard in the param (see the Multi-segment parameters section)
+- what this does is it looks for the param, like say 'style.css' and checks if 
+  that file is found in the given directory. If no file is found to match, 
+  it will then look for it on the other routes
+    - this is why '/example-page' doesn't throw and error when there is no file 
+      in our public directory called 'example-page', it doesn't find a file so it 
+      just moves on 
+    - what's interesting though is that /images/hapi-logo.png will also work thanks
+      to the wildcard in the param (see the Multi-segment parameters section)
 
 - lets look at the three most common properties:
-    - **path**: this is the path to the directory that we will use to store our assets, and it takes a string.
-         - However, if you set the **routes.files.relativeTo** in the server object (as I have in these examples), then it assumes that is the starting directory, so it is perfectly fine to give a path of '.' as we have here
-    - **index**: let's say the user just goes to http://localhost:3104, there will be no params given, so the directory will be default search for an index.html file. However, if you named your index something else, you can specify that here
+    - **path**: this is the path to the directory that we will use to store our assets,
+      and it takes a string.
+         - However, if you set the **routes.files.relativeTo** in the server object 
+           (as I have in these examples), then it assumes that is the starting directory, 
+           so it is perfectly fine to give a path of '.' as we have here
+    - **index**: let's say the user just goes to http://localhost:3104, there will be 
+      no params given, so the directory will be default search for an index.html file. 
+      However, if you named your index something else, you can specify that here
         - it takes either a string, or an array of strings to search in order:
 ```js
  index: ['default.hmlt', 'weird.html']
@@ -1440,7 +1433,7 @@ options: {
         - optional: if there is payload authentication data given from the client, it will be used, otherwise the payload will not be authenticated
         - note that not all auth plugins support payload validation
 
------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
 ## Seeing strategies in context
 
 - you can test this my opening an incognito browser and going to each route, and when you want to restart, just close the incognito window. Google seems to remember these auth headers for the duration of the window (not tab) being opened
@@ -1553,10 +1546,7 @@ const start = async () => {
 
 - notice that there are two strategies registered, before moving on to the next section, let's look a bit at how the schemes themselves work
 
-
-
-
------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
 # How Schemes work with hapi-auth-basic-plus
 
 - schemes at their most basic level are just methods that look like:
@@ -1655,7 +1645,7 @@ internals.implementation = function (server, options) {
     return scheme;
 };
 ```
---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
 ## Export setup
 - the most important part is setting up the export. After we load our required packages, [hoek](https://github.com/hapijs/hoek) which is a node utilities package for hapi, and hapi itself, we set up our export:
 
@@ -1679,9 +1669,7 @@ internals.implementation = function (server, options) {
     - this is a common structure for hapi auth plugins, it keeps larger projects neat
 
 
-
-
------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
 ## Scheme setup
 - in broad strokes here is what our scheme looks like:
 
@@ -1733,7 +1721,7 @@ internals.implementation = function (server, options) {
 - so schemes have 3 main functions, and then a an options object, the only required thing is the authenticate function
 - let's talk about each part a little:
 
-----------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
 ## Scheme.authenticate(request, h)
 - takes the request and h toolkit
 - it MUST return either **h.authenticated()** or **h.unauthenticated()**
@@ -1746,7 +1734,7 @@ internals.implementation = function (server, options) {
         - **err** is the auth error
         - **data** optional, and it's the user data that failed auth
 
-----------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
 ## Scheme.payload(request, h), also need options
 - takes the request and h toolkit
 - this function just takes care of payload authentication
@@ -1761,11 +1749,7 @@ options: {
     payload: true;
 }
 ```
-
-
-
-
-----------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------
 ## Scheme.response(request, h)
 - takes the request and h toolkit
 - this is used to decorate the response object with headers
