@@ -37,6 +37,7 @@ for products and technologies,
 > The good news is that the variants don’t stray far from the
 standard, so once you learn the SQL conventions for one database, you can transfer that knowledge to other systems.
 - some examples in this doc will be PG specific later on, and those will be noted
+
 ----------------------------------------------------------------------
 # Ch.1: Creating Your First DB and Table 
 - A table is a grid of rows and columns that store data. 
