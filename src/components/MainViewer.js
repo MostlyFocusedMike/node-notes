@@ -18,7 +18,10 @@ class Note extends React.Component {
         this.state = this.initState;
     }
 
-    handleChange = (value, aceInfo) => {
+    handleChange = (value) => {
+        /*  aceEditor and standard inputs send data differently
+            input send e.target.value, ace just send the full editor text value
+        */
         if (value.target) {
             this.setState({
                 [value.target.name]: value.target.value,
@@ -54,10 +57,8 @@ class Note extends React.Component {
         this.setState({ scroll: scrollTop });
     }
 
-    setCursorIndex = (textArea) => {
-        this.setState({
-            cursorIndex: textArea.selectionStart,
-        });
+    setCursorIndex = (position) => {
+        this.setState({ cursorIndex: position });
     }
 
     // handles every time we switch notes

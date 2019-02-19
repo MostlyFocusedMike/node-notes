@@ -1025,7 +1025,7 @@ const server = new Hapi.server({
 - Just like static files that required a plugin, rendering views takes a plugin, it's called [Vision](https://github.com/hapijs/vision)
 - installing is dead easy as usual:
 
-```
+```bash
 yarn add vision
 # or
 npm install -S vision
