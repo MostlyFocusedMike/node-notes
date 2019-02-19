@@ -14,46 +14,36 @@ class MDPreview extends React.Component {
         };
     }
 
-
     componentDidUpdate(prevProps) {
+        /* if the scroll has been updated via the input form, update the mdPreview */
         if (prevProps.note.scroll !== this.props.note.scroll) {
             this.el.scrollTop = this.el.scrollHeight * this.props.note.scroll;
             this.el.scrollTop += this.state.offset;
             this.setState({
                 currentScrollTop: this.el.scrollTop,
-                prevOffset: this.state.offset,
-            }, () => {
-                console.log('currentScrollTop: ', this.state.currentScrollTop);
-                console.log('offset: ', this.state.offset);
+                prevOffset: this.state.offset, // reset prevOffset
             });
         }
     }
 
-    scroll = () => {
+    handlePreviewScroll = () => {
+        /* when the user manually corrects the MDPreview's scroll position */
         if (this.state.focused) {
-            let newOffset = (this.el.scrollTop - this.state.currentScrollTop);
-            this.setState(prevState => ({
+            const newOffset = (this.el.scrollTop - this.state.currentScrollTop);
+            this.setState({
                 offset: this.state.prevOffset + newOffset,
-            }), () => {
-                console.log('\noffSet post set state: ', this.state.offset);
             });
         }
-
-        // length: 36322.22265625 px
-        // height: 36841
     }
 
-    focus = () => {
-        console.log('hi: ');
-        this.setState({
-            focused: true,
-        });
+    handleMouseEnter = () => {
+        /* user is hovering over mdPreview */
+        this.setState({ focused: true });
     }
 
-    blur = () => {
-        this.setState({
-            focused: false,
-        });
+    handleMouseLeave = () => {
+        /* user has stopped hovering over mdPreview */
+        this.setState({ focused: false });
     }
 
     render() {
@@ -62,9 +52,9 @@ class MDPreview extends React.Component {
         return (
             <div
                 id="md-preview"
-                onScroll={this.scroll}
-                onMouseEnter={this.focus}
-                onMouseLeave={this.blur}
+                onScroll={this.handlePreviewScroll}
+                onMouseEnter={this.handleMouseEnter}
+                onMouseLeave={this.handleMouseLeave}
                 ref={(el) => { this.el = el; }}
             >
                 <div

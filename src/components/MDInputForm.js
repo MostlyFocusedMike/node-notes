@@ -20,7 +20,7 @@ class MDInputForm extends React.Component {
     // }
 
     componentDidMount() {
-        // this.aceEditor.editor.getSession().setUseWrapMode(true);
+        this.aceEditor.editor.getSession().setUseWrapMode(false); // no wrap is better for scroll
         this.aceEditor.editor.resize();
         this.aceEditor.editor.setAutoScrollEditorIntoView(true);
         console.log(this.aceEditor.editor);
