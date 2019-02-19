@@ -8,18 +8,10 @@ import 'brace/theme/tomorrow'; // TODO replace this with a theme you like
 
 
 class MDInputForm extends React.Component {
-    _setScroll = (info) => {
-        // console.log('info: ', info);
-        // const foo = this.aceEditor.editor.getSession()
-        const foo = this.aceEditor.editor.session.doc.getAllLines().length * 16.5;
-        // lines * 15 = fake scrollHeight
-        console.log('foo: ', foo);
+    _setScroll = () => {
+        const scrollHeight = this.aceEditor.editor.session.doc.getAllLines().length * 16.5;
         const scrollTop = this.aceEditor.editor.getSession().$scrollTop;
-        console.log('scrollTop: ', scrollTop);
-        // length 32328.66916656494 px
-        const preScrolltop = (scrollTop / foo);
-        console.log('preScrolltop: ', preScrolltop);
-        this.props.setScroll(preScrolltop);
+        this.props.setScroll(scrollTop / scrollHeight);
     }
 
     // _setCursorIndex = () => {
@@ -62,7 +54,6 @@ class MDInputForm extends React.Component {
                     value={this.props.newNote.text}
                     onChange={this.props.handleChange}
                     onScroll={this._setScroll}
-                    onChangeScrollTop={()=> console.log('i am')}
                     // onClick={this._setCursorIndex}
                 />
                 <button>Save</button>

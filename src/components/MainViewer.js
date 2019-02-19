@@ -52,8 +52,6 @@ class Note extends React.Component {
 
     setScroll = (scrollTop) => {
         // const scroll = textArea.scrollTop / textArea.scrollHeight;
-        console.log('scrollTop: ', scrollTop);
-        console.log('scrollTop: ', scrollTop);
         this.setState({ scroll: scrollTop });
     }
 
