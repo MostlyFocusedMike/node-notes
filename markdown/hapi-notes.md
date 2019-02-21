@@ -7,7 +7,8 @@
 # SECTION 1: THE BASICS
 - [My github for this section](https://github.com/MostlyFocusedMike/hapi-notes-1)
 - primary sources:
-  - [Future Studio's article](https://futurestud.io/tutorials/hapi-route-handling-and-drive-traffic-to-your-server)
+- [Future Studio's article
+](https://futurestud.io/tutorials/hapi-route-handling-and-drive-traffic-to-your-server)
   - [hapi docs](https://hapijs.com/api)
 
 -----------------------------------------------------------------------
@@ -116,26 +117,34 @@ server.route({
 **here are the properties of the route configuration object, largely from the docs:**
 
 - method (required)
-    - the HTTP method, so 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', or 'OPTIONS' (use caps)
+    - the HTTP method, so 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', or 'OPTIONS' 
+      (use caps)
     - Any HTTP method is allowed, except for 'HEAD'.
-    - Use '*' to match against any HTTP method (only when an exact match was not found, and any match with a specific method will be given a higher priority over a wildcard match).
-    - Can be assigned an array of methods which has the same result as adding the same route with different methods manually.
+    - Use '*' to match against any HTTP method (only when an exact match was not 
+      found, and any match with a specific method will be given a higher priority 
+      over a wildcard match).
+    - Can be assigned an array of methods which has the same result as adding the
+      same route with different methods manually.
 
 - path (required)
     - the absolute path used to match incoming requests (must begin with '/').
-    - Incoming requests are compared to the configured paths based on the server's router configuration.
+    - Incoming requests are compared to the configured paths based on the 
+      server's router configuration.
     - Use named parameters enclosed with {}, ie '/people/{id}'
 
 - handler (required if handler property is not set in options)
-    - the route handler function called to generate the response after successful authentication and validation.
+    - the route handler function called to generate the response after successful 
+      authentication and validation.
 
 - options (optional)
     - The options value is usually an object
     - it can instead be a function that returns an object
         - the function's signature must be **function(server)**,
         - where **server** is the server the route is being added to.
-    - the options object is where you can define authentication, validations, tags, notes, descriptions, and even the handler
-    - the handler goes in either **options** or the main *route config object**, not both
+    - the options object is where you can define authentication, validations, 
+      tags, notes, descriptions, and even the handler
+    - the handler goes in either **options** or the main *route config object**, 
+      not both
 
 vhost (optional)
   - see docs for info
@@ -186,8 +195,9 @@ async function start () {
 start();
 ```
 
-**Note**: while it is possible to pass an array of routes, like **server.route([routeConf1, routeConf2])**, it's not best practice, in the next section, we'll separate them out into their own files.
-
+**Note**: while it is possible to pass an array of routes, like 
+**server.route([routeConf1, routeConf2])**, it's not best practice, 
+in the next section, we'll separate them out into their own files.
 
 
 
@@ -196,18 +206,22 @@ start();
 # SECTION 2: ROUTE HANDLING
 - [My github for this section](https://github.com/MostlyFocusedMike/hapi-notes-2)
 - primary sources:
-    - [Future Studio's main article](https://futurestud.io/tutorials/hapi-route-handling-and-drive-traffic-to-your-server)
-    - [Route handler section from this Future Studio article](https://futurestud.io/tutorials/hapi-v17-upgrade-guide-your-move-to-async-await)
-    - [Routing section in the hapi docs tutorial](https://hapijs.com/tutorials/routing)
-    - [Route options](https://hapijs.com/api#route-options)
-    - [Response Toolkit](https://hapijs.com/api#response-toolkits)
-    - [Request object](https://hapijs.com/api#request)
-    - [hapi docs](https://hapijs.com/api)
+- [Future Studio's main article
+](https://futurestud.io/tutorials/hapi-route-handling-and-drive-traffic-to-your-server)
+- [Route handler section from this Future Studio article
+](https://futurestud.io/tutorials/hapi-v17-upgrade-guide-your-move-to-async-await)
+- [Routing section in the hapi docs tutorial](https://hapijs.com/tutorials/routing)
+- [Route options](https://hapijs.com/api#route-options)
+- [Response Toolkit](https://hapijs.com/api#response-toolkits)
+- [Request object](https://hapijs.com/api#request)
+- [hapi docs](https://hapijs.com/api)
 
 ---------------------------------------------------------------------
 ## Route handler methods
-- In the **route config object** you can pass either one or many HTTP methods to a route
-- to pass several, just use an array. You will be fine as long as there are no HTTP verb collisions:
+- In the **route config object** you can pass either one or many HTTP methods to
+  a route
+- to pass several, just use an array. You will be fine as long as there are no 
+  HTTP verb collisions:
 
 ```js
 server.route({
@@ -236,8 +250,10 @@ server.route({
 
 ----------------------------------------------------------------------
 ## Path parameters
-- Most modern applications will require dynamic routing, where one or more sections of a url will change
-- Hapi uses {} to mark what sections of a path are the parameters, and you can access them from the handler's request object like so:
+- Most modern applications will require dynamic routing, where one or more 
+  sections of a url will change
+- Hapi uses {} to mark what sections of a path are the parameters, and you can 
+  access them from the handler's request object like so:
 
 ```js
 server.route({
@@ -253,7 +269,8 @@ server.route({
 });
 ```
 
-- so when we enter the url http://localhost:3101/schools/harvard/users/tom, our page outputs:
+- so when we enter the url http://localhost:3101/schools/harvard/users/tom, our 
+  page outputs:
 
 ```plaintext
 tom wishes harvard wasn't so expensive.
@@ -299,7 +316,8 @@ server.route({
 ```
 
 - other times, you'll want more than one parameter in a segment
-- the two parameters (or more) must have valid url charaters between them, you can't just do:
+- the two parameters (or more) must have valid url charaters between them, you 
+  can't just do:
     - /{param1} {param2}
 
 ```js
@@ -316,7 +334,8 @@ server.route({
 ```
 
 ## Multi-segment parameters
-- A single parameter can span multiple segments, you just have to say how many with '*'
+- A single parameter can span multiple segments, you just have to say how many 
+  with '*'
 - you just have to split the param with **split('/')**
 
 ```js
@@ -339,7 +358,8 @@ server.route({
     pizza and ice-cream are the best!
 ```
 
-- here's a really crucial part about asterisks directly from the routing [docs](https://hapijs.com/tutorials/routing) in this section:
+- here's a really crucial part about asterisks directly from the routing
+  [docs](https://hapijs.com/tutorials/routing) in this section:
     > The number after the asterisk represents how many path segments 
     > should be assigned to the parameter. You can also omit the number entirely,
     > and the parameter will match any number of segments available.
@@ -348,21 +368,28 @@ server.route({
 
 ----------------------------------------------------------------------
 ### Route handler
-- the route handler is a function that can accept 2 parameters: the request object and the response toolkit
+- the route handler is a function that can accept 2 parameters: the request object 
+  and the response toolkit
     - here's the signature:  **function (request, h)**
-    - that 'h' is the response toolkit, which is an object that has several useful methods
+    - that 'h' is the response toolkit, which is an object that has several 
+    useful methods
 
 ### The Request Object
 - this contains all the info for request from the end user
 - it has things like the payload, parameters, path, headers and much more
-- check out the [docs for the request](https://hapijs.com/api#request) for all its properties
+- check out the [docs for the request](https://hapijs.com/api#request) for all 
+  its properties
 
 ### Response toolkit
 - first off, it's called 'h' for Hapi, that's took me too long to figure out
-- Unlike Hapi 16, which needed a **reply()** callback to send anything back to the user, Hapi 17's handlers can send back simple data on their own
-- However, there are still cases where we need some extra methods, like for redirecting or rendering views
-- for more info look at the [docs for the response toolkit](https://hapijs.com/api#response-toolkit)
-- here are some common ones below, note that some of these methods require plugins, which we will cover in the next section:
+- Unlike Hapi 16, which needed a **reply()** callback to send anything back to 
+  the user, Hapi 17's handlers can send back simple data on their own
+- However, there are still cases where we need some extra methods, 
+  like for redirecting or rendering views
+- for more info look at the [docs for the response toolkit
+  ](https://hapijs.com/api#response-toolkit)
+- here are some common ones below, note that some of these methods require 
+  plugins, which we will cover in the next section:
 
 ```js
 server.route({
@@ -396,9 +423,13 @@ server.route({
 
 ---------------------------------------------------------------------
 ## Route options
-- the route options object is where you configure things like auth, caches, and validation
-- it's also where tags, notes, and documentation go. These are used for things like automated logging and documentation, and are quite helpful, so I recommend adding them.
-- in hapi 16 this was called 'config', which is still backwards compatible in hapi 17, but you should really call it options moving forward
+- the route options object is where you configure things like auth, caches, and 
+  validation
+- it's also where tags, notes, and documentation go. These are used for things
+  like automated logging and documentation, and are quite helpful, so I recommend 
+  adding them.
+- in hapi 16 this was called 'config', which is still backwards compatible in
+  hapi 17, but you should really call it options moving forward
 - check the [docs for more on options](https://hapijs.com/api#route-options)
 
 ```js
@@ -476,24 +507,33 @@ async function start () {
 
 ```
 
-- this is much better, now our handlers don't all get smushed into a single file, but all those requires aren't super dry
-- This is where Hapi's [Haute Couture](https://github.com/hapipal/haute-couture) plugin comes in. We'll talk about it very briefly in the next mini section.
-- Haute implements a system, much like rails, where if you configure your project in a certain way, Haute will do a lot of the grunt work for you.
-- In this case, if your routes are in **/lib/routes** and match that export shape I listed above, it will automatically load them all into you server for you, no requires() required.
+- this is much better, now our handlers don't all get smushed into a single file, 
+  but all those requires aren't super dry
+- This is where Hapi's [Haute Couture](https://github.com/hapipal/haute-couture) 
+  plugin comes in. We'll talk about it very briefly in the next mini section.
+- Haute implements a system, much like rails, where if you configure your project
+  in a certain way, Haute will do a lot of the grunt work for you.
+- In this case, if your routes are in **/lib/routes** and match that export shape
+  I listed above, it will automatically load them all into you server for you, 
+  no requires() required.
 
 -----------------------------------------------------------------------
 # SECTION 3: USING PLUGINS
 - [my github for this section](https://github.com/MostlyFocusedMike/hapi-notes-3)
 - primary sources
-    - https://hapijs.com/tutorials/plugins?lang=en_US
-    - https://hapipal.com/best-practices/server-plugin-separation#the-joys-of-server--plugin-separation
-    - https://hapijs.com/api#plugins
+- https://hapijs.com/tutorials/plugins?lang=en_US
+- https://hapipal.com/best-practices/server-plugin-separation
+- https://hapijs.com/api#plugins
 ------------------------------------------------------------------
 ## Creating a plugin
-- Hapi has a plugin system that allows devs to break their applications into smaller components that work together
-- plugins can do all sorts of things, from generating documentation to creating routes
-- kind of like a large site breaking down to micro services, a good application will be made up of many plugins, the main application itself might even be a plugin
-- making a plugin is not hard, it basically is just an object with a **name, version,** and **register** property:
+- Hapi has a plugin system that allows devs to break their applications into
+  smaller components that work together
+- plugins can do all sorts of things, from generating documentation to 
+  creating routes
+- kind of like a large site breaking down to micro services, a good application
+  will be made up of many plugins, the main application itself might even be a plugin
+- making a plugin is not hard, it basically is just an object with a 
+  **name, version,** and **register** property:
 
 ```js
 const myPlugin = {
@@ -519,7 +559,8 @@ const myPlugin = {
 module.exports = myPlugin;
 ```
 
-- instead of specifying a specific **name** and **version** you can also just use **pkg** property, which expects the package.json file:
+- instead of specifying a specific **name** and **version** you can also just 
+  use **pkg** property, which expects the package.json file:
 
 ```js
 const myPlugin = {
@@ -528,7 +569,8 @@ const myPlugin = {
     ...
 ```
 
-- plugins can either be at the top level of your export, or they can be in the **plugin** property of an export:
+- plugins can either be at the top level of your export, or they can be in
+  the **plugin** property of an export:
 
 ```js
 module.exports = { register, name, version }
@@ -536,14 +578,19 @@ module.exports = { register, name, version }
 exports.plugin = { register, name, version }.
 ```
 
-- The plugin can also have three other *optional* properties: **multiple**, **once**, and **dependencies**
+- The plugin can also have three other *optional* properties:
+  **multiple**, **once**, and **dependencies**
 - from the [docs on plugins](https://hapijs.com/api#plugins):
     - multiple
-        - if true, allows the plugin to be registered multiple times with the same server safely. Defaults to false.
+        - if true, allows the plugin to be registered multiple times with the 
+          same server safely. Defaults to false.
     - dependencies
-        - a string or an array of strings indicating a plugin dependency. Same as setting dependencies via server.dependency().
+        - a string or an array of strings indicating a plugin dependency. 
+         Same as setting dependencies via server.dependency().
     - once
-        - if true, will only register the plugin once per server. If set, overrides the once option passed to server.register(). Defaults to no override.
+        - if true, will only register the plugin once per server. 
+          If set, overrides the once option passed to server.register(). 
+          Defaults to no override.
 
 
 
@@ -551,9 +598,13 @@ exports.plugin = { register, name, version }.
 -----------------------------------------------------------------
 ## Register Method
 - the **register()** method takes two arguments: **server** and **options**
-    - we're talking about **plugin.register()**, not **server.register()**, we'll talk about the later in a second
-- **server** is just a reference to the server instance that your plugin will be loaded into
-- **options** is more interesting. When registering a plugin on your server, you have the ability to pass in any data you want. Your plugin can access this info by going into the options object:
+    - we're talking about **plugin.register()**, not **server.register()**,
+      we'll talk about the later in a second
+- **server** is just a reference to the server instance that your plugin will be
+  loaded into
+- **options** is more interesting. When registering a plugin on your server,
+  you have the ability to pass in any data you want. Your plugin can access 
+  this info by going into the options object:
 
 - here is our plugin:
 
@@ -580,7 +631,8 @@ module.exports.plugin = myPlugin;
 
 ```
 
-- now when we load in our plugin, we can pass things to it using the **options** property:
+- now when we load in our plugin, we can pass things to it using the **options** 
+  property:
 
 
 ```js
@@ -620,11 +672,14 @@ const start = async () => {
 ```
 
 
-- **NOTE:** that /plugins/ is a prefix, we explain it under the "Loading plugins" part about server.register() options in a second
+- **NOTE:** that /plugins/ is a prefix, we explain it under the "Loading plugins" 
+  part about server.register() options in a second
 -----------------------------------------------------------
 - As you can see, we load our plugins into our server with **server.register()**
-    - [docs for **server.register()**](https://hapijs.com/api#-await-serverregisterplugins-options)
-- **server.register()** accepts two things: your plugins, and a **registration options object**
+    - [docs for **server.register()**
+      ](https://hapijs.com/api#-await-serverregisterplugins-options)
+- **server.register()** accepts two things: your plugins, and a 
+  **registration options object**
 - lets look at all the ways to load plugins, then what that options object does
 
 ### Load a single external plugin
@@ -636,7 +691,8 @@ await server.register(require('./lib/plugins/myPluginTop.js'))
 
 
 ### Load a single plugin and its options
-- if you want to give the plugin its options, you have to give server.register() an object with the keys **plugin** and **options**:
+- if you want to give the plugin its options, you have to give server.register() 
+  an object with the keys **plugin** and **options**:
 
 ```js
 await server.register({
@@ -646,7 +702,8 @@ await server.register({
 ```
 
 ### Load multiple plugins
-- **server.register()** can also take an array of plugins, using either the require() or object format:
+- **server.register()** can also take an array of plugins, using either the 
+  require() or object format:
 
 ```js
 await server.register([
@@ -661,11 +718,15 @@ await server.register([
 ```
 
 ## Server.register options object
-- Just like you can give each individual plugin an options object, you can give Hapi an options object
-    - [docs for service.register, go to the options section](https://hapijs.com/api#-await-serverregisterplugins-options)
-- the server.register's **registration options object** does *not* go to any of the plugins, Hapi is the one that uses it
+- Just like you can give each individual plugin an options object, you can give 
+  Hapi an options object
+    - [docs for service.register, go to the options section
+      ](https://hapijs.com/api#-await-serverregisterplugins-options)
+- the server.register's **registration options object** does *not* go to any of 
+  the plugins, Hapi is the one that uses it
 - an easy example is the **routes.prefix** property
-- by giving a prefix, all the routes in the registered plugins will be prefixed, but your server routes won't:
+- by giving a prefix, all the routes in the registered plugins will be prefixed, 
+  but your server routes won't:
 
 ```js
 // FILE: server.js
@@ -702,9 +763,11 @@ module.exports = {
     }
 };
 ```
-- so thanks to the prefix, any plugin routes will now have to be prefixed with /plugins, but our home route does not.
+- so thanks to the prefix, any plugin routes will now have to be prefixed with
+  /plugins, but our home route does not.
     - FYI, any prefix string must start with '/'
-- the other property on the options.routes object is **vhost**, which sets each plugin's virtual host.
+- the other property on the options.routes object is **vhost**, which sets each
+  plugin's virtual host.
 
 
 
@@ -719,7 +782,8 @@ module.exports = {
 
 -------------------------------------------------------------------
 ## Setting up the Inert plugin
- - to serve static files and assets like HTML, JS, CSS, JPG files, hapi relies on the [inert](https://github.com/hapijs/inert) plugin
+ - to serve static files and assets like HTML, JS, CSS, JPG files, hapi relies on
+   the [inert](https://github.com/hapijs/inert) plugin
 - Inert serves files individually per path, or it can register a directory structure
 - Load using Yarn or NPM:
 
@@ -780,8 +844,10 @@ for this section, this will be the file structure:
 - server.js
 
 **Serving a single file**
-- the way inert works is that you will have routes that instead of just giving a response, will serve as a static file:
-- when you register Inert, it decorates the 'h' response toolkit with the .file() method, which takes the path to file you would like to serve
+- the way inert works is that you will have routes that instead of just giving a 
+  response, will serve as a static file:
+- when you register Inert, it decorates the 'h' response toolkit with the .file() 
+  method, which takes the path to file you would like to serve
 - lets show this by serving a single image:
 
 ```js
@@ -798,8 +864,10 @@ for this section, this will be the file structure:
     });
 ...
 ```
-- so now when we go to http://localhost:3104/picture we will just see the Hapi logo image, even though the image file is stored in lib/public/images
-- If we want to access this file from within our site pages, you would go to the route path, not the actual file's path
+- so now when we go to http://localhost:3104/picture we will just see the Hapi 
+  logo image, even though the image file is stored in lib/public/images
+- If we want to access this file from within our site pages, you would go to the
+  route path, not the actual file's path
 - let's look at how a simple html page would use that image asset:
 
 ```
@@ -821,7 +889,8 @@ html
 </body>
 </html>
 ```
-- it loads the file from '/picture', even though the file's actual location is /lib/public/images
+- it loads the file from '/picture', even though the file's actual location is 
+  /lib/public/images
 - **when loading an asset use the route path, not the file's path**
 - and now lets actually serve up this html page itself with a new route:
 
@@ -849,7 +918,8 @@ html
 
 ```
 
-- if you go to http://localhost:3104/example-page, you will see the image inside the html document.
+- if you go to http://localhost:3104/example-page, you will see the image inside 
+  the html document.
 
 ## file handler
 - instead of using the response toolkit, you could also use the file handler:
@@ -883,13 +953,17 @@ server.route({
 });
 ```
 
-- check the docs [tutorial](https://hapijs.com/tutorials/serving-files?lang=en_US) for more on file handler
-- check Inert's docs for info about the [options argument](https://github.com/hapijs/inert#hfilepath-options) as well
+- check the docs [tutorial](https://hapijs.com/tutorials/serving-files?lang=en_US) 
+  for more on file handler
+- check Inert's docs for info about the 
+  [options argument](https://github.com/hapijs/inert#hfilepath-options) as well
 
 ------------------------------------------------------------------
 ## Using relative file paths
-- putting 'lib/public/' in front of everything can get annoying, so you can tell files that there is a default relative path to start at
-- in the server config object, just include the **routes** object (don't forget to add Node's path package):
+- putting 'lib/public/' in front of everything can get annoying, so you can tell
+  files that there is a default relative path to start at
+- in the server config object, just include the **routes** object (don't forget
+  to add Node's path package):
 
 ```js
 // FILE: server.js
@@ -908,13 +982,15 @@ const server = new Hapi.server({
 });
 ...
 ```
-- this makes it so that any paths for static files do not need to start with 'lib/public', which is nice
+- this makes it so that any paths for static files do not need to start with 
+  'lib/public', which is nice
 
 
 
 --------------------------------------------------------------------
 ## Directory handler
-- Assigning every asset their own route isn't necessary, you can also turn a folder into a static asset directory for your project
+- Assigning every asset their own route isn't necessary, you can also turn a folder 
+  into a static asset directory for your project
 - do this with the **directory handler**:
 
 ```js
@@ -951,11 +1027,11 @@ const server = new Hapi.server({
       to the wildcard in the param (see the Multi-segment parameters section)
 
 - lets look at the three most common properties:
-    - **path**: this is the path to the directory that we will use to store our assets,
-      and it takes a string.
+    - **path**: this is the path to the directory that we will use to store our 
+      assets, and it takes a string.
          - However, if you set the **routes.files.relativeTo** in the server object 
-           (as I have in these examples), then it assumes that is the starting directory, 
-           so it is perfectly fine to give a path of '.' as we have here
+           (as I have in these examples), then it assumes that is the starting 
+           directory, so it is perfectly fine to give a path of '.' as we have here
     - **index**: let's say the user just goes to http://localhost:3104, there will be 
       no params given, so the directory will be default search for an index.html file. 
       However, if you named your index something else, you can specify that here
@@ -1005,7 +1081,9 @@ const server = new Hapi.server({
 </body>
 </html>
 ```
-- look at the css, js, and image files all loading perfectly when you go to http://localhost:3104/, that directory does all the work of all the routes, and it is the preferred method of serving static assets in Hapi
+- look at the css, js, and image files all loading perfectly when you go to 
+  http://localhost:3104/, that directory does all the work of all the routes, 
+  and it is the preferred method of serving static assets in Hapi
 
 
 
@@ -1014,12 +1092,13 @@ const server = new Hapi.server({
 - [my github for this section](https://github.com/MostlyFocusedMike/hapi-notes-5)
 - primary sources
     - https://hapijs.com/tutorials/views?lang=en_US
-    - https://futurestud.io/tutorials/how-to-create-and-use-handlebars-partial-views-with-hapi
+https://futurestud.io/tutorials/how-to-create-and-use-handlebars-partial-views-with-hapi
     - https://github.com/hapijs/vision
 
 **NOTE:**
-- this section's github has a lot of helpful comments and template files, be sure to check it out
----------------------------------------------------------------------------------------------------------------------
+- this section's github has a lot of helpful comments and template files, 
+  be sure to check it out
+------------------------------------------------------------------------------
 ## Using views with the Vision plugin
 - Using template views like Pug or Handlebars is a crucial part of any major project, pure HTML is too clunky for more advanced projects
 - Just like static files that required a plugin, rendering views takes a plugin, it's called [Vision](https://github.com/hapijs/vision)

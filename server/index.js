@@ -6,10 +6,14 @@ const server = Hapi.server({
 });
 
 const init = async () => {
+    /* load the static file viewer inert */
+    await server.register(require('inert'));
+
     /* load the routes */
     server.route(require('./routes/create'));
     server.route(require('./routes/list'));
     server.route(require('./routes/update'));
+    server.route(require('./routes/pdfs'));
     server.route(require('./routes/health'));
 
     /* start the server */
