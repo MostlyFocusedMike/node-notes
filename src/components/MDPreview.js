@@ -57,16 +57,16 @@ class MDPreview extends React.Component {
                 onMouseLeave={this.handleMouseLeave}
                 ref={(el) => { this.el = el; }}
             >
-                <iframe
+                {/* <iframe
                     src="http://localhost:8100"
                     width="100%"
                     height="100%"
                 >
-                </iframe>
-                {/* <div
+                </iframe> */}
+                <div
                     dangerouslySetInnerHTML={{ __html: markdown }}
                     id="preview-text"
-                ></div> */}
+                ></div>
             </div>
         );
     }

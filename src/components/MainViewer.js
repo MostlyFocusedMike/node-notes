@@ -5,6 +5,7 @@ import MDPreview from './MDPreview';
 import TableOfContents from './TableOfContents';
 import NotesAdapter from '../adapters';
 import AppContext from '../context';
+import ExtensionViewer from './ExtensionViewer';
 
 class Note extends React.Component {
     constructor() {
@@ -87,9 +88,7 @@ class Note extends React.Component {
                             setCursorIndex = {this.setCursorIndex}
                         /> : ''
                 }
-                <MDPreview
-                    note = {this.state}
-                />
+                <ExtensionViewer />
                 {
                     !this.context.isEditMode ? <TableOfContents text={this.state.text} /> : ''
                 }
