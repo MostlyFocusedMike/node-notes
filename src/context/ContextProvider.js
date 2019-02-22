@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppContext from '.';
+import Constants from '../constants';
 
 class MyProvider extends React.Component {
     constructor() {
@@ -8,6 +9,8 @@ class MyProvider extends React.Component {
         this.state = {
             isEditMode: false,
             isLocal: false,
+            selectedPlugin: 'markdown',
+            extension: Constants.EXTENSIONS.MARKDOWN,
         };
     }
 
@@ -16,6 +19,10 @@ class MyProvider extends React.Component {
         this.setState(prevState => ({
             isEditMode: !prevState.isEditMode,
         }));
+    }
+
+    changeExtension = (extension) => {
+        this.setState({ extension });
     }
 
     checkIfLocal = () => {
@@ -33,6 +40,7 @@ class MyProvider extends React.Component {
             {
                 toggleEditMode: this.toggleEditMode,
                 checkIfLocal: this.checkIfLocal,
+                changeExtension: this.changeExtension,
             },
         );
 
