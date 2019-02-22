@@ -1,8 +1,9 @@
 import React from 'react';
 import AppContext from '../context';
 import Constants from '../constants';
-import CurrentMDExtension from './CurrentMDExtension';
-import PDFExtension from './PdfExtension';
+import CurrentMDExtension from './extensions/CurrentMDExtension';
+import PDFExtension from './extensions/PdfExtension';
+import VideoExtension from './extensions/VideoExtension';
 
 
 class ExtensionViewer extends React.Component {
@@ -11,12 +12,30 @@ class ExtensionViewer extends React.Component {
         this.context.changeExtension(e.target.dataset.extension);
     }
 
+    showExtensions = () => {
+        return Object.values(Constants.EXTENSIONS).map((extension, idx) => {
+            return (
+                <button
+                    key={idx}
+                    id={`${extension}-btn`}
+                    className='extension-btn'
+                    onClick={this.handleClick}
+                    data-extension={extension}
+                >
+                    { extension }
+                </button>
+            );
+        });
+    }
+
     showSelectedExtension = () => {
         switch (this.context.extension) {
         case Constants.EXTENSIONS.MARKDOWN:
             return <CurrentMDExtension note=''></CurrentMDExtension>;
         case Constants.EXTENSIONS.PDF:
             return <PDFExtension></PDFExtension>;
+        case Constants.EXTENSIONS.VIDEO:
+            return <VideoExtension></VideoExtension>;
         default:
             return <CurrentMDExtension note=''></CurrentMDExtension>;
         }
@@ -24,23 +43,16 @@ class ExtensionViewer extends React.Component {
 
     render() {
         return (
-            <div>
-                I am the extension viewer!
-                {
-                    Object.values(Constants.EXTENSIONS).map((extension, idx) => {
-                        return (
-                            <button
-                                key={idx}
-                                id={`${extension}-btn`}
-                                className='extension-btn'
-                                onClick={this.handleClick}
-                                data-extension={extension}
-                            >
-                                { extension }
-                            </button>
-                        );
-                    })
-                }
+            <div
+                id='extension-viewer'
+            >
+                <div
+                    id='extension-btns'
+                >
+                    {
+                        this.showExtensions()
+                    }
+                </div>
 
                 {
                     this.showSelectedExtension()

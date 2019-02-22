@@ -1,11 +1,13 @@
 import React from 'react';
-import AppContext from '../context';
+import AppContext from '../../context';
 
 
 class PDFExtension extends React.Component {
     render() {
         return (
-            <div>
+            <div
+                id='pdf-extension'
+            >
                 <iframe
                     src="http://localhost:8100"
                     width="100%"

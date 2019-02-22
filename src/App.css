@@ -67,28 +67,6 @@ code p {
         padding: 5px;
         font-family: 'Cousine', monospace;
         font-weight: 400; }
-    .App .main-viewer #md-preview {
-      overflow-x: hidden;
-      background: #FFF;
-      flex: 1;
-      height: 95vh;
-      max-width: 50rem;
-      min-width: 22rem;
-      margin: 0;
-      padding: 1rem;
-      padding-bottom: 8rem;
-      font-size: 1.1rem; }
-      .App .main-viewer #md-preview h2 {
-        color: #363;
-        line-height: 2.5rem; }
-      .App .main-viewer #md-preview li {
-        margin: 0.5rem; }
-      .App .main-viewer #md-preview blockquote {
-        background: #e1e1e1;
-        font-style: italic;
-        color: #333;
-        padding: 0.1rem 0.5rem;
-        border-left: .2rem solid #555; }
     .App .main-viewer #table-of-contents {
       background: #FFF;
       width: 20rem; }
@@ -161,9 +139,40 @@ textarea, input, p {
     display: block;
     margin: 1rem; }
 
-iframe {
-  width: 100%;
-  height: 100%;
-  border: none; }
+#extension-viewer {
+  width: 47%;
+  height: 95vh;
+  max-width: 50rem;
+  min-width: 22rem;
+  flex: 1;
+  margin: 0; }
+  #extension-viewer #extension-btns .extension-btn {
+    display: inline-block;
+    margin: .5rem; }
+  #extension-viewer #md-preview {
+    overflow-x: hidden;
+    background: #FFF;
+    padding: 1rem;
+    padding-bottom: 8rem;
+    font-size: 1.1rem;
+    height: 100%; }
+    #extension-viewer #md-preview h2 {
+      color: #363;
+      line-height: 2.5rem; }
+    #extension-viewer #md-preview li {
+      margin: 0.5rem; }
+    #extension-viewer #md-preview blockquote {
+      background: #e1e1e1;
+      font-style: italic;
+      color: #333;
+      padding: 0.1rem 0.5rem;
+      border-left: .2rem solid #555; }
+  #extension-viewer #pdf-extension {
+    height: 100%;
+    width: 100%; }
+    #extension-viewer #pdf-extension iframe {
+      width: 100%;
+      height: 100%;
+      border: none; }
 
 /*# sourceMappingURL=app.css.map */

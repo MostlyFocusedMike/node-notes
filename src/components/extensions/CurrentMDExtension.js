@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import createMarkdown from '../helpers/createMarkdown';
-import AppContext from '../context';
+import createMarkdown from '../../helpers/createMarkdown';
+import AppContext from '../../context';
 
 class CurrentMDExtension extends React.Component {
     constructor() {
