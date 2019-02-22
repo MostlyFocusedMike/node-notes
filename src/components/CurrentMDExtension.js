@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import createMarkdown from '../helpers/createMarkdown';
 import AppContext from '../context';
 
-class MDPreview extends React.Component {
+class CurrentMDExtension extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -15,7 +15,7 @@ class MDPreview extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        /* if the scroll has been updated via the input form, update the mdPreview */
+        /* if the scroll has been updated via the input form, update the current markdown extension */
         if (prevProps.note.scroll !== this.props.note.scroll) {
             this.el.scrollTop = this.el.scrollHeight * this.props.note.scroll;
             this.el.scrollTop += this.state.offset;
@@ -27,7 +27,7 @@ class MDPreview extends React.Component {
     }
 
     handlePreviewScroll = () => {
-        /* when the user manually corrects the MDPreview's scroll position */
+        /* when the user manually corrects the CurrentMDExtension's scroll position */
         if (this.state.focused) {
             const newOffset = (this.el.scrollTop - this.state.currentScrollTop);
             this.setState({
@@ -37,12 +37,12 @@ class MDPreview extends React.Component {
     }
 
     handleMouseEnter = () => {
-        /* user is hovering over mdPreview */
+        /* user is hovering over current markdown extension */
         this.setState({ focused: true });
     }
 
     handleMouseLeave = () => {
-        /* user has stopped hovering over mdPreview */
+        /* user has stopped hovering over current markdown extension */
         this.setState({ focused: false });
     }
 
@@ -57,12 +57,6 @@ class MDPreview extends React.Component {
                 onMouseLeave={this.handleMouseLeave}
                 ref={(el) => { this.el = el; }}
             >
-                {/* <iframe
-                    src="http://localhost:8100"
-                    width="100%"
-                    height="100%"
-                >
-                </iframe> */}
                 <div
                     dangerouslySetInnerHTML={{ __html: markdown }}
                     id="preview-text"
@@ -72,10 +66,10 @@ class MDPreview extends React.Component {
     }
 }
 
-MDPreview.propTypes = {
+CurrentMDExtension.propTypes = {
     note: PropTypes.object,
 };
 
-MDPreview.contextType = AppContext;
+CurrentMDExtension.contextType = AppContext;
 
-export default MDPreview;
+export default CurrentMDExtension;

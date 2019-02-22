@@ -1,7 +1,8 @@
 import React from 'react';
 import AppContext from '../context';
 import Constants from '../constants';
-import MDPreview from './MDPreview';
+import CurrentMDExtension from './CurrentMDExtension';
+import PDFExtension from './PdfExtension';
 
 
 class ExtensionViewer extends React.Component {
@@ -11,7 +12,14 @@ class ExtensionViewer extends React.Component {
     }
 
     showSelectedExtension = () => {
-        return <MDPreview note=''></MDPreview>;
+        switch (this.context.extension) {
+        case Constants.EXTENSIONS.MARKDOWN:
+            return <CurrentMDExtension note=''></CurrentMDExtension>;
+        case Constants.EXTENSIONS.PDF:
+            return <PDFExtension></PDFExtension>;
+        default:
+            return <CurrentMDExtension note=''></CurrentMDExtension>;
+        }
     }
 
     render() {

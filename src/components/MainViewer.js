@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MDInputForm from './MDInputForm';
-import MDPreview from './MDPreview';
 import TableOfContents from './TableOfContents';
 import NotesAdapter from '../adapters';
 import AppContext from '../context';
