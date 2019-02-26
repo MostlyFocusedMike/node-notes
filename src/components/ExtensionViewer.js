@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AppContext from '../context';
 import Constants from '../constants';
 import CurrentMDExtension from './extensions/CurrentMDExtension';
@@ -29,38 +30,36 @@ class ExtensionViewer extends React.Component {
     }
 
     showSelectedExtension = () => {
+        if (!this.context.isEditMode && this.context.extension !== Constants.EXTENSIONS.MARKDOWN) {
+            this.context.changeExtension(Constants.EXTENSIONS.MARKDOWN);
+        }
         switch (this.context.extension) {
         case Constants.EXTENSIONS.MARKDOWN:
-            return <CurrentMDExtension note=''></CurrentMDExtension>;
+            return <CurrentMDExtension note={ this.props.note }></CurrentMDExtension>;
         case Constants.EXTENSIONS.PDF:
             return <PDFExtension></PDFExtension>;
         case Constants.EXTENSIONS.VIDEO:
             return <VideoExtension></VideoExtension>;
         default:
-            return <CurrentMDExtension note=''></CurrentMDExtension>;
+            return <CurrentMDExtension note={ this.props.note }></CurrentMDExtension>;
         }
     }
 
     render() {
         return (
-            <div
-                id='extension-viewer'
-            >
-                <div
-                    id='extension-btns'
-                >
-                    {
-                        this.showExtensions()
-                    }
+            <div id='extension-viewer'>
+                <div id='extension-btns'>
+                    { this.context.isEditMode ? this.showExtensions() : '' }
                 </div>
-
-                {
-                    this.showSelectedExtension()
-                }
+                { this.showSelectedExtension() }
             </div>
         );
     }
 }
+
+ExtensionViewer.propTypes = {
+    note: PropTypes.object,
+};
 
 ExtensionViewer.contextType = AppContext;
 

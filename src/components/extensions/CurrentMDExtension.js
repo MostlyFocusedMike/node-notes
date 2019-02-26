@@ -47,7 +47,7 @@ class CurrentMDExtension extends React.Component {
     }
 
     render() {
-        const { title, text, cursorIndex } = this.props.note;
+        const { text, cursorIndex } = this.props.note;
         const markdown = createMarkdown(text, cursorIndex, this.context.isEditMode); // @TODO change this in the future with a button for context
         return (
             <div

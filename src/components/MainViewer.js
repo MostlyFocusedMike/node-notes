@@ -87,7 +87,7 @@ class Note extends React.Component {
                             setCursorIndex = {this.setCursorIndex}
                         /> : ''
                 }
-                <ExtensionViewer />
+                <ExtensionViewer note={this.state} />
                 {
                     !this.context.isEditMode ? <TableOfContents text={this.state.text} /> : ''
                 }
