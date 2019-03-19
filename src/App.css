@@ -10,27 +10,10 @@ button {
   margin: 2rem; }
 
 code {
-  white-space: pre-wrap;
-  background: #d8d8d8;
-  color: #151515;
-  display: block;
-  font-weight: normal;
-  width: 90%;
-  line-height: 1rem;
-  padding: 1rem;
-  margin: 0 auto; }
-
-code + p {
-  margin: 0;
-  padding: 0; }
-
-p code {
-  padding: 1rem;
-  margin: 0; }
-
-code p {
-  padding: 0;
-  margin: 0; }
+  font-family: monospace;
+  background: #EAEAEA;
+  color: #222;
+  padding: 0.15rem; }
 
 .App {
   display: flex;
@@ -69,26 +52,31 @@ code p {
         font-weight: 400; }
     .App .main-viewer #table-of-contents {
       background: #FFF;
-      width: 20rem; }
-      .App .main-viewer #table-of-contents ul {
-        list-style-type: none;
-        padding: 0; }
-        .App .main-viewer #table-of-contents ul .padding-lvl-1 {
-          padding-left: 0;
-          font-size: 1.25rem; }
-        .App .main-viewer #table-of-contents ul .padding-lvl-2 {
-          padding-left: .5rem;
-          font-size: 1rem; }
-        .App .main-viewer #table-of-contents ul .padding-lvl-3 {
-          padding-left: 1rem;
-          font-size: .9rem;
-          font-style: italic; }
-          .App .main-viewer #table-of-contents ul .padding-lvl-3::before {
-            content: "- "; }
-        .App .main-viewer #table-of-contents ul li {
-          display: block;
-          margin: 1rem;
-          color: black; }
+      width: 20rem;
+      height: 100vh; }
+      .App .main-viewer #table-of-contents #contents {
+        border: 1px solid #000;
+        height: 80%;
+        overflow: auto; }
+        .App .main-viewer #table-of-contents #contents ul {
+          list-style-type: none;
+          padding: 0; }
+          .App .main-viewer #table-of-contents #contents ul .padding-lvl-1 {
+            padding-left: 0;
+            font-size: 1.25rem; }
+          .App .main-viewer #table-of-contents #contents ul .padding-lvl-2 {
+            padding-left: .5rem;
+            font-size: 1rem; }
+          .App .main-viewer #table-of-contents #contents ul .padding-lvl-3 {
+            padding-left: 1rem;
+            font-size: .9rem;
+            font-style: italic; }
+            .App .main-viewer #table-of-contents #contents ul .padding-lvl-3::before {
+              content: "- "; }
+          .App .main-viewer #table-of-contents #contents ul li {
+            display: block;
+            margin: 1rem;
+            color: black; }
   .App #notes-dir {
     width: 9%;
     margin: 0;
@@ -116,11 +104,6 @@ hr {
 
 textarea, input, p {
   line-height: 1.5rem; }
-
-#contents {
-  border: 1px solid #000;
-  height: 80%;
-  overflow: auto; }
 
 #mode-bar {
   width: 100%;
@@ -165,8 +148,10 @@ textarea, input, p {
       background: #e1e1e1;
       font-style: italic;
       color: #333;
-      padding: 0.1rem 0.5rem;
+      padding: 1rem 1rem 1rem 2rem;
       border-left: .2rem solid #555; }
+      #extension-viewer #md-preview blockquote p {
+        margin: 0; }
   #extension-viewer #pdf-extension {
     height: 100%;
     width: 100%; }
@@ -174,5 +159,27 @@ textarea, input, p {
       width: 100%;
       height: 100%;
       border: none; }
+
+table {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%; }
+
+table td, table th {
+  border: 1px solid #ddd;
+  padding: 8px; }
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2; }
+
+table tr:hover {
+  background-color: #ddd; }
+
+table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #009ac4;
+  color: white; }
 
 /*# sourceMappingURL=app.css.map */

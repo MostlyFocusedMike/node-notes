@@ -9,38 +9,16 @@ input, label {
   box-sizing: border-box;
 }
 
-textarea {
-
-}
 button {
   display: block;
   margin: 2rem;
 }
 
 code {
-  white-space: pre-wrap;
-  background: rgb(216, 216, 216);
-  color: rgb(21, 21, 21);
-  display: block;
-  font-weight: normal;
-  width: 90%;
-  line-height: 1rem;
-  padding: 1rem;
-  margin: 0 auto;
-}
-code + p {
-  margin: 0;
-  padding: 0;
-}
-
-p code {
-  padding: 1rem;
-  margin: 0;
-}
-
-code p {
-  padding: 0;
-  margin: 0;
+    font-family: monospace;
+    background: #EAEAEA;
+    color: #222;
+    padding: 0.15rem;
 }
 
 .App {
@@ -81,34 +59,40 @@ code p {
     }
 
     #table-of-contents {
-      background: #FFF;
-      width: 20rem;
-      ul {
-        list-style-type: none;
-        padding: 0;
-        .padding-lvl-1 {
-          padding-left: 0;
-          font-size: 1.25rem;
-        //   font-weight: bold;
+        background: #FFF;
+        width: 20rem;
+        height: 100vh;
+        #contents {
+            border: 1px solid #000;
+            height: 80%;
+            overflow: auto;
+            ul {
+                list-style-type: none;
+                padding: 0;
+                .padding-lvl-1 {
+                padding-left: 0;
+                font-size: 1.25rem;
+                //   font-weight: bold;
+                }
+                .padding-lvl-2 {
+                padding-left: .5rem;
+                font-size: 1rem;
+                }
+                .padding-lvl-3 {
+                padding-left: 1rem;
+                font-size: .9rem;
+                font-style: italic;
+                &::before {
+                    content: "- "
+                }
+                }
+                li {
+                display: block;
+                margin: 1rem;
+                color: black;
+                }
+            }
         }
-        .padding-lvl-2 {
-          padding-left: .5rem;
-          font-size: 1rem;
-        }
-        .padding-lvl-3 {
-          padding-left: 1rem;
-          font-size: .9rem;
-          font-style: italic;
-          &::before {
-            content: "- "
-          }
-        }
-        li {
-          display: block;
-          margin: 1rem;
-          color: black;
-        }
-      }
     }
   }
   #notes-dir {
@@ -145,11 +129,6 @@ textarea, input, p {
   line-height: 1.5rem;
 };
 
-#contents {
-  border: 1px solid #000;
-  height: 80%;
-  overflow: auto;
-}
 
 #mode-bar {
     width: 100%;
@@ -202,8 +181,11 @@ textarea, input, p {
             background: rgb(225, 225, 225);
             font-style: italic;
             color: #333;
-            padding: 0.1rem 0.5rem;
+            padding: 1rem 1rem 1rem 2rem;
             border-left: .2rem solid #555;
+            p {
+                margin: 0;
+            }
         }
     }
     #pdf-extension {
@@ -217,3 +199,26 @@ textarea, input, p {
     }
 
 }
+
+table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table td, table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  table tr:nth-child(even){background-color: #f2f2f2;}
+
+  table tr:hover {background-color: #ddd;}
+
+  table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: rgb(0, 154, 196);
+    color: white;
+  }

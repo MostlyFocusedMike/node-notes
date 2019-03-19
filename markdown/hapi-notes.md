@@ -1110,7 +1110,9 @@ yarn add vision
 npm install -S vision
 ```
 - then simply register it to your server like you would any plugin
-- You will also need to install template engines, this section uses [Pug](https://pugjs.org/api/getting-started.html) and [Handlebars](https://handlebarsjs.com/installation.html)
+- You will also need to install template engines, this section uses 
+  [Pug](https://pugjs.org/api/getting-started.html) and
+  [Handlebars](https://handlebarsjs.com/installation.html)
 - Handlebars has much more builtin features that work right out of the box, but it's good to see other engines in action too
 
 
