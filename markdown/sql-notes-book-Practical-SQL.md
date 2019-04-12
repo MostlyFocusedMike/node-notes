@@ -458,8 +458,9 @@ WHERE id NOT IN (1, 2);
  LIKE '%ak%'
  LIKE '_aker'
  LIKE 'ba_er'
- would all work
 ```
+> would all work
+
 
 - `ILIKE` works exactly the same, it's just case insensitive
 - Here they are in real examples: 
@@ -480,18 +481,18 @@ WHERE first_name NOT ILIKE 'sam%';
 ```sql
 SELECT *
 FROM teachers
-    WHERE school = 'Myers Middle School'
-    AND salary < 40000;
+WHERE school = 'Myers Middle School'
+AND salary < 40000;
 
 SELECT *
 FROM teachers
-    WHERE last_name = 'Cole'
-    OR last_name = 'Bush';
+WHERE last_name = 'Cole'
+OR last_name = 'Bush';
 
 SELECT *
 FROM teachers
-    WHERE school = 'F.D. Roosevelt HS'
-    AND (salary < 38000 OR salary > 40000);
+WHERE school = 'F.D. Roosevelt HS'
+AND (salary < 38000 OR salary > 40000);
 ```
 
 - `AND` means all must be true, `OR` just needs at least one to be true
@@ -535,7 +536,7 @@ AND/OR criteria
 ORDER BY column_names;
 ```
 
-
+--------------------------------------------------------------------------------
 # CH.3 Understanding data types 
 - a 'data dictonary' is a document that tells you what each columns data type is 
 - you can generate a rough one using this query: 
@@ -548,12 +549,12 @@ where table_name = 'teachers'
 
 - on the command line its `\d+ table_name`
 - there are 3 main types of data that you will encounter: 
+ - Characters Any character or symbol
+ - Numbers Includes whole numbers and fractions
+ - Dates and times Types holding temporal information
 
-> - Characters Any character or symbol
-> - Numbers Includes whole numbers and fractions
-> - Dates and times Types holding temporal information
 
-## Character Types
+> ## Character Types
 
 - CHAR(len)
   - old, it expects all strings inside to be the length specified, if they are 
@@ -656,10 +657,10 @@ There are 3 main types of integers (whole numbers: )
 
 | Data type | Storage size  | Storage type | Range |
 |-----------|---------------|--------------|-------|
-| numeric, decimal | variable | Fixed-point Up to 131072 digits before the decimal
-point; up to 16383 digits after the decimal point |
-| real | 4 bytes | Floating-point 6 decimal digits precision | 
-| double precision | 8 bytes |  Floating-point 15 decimal digits precision | 
+| numeric, decimal | variable | Fixed-point | Up to 131072 digits before the
+decimal point; up to 16383 digits after the decimal point |
+| real | 4 bytes | Floating-point | 6 decimal digits precision | 
+| double precision | 8 bytes |  Floating-point | 15 decimal digits precision | 
 
 - and here they are in a query: 
 
